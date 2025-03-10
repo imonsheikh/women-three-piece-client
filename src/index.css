@@ -1,2 +1,16 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui"; 
+
+@theme {
+    --font-poppins: "Poppins", sans-serif;;
+    --color-primary: #9333EA;
+    --color-secondary: #5B21B6;
+    --color-accent: #E879F9;
+    --color-avocado-400: oklch(0.92 0.19 114.08);
+    --color-avocado-500: oklch(0.84 0.18 117.33);
+    --color-avocado-600: oklch(0.53 0.12 118.34);
+    --breakpoint-3xl: 120rem;
+    --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+    --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+    /* ... */
+  }
