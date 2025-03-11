@@ -1,0 +1,17 @@
+.banner-img{
+    margin-top: 20px; 
+
+}
+.banner-img .control-arrow:hover {
+    /* background: rgba(255, 165, 0, 0.8) !important;  */
+    background: #9333EA !important; 
+    /* background:  #5B21B6!important;  */
+    /* background:  #E879F9!important;  */
+  }
+.banner-img .thumb{
+    height: 50px;
+    border-radius: 50px; 
+}
+.banner-img .thumb.selected, .banner-img .thumb:hover{
+    border: 3px solid #9333EA;
+}  
