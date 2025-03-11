@@ -2,10 +2,10 @@
 @plugin "daisyui"; 
 
 @theme {
-    --font-poppins: "Poppins", sans-serif;;
-    --color-primary: #9333EA;
-    --color-secondary: #5B21B6;
-    --color-accent: #E879F9;
+    --font-poppins: "Poppins", sans-serif;
+    --color-primary-c: #9333EA;
+    --color-secondary-c: #5B21B6;
+    --color-accent-c: #E879F9;
     --color-avocado-400: oklch(0.92 0.19 114.08);
     --color-avocado-500: oklch(0.84 0.18 117.33);
     --color-avocado-600: oklch(0.53 0.12 118.34);
