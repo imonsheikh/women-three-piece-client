@@ -1,12 +1,14 @@
 import React from 'react';
 import Banner from '../Banner/Banner.jsx';
 import ShopByCategories from '../ShopByCategories/ShopByCategories.jsx';
+import TopProducts from '../TopProducts/TopProducts.jsx';
 
 const Home = () => {
     return (
         <div> 
             <Banner></Banner> 
-            <ShopByCategories></ShopByCategories>
+            <ShopByCategories></ShopByCategories> 
+            <TopProducts></TopProducts>
         </div>
     );
 };
