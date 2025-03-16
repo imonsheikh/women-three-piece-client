@@ -6,7 +6,7 @@ const TopSellingProducts = () => {
     return (
         <div>
             <SectionTitle heading={'Top Selling Products'}></SectionTitle> 
-            <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2'>
+            <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2'>
                 <ProductCard></ProductCard>
                 <ProductCard></ProductCard>
                 <ProductCard></ProductCard>

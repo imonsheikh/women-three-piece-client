@@ -6,12 +6,14 @@ import { Tooltip } from 'react-tooltip'
 
 const Main = () => {
     return (
-        <div className='lg:max-w-9/12 md:w-11/12 w-full mx-auto'> 
+      <div>
+          <div className='lg:max-w-9/12 md:w-11/12 w-full mx-auto'> 
             <Tooltip id='my-tooltip' className='z-10'></Tooltip>
             <Navbar></Navbar> 
             <Outlet></Outlet>
-            <Footer></Footer>
         </div>
+            <Footer></Footer>
+      </div>
     );
 };
 

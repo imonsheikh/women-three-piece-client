@@ -4,6 +4,8 @@ import ShopByCategories from '../ShopByCategories/ShopByCategories.jsx';
 import Poster from '../Poster/Poster.jsx';
 import LatestProducts from '../LatestProducts/LatestProducts.jsx';
 import TopSellingProducts from '../TopSellingProducts/TopSellingProducts.jsx';
+import CustomerReview from '../CustomerReview/CustomerReview.jsx';
+import GetInTouch from '../GetInTouch/GetInTouch.jsx';
 
 const Home = () => {
     return (
@@ -13,6 +15,8 @@ const Home = () => {
             <ShopByCategories></ShopByCategories> 
             <LatestProducts></LatestProducts>
             <TopSellingProducts></TopSellingProducts>
+            <CustomerReview></CustomerReview> 
+            <GetInTouch></GetInTouch>
         </div>
     );
 };

@@ -3,7 +3,7 @@ import { IoCall } from "react-icons/io5";
 
 const HotLine = () => {
   return (
-    <div className="flex justify-end items-center gap-4">
+    <div className="flex justify-end items-center gap-4 md:flex hidden">
       <IoCall className="text-primary-c" size={30}></IoCall> 
       <div>
       <h1 className="font-bold">Hotline</h1>
