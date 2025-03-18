@@ -10,11 +10,11 @@ import "./productDetails.css";
 
 const ProductDetails = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [quantity, setQuantity] = useState(1); 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
-   // Scroll to top when the page loads
-   useEffect(() => {
+  // Scroll to top when the page loads
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -25,12 +25,12 @@ const ProductDetails = () => {
         setActiveIndex(thumbsSwiper.realIndex);
       };
 
-      thumbsSwiper.on('slideChange', handleSlideChange);
+      thumbsSwiper.on("slideChange", handleSlideChange);
 
       // Clean up the event listener when thumbsSwiper is destroyed
       return () => {
         if (thumbsSwiper) {
-          thumbsSwiper.off('slideChange', handleSlideChange);
+          thumbsSwiper.off("slideChange", handleSlideChange);
         }
       };
     }
@@ -326,6 +326,21 @@ const ProductDetails = () => {
           </div>
         </div>
       </section>
+
+      {/* tabs start */}
+      {/* name of each tab group should be unique */}
+     {/* name of each tab group should be unique */}
+<div className="tabs tabs-lift">
+  <input type="radio" name="my_tabs_3" className="tab" aria-label="Tab 1" />
+  <div className="tab-content bg-base-100 border-base-300 p-6">Tab content 1</div>
+
+  <input type="radio" name="my_tabs_3" className="tab" aria-label="Tab 2" defaultChecked />
+  <div className="tab-content bg-base-100 border-base-300 p-6">Tab content 2</div>
+
+  <input type="radio" name="my_tabs_3" className="tab" aria-label="Tab 3" />
+  <div className="tab-content bg-base-100 border-base-300 p-6">Tab content 3</div>
+</div>
+      {/* tabs ends */}
     </div>
   );
 };

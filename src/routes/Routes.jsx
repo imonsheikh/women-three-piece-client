@@ -5,6 +5,8 @@ import Main from "../Layouts/Main.jsx";
 import Shop from "../pages/Shop/Shop.jsx";
 import EidOffers from "../pages/EidOffers/EidOffers.jsx";
 import ProductDetails from "../pages/ProductDetails/ProductDetails.jsx";
+import Login from "../pages/Login/Login.jsx";
+import Login2 from "../pages/Login2/Login2.jsx";
 
 
 export const router = createBrowserRouter([
@@ -32,7 +34,15 @@ export const router = createBrowserRouter([
             {
                 path: '/product-details',
                 element: <ProductDetails></ProductDetails>
-            }
+            },
+            // {
+            //     path: '/login',
+            //     element: <Login></Login>
+            // },
+            {
+                path: '/login',
+                element: <Login2></Login2>
+            },
 
         ]
     },
