@@ -6,6 +6,7 @@ import LatestProducts from '../LatestProducts/LatestProducts.jsx';
 import TopSellingProducts from '../TopSellingProducts/TopSellingProducts.jsx';
 import CustomerReview from '../CustomerReview/CustomerReview.jsx';
 import GetInTouch from '../GetInTouch/GetInTouch.jsx';
+import LogoMarque from '../LogoMarque/LogoMarque.jsx';
 
 const Home = () => {
     return (
@@ -17,6 +18,7 @@ const Home = () => {
             <TopSellingProducts></TopSellingProducts>
             <CustomerReview></CustomerReview> 
             <GetInTouch></GetInTouch>
+            <LogoMarque></LogoMarque>
         </div>
     );
 };

@@ -4,6 +4,7 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 import Main from "../Layouts/Main.jsx";
 import Shop from "../pages/Shop/Shop.jsx";
 import EidOffers from "../pages/EidOffers/EidOffers.jsx";
+import ProductDetails from "../pages/ProductDetails/ProductDetails.jsx";
 
 
 export const router = createBrowserRouter([
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
                 element: <Home></Home>
             },
             {
+                path: '/mens',
+                element: <h1>Mens collection</h1>
+            },
+            {
                 path: '/shop',
                 element: <Shop></Shop>
             },
@@ -24,6 +29,10 @@ export const router = createBrowserRouter([
                 path: '/eid-offers',
                 element: <EidOffers></EidOffers>
             },
+            {
+                path: '/product-details',
+                element: <ProductDetails></ProductDetails>
+            }
 
         ]
     },

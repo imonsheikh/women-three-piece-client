@@ -1,10 +1,13 @@
 import React from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegEye } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const ProductCard = () => {
+const ProductCard = () => {  
+
+
   return (
-    <div className="bg-white flex flex-col rounded overflow-hidden shadow-md cursor-pointer hover:scale-[1.01] transition-all">
+    <Link to={`/product-details`} className="bg-white flex flex-col rounded overflow-hidden shadow-md cursor-pointer hover:scale-[1.01] transition-all">
       <div className="w-full">
         <img
           src="https://readymadeui.com/images/product1.webp"
@@ -62,7 +65,7 @@ const ProductCard = () => {
           Add to cart
         </button>
       </div>
-    </div>
+    </Link>
   );
 };
 

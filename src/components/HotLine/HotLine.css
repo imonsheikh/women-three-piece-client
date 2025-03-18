@@ -1,0 +1,7 @@
+.transition-all {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }

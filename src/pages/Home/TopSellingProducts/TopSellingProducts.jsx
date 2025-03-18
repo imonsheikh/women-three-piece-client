@@ -5,20 +5,17 @@ import ProductCard from '../../../components/ProductCard/ProductCard.jsx';
 const TopSellingProducts = () => {
     return (
         <div>
-            <SectionTitle heading={'Top Selling Products'}></SectionTitle> 
-            <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2'>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-                <ProductCard></ProductCard>
-            </div>
+        <div className='flex justify-center items-center relative'>
+        <SectionTitle heading={'Top Selling Products'}></SectionTitle>
+        <div className='btn bg-primary-c text-white absolute right-0'><button>View All</button></div>  
         </div>
+          {/* Products Grid */}
+          <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2'>
+            {[...Array(8)].map((_, index) => (
+                <ProductCard key={index} />
+            ))}
+        </div>
+    </div>
     );
 };
 
