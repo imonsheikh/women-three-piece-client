@@ -13,6 +13,11 @@ const ProductDetails = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [quantity, setQuantity] = useState(1); 
 
+   // Scroll to top when the page loads
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (thumbsSwiper) {
       // Set up a slide change listener to update the activeIndex
@@ -40,7 +45,7 @@ const ProductDetails = () => {
     <div className="mt-8">
       <section className="relative">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mx-auto max-md:px-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-16 gap-32 mx-auto md:px-2 px-0">
             {/* Image Gallery */}
             <div className="h-96 w-full">
               <Swiper

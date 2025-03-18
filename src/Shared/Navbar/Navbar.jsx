@@ -1,8 +1,9 @@
 import React from 'react';
 import { IoSearch } from 'react-icons/io5'; 
 import './Navbar.css'
-import { NavLink } from 'react-router-dom';
-import HotLine from '../../components/HotLine/HotLine.jsx';
+import { Link, NavLink } from 'react-router-dom';
+import HotLine from '../../components/HotLine/HotLine.jsx'; 
+import logo from '../../assets/logo/logo.png'
 
 const Navbar = () => {  
 
@@ -27,8 +28,11 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
              {navOptions}
           </ul>
+        </div> 
+        <div className='w-12'>
+          <img className='w-full h-full' src={logo} alt="" />
         </div>
-        <a className="btn btn-ghost text-xl">Mehrab Fashion  House</a>
+        <Link to='/' className="font-medium text-lg">Mehrab Fashion <br /> House</Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         {/* <ul className="menu menu-horizontal px-1">
