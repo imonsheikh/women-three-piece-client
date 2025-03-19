@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaUser, FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import SocialLogin from "../../components/SocialLogin/SocialLogin.jsx";
 
 const InputField = ({ type, placeholder, icon }) => {
   return (
@@ -27,7 +28,7 @@ const Register = () => {
         <div className="w-full md:w-1/2 relative">
           <div className="relative h-full">
             <img
-              src=""
+              src="https://img.freepik.com/free-vector/fashion-woman-set_1284-16520.jpg?t=st=1742378114~exp=1742381714~hmac=0c16037d9d6776f78fa95eb4b1b58fa547e911469e54408009c23083aa69ba1e&w=740"
               alt="Ad Image"
               className="w-full h-full object-cover"
             />
@@ -44,10 +45,10 @@ const Register = () => {
           <div className="max-w-md mx-auto">
             <h1 className="text-black text-3xl md:text-4xl font-semibold mb-2">Create an account</h1>
             <p className="text-gray-600 mb-8">
-              Already have an account? <Link to="/login" className="text-purple-600 hover:underline">Log in</Link>
+              Already have an account? <Link to="/login" className="text-purple-600 hover:underline text-lg">Log in</Link>
             </p>
 
-            <form className="space-y-4">
+            <form className="space-y-4 text-xs">
               <div className="flex flex-col md:flex-row gap-4">
                 <InputField type="text" placeholder="First Name" icon={<FaUser />} />
                 <InputField type="text" placeholder="Last Name" icon={<FaUser />} />
@@ -92,9 +93,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <button type="button" className="w-full flex items-center justify-center gap-2 bg-gray-200 text-black rounded-lg p-3 hover:bg-gray-300 transition-colors shadow-sm">
-                <img className="w-6" src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="" /> Sign up with Google
-              </button>
+            <SocialLogin></SocialLogin>
             </form>
           </div>
         </div>

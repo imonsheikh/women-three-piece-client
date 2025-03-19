@@ -4,8 +4,20 @@ import './Navbar.css'
 import { Link, NavLink } from 'react-router-dom';
 import HotLine from '../../components/HotLine/HotLine.jsx'; 
 import logo from '../../assets/logo/logo.png'
+import useAuth from '../../hooks/useAuth.jsx';
 
 const Navbar = () => {  
+
+  const {user, logOut} = useAuth() 
+
+  const handleLogout = () => {
+    logOut()
+    .then(() => {
+
+      alert('LogOut Success')
+    })
+    .catch((error) => console.log(error)) 
+  }
 
   const navOptions = 
   <>
@@ -67,28 +79,44 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </div>
-        <Link to='/login'><button className='btn btn-primary text-white'>Login</button></Link>
-    <div className="dropdown dropdown-end ">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar"> 
+    </div> 
+    {
+      user ? 
+      <>
+        {/* <button className="btn btn-ghost">
+            LogOut
+          </button>  */}
+         <div className='dropdown'>
+         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar"> 
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-        </div>
-      </div>
+            src={user?.photoURL} />
+        </div> 
+      </div> 
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow right-0">
         <li>
           <a className="justify-between">
-            Profile
+            {user?.displayName}
             <span className="badge">New</span>
           </a>
         </li>
         <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+        <li><a>Settings</a></li>
+        <li onClick={handleLogout} className='btn btn-warning'>Logout</li>
       </ul>
+         </div>
+      </> : 
+      <>
+       <Link to='/login'><button className='btn btn-primary text-white'>Login</button></Link>
+      </>
+    }
+        
+    <div className="dropdown dropdown-end ">
+     
+
     </div>
   </div>
       </div>  

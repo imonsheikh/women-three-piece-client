@@ -32,7 +32,8 @@ const Login2 = () => {
               <h3 className="font-semibold text-2xl text-gray-800">Sign In</h3>
               <p className="text-gray-500">Please sign in to your account.</p>
             </div> 
-            <SocialLogin></SocialLogin>
+            <SocialLogin></SocialLogin> 
+            <div className="divider">OR</div>
             <div className="space-y-5">
               {/* Email Input */}
               <div className="space-y-2">
