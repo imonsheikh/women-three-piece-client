@@ -3,7 +3,7 @@ import './login.css'
 
 const LoginPage = () => {
   return (
-    <div className="min-h-screen flex bg-white">
+    <div className=" flex bg-white">
       <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
         {/* Left Side */}
         <div

@@ -7,6 +7,7 @@ import EidOffers from "../pages/EidOffers/EidOffers.jsx";
 import ProductDetails from "../pages/ProductDetails/ProductDetails.jsx";
 import Login from "../pages/Login/Login.jsx";
 import Login2 from "../pages/Login2/Login2.jsx";
+import Register from "../pages/Register/Register.jsx";
 
 
 export const router = createBrowserRouter([
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login2></Login2>
+            },
+            {
+                path: '/register',
+                element: <Register></Register>
             },
 
         ]

@@ -1,4 +1,6 @@
 import React from "react";
+import SocialLogin from "../../components/SocialLogin/SocialLogin.jsx";
+import { Link } from "react-router-dom";
 
 const Login2 = () => {
   return (
@@ -10,7 +12,7 @@ const Login2 = () => {
       }}
     >
       <div className="absolute bg-gradient-to-b from-green-500 to-green-400 opacity-75 inset-0 z-0"></div>
-      <div className="min-h-screen sm:flex sm:flex-row mx-0 justify-center">
+      <div className="lg:min-h-[calc(100vh-103px)] min-h-[calc(100vh-55px)] flex flex-col sm:flex sm:flex-row mx-0 justify-center px-2">
         {/* Left Side */}
         <div className="flex-col flex self-center p-10 sm:max-w-5xl xl:max-w-2xl z-10">
           <div className="self-start hidden lg:flex flex-col text-white">
@@ -29,7 +31,8 @@ const Login2 = () => {
             <div className="mb-4">
               <h3 className="font-semibold text-2xl text-gray-800">Sign In</h3>
               <p className="text-gray-500">Please sign in to your account.</p>
-            </div>
+            </div> 
+            <SocialLogin></SocialLogin>
             <div className="space-y-5">
               {/* Email Input */}
               <div className="space-y-2">
@@ -85,27 +88,19 @@ const Login2 = () => {
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center bg-green-400 hover:bg-green-500 text-gray-100 p-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500"
+                  className="w-full flex justify-center bg-primary-c hover:bg-green-500 text-gray-100 p-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500"
                 >
-                  Sign in
+                  Login
                 </button>
               </div>
             </div>
-
+            <div className="text-[14px] text-center mt-2">
+                <p>New Here? <Link to='/register' className="underline font-bold text-md text-primary-c ml-">Register</Link></p>
+              </div>
             {/* Footer */}
-            <div className="pt-5 text-center text-gray-400 text-xs">
-              <span>
-                Copyright © 2021-2022
-                <a
-                  href="https://codepen.io/uidesignhub"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  title="Ajimon"
-                  className="text-green hover:text-green-500"
-                >
-                  AJI
-                </a>
-              </span>
+            <div className="pt-5 text-center text-gray-400 text-xs"> 
+             
+      
             </div>
           </div>
         </div>
