@@ -7,23 +7,46 @@ const SocialLogin = () => {
     const {googleSignIn} = useAuth()
     const navigate = useNavigate() 
     
-    const handleGoogleSignIn = () => { 
-        console.log('cli');
-        
-        googleSignIn()
+    const handleGoogleSignIn = () => {
+      googleSignIn()
         .then(result => {
-            console.log('socialLogin', result.user); 
-            navigate('/')
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Login Successful",
-              showConfirmButton: false,
-              timer: 1500
-            });
+          console.log('socialLogin', result.user);
+          navigate('/');
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Login Successful",
+            showConfirmButton: false,
+            timer: 1500
+          });
         })
-    }
-
+        .catch(error => {
+          console.error('google login error', error);
+    
+          // Default error message
+          let errorMessage = "Login failed. Please try again.";
+    
+          // Handle specific Firebase error codes
+          if (error.code === "auth/network-request-failed") {
+            errorMessage = "No internet connection. Please check your network!";
+          } else if (error.code === "auth/cancelled-popup-request") {
+            errorMessage = "You closed the popup too soon. Please try again.";
+          } else if (error.code === "auth/popup-closed-by-user") {
+            errorMessage = "Login cancelled. You need to allow popups.";
+          } else if (error.code === "auth/user-not-found") {
+            errorMessage = "No user found with this email.";
+          } else if (error.code === "auth/wrong-password") {
+            errorMessage = "Incorrect password. Please try again.";
+          }
+    
+          Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: errorMessage
+          });
+        });
+    };
+    
     return (
         <div className='my-2'>
            <button

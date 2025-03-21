@@ -45,7 +45,8 @@ const Navbar = () => {
           <li><NavLink to='/mens'>Men's Collection</NavLink></li>
           <li><NavLink to='/eid-offers'>Eid Offers</NavLink></li>
           <li><NavLink to='/shop'>Shop</NavLink></li>
-  </>
+  </>  
+   const defaultPhotoURL = "https://img.icons8.com/?size=100&id=85147&format=png&color=000000"
 
     return (
    <div className='top-0  sticky z-20'>
@@ -64,7 +65,7 @@ const Navbar = () => {
         <div className='w-12'>
           <img className='w-full h-full' src={logo} alt="" />
         </div>
-        <Link to='/' className="font-medium text-lg">Mehrab Fashion <br /> House</Link>
+        <Link to='/' className="font-medium md:text-lg text-[10px]">Mehrab  <br /> Fashion House</Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         {/* <ul className="menu menu-horizontal px-1">
@@ -111,7 +112,7 @@ const Navbar = () => {
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src={user?.photoURL} />
+            src={user?.photoURL || defaultPhotoURL} />
         </div> 
       </div> 
       <ul
@@ -119,7 +120,7 @@ const Navbar = () => {
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow right-0">
         <li>
           <a className="justify-between">
-            {user?.displayName}
+            {user?.displayName || 'N/A'}
             <span className="badge">New</span>
           </a>
         </li>
