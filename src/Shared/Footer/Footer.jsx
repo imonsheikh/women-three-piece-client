@@ -54,7 +54,7 @@ const Footer = () => {
                     <a href="#" className="text-primary-c text-2xl hover:text-white"><FaTwitter /></a>
                     <a href="#" className="text-primary-c text-2xl hover:text-white"><FaYoutube /></a>
                 </div>
-                <hr className='text-white mt-4 w-7xl mx-auto' />
+                <hr className='text-white mt-4 max-w-7xl mx-auto' />
                 <p className="text-gray-500 mt-5">&copy; Mehrab Fashion House. All rights reserved.</p>
             </div>
         </footer>

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SocialLogin from "../../components/SocialLogin/SocialLogin.jsx";
 import { Link } from "react-router-dom";
 
 const Login2 = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <div
       className="bg-no-repeat bg-cover bg-center relative"

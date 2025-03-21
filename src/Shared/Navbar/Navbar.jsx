@@ -5,18 +5,38 @@ import { Link, NavLink } from 'react-router-dom';
 import HotLine from '../../components/HotLine/HotLine.jsx'; 
 import logo from '../../assets/logo/logo.png'
 import useAuth from '../../hooks/useAuth.jsx';
+import Swal from 'sweetalert2/src/sweetalert2.js';
+// import 'sweetalert2/src/sweetalert2.scss'
+import "sweetalert2/dist/sweetalert2.min.css";
+
 
 const Navbar = () => {  
 
   const {user, logOut} = useAuth() 
 
   const handleLogout = () => {
-    logOut()
-    .then(() => {
-
-      alert('LogOut Success')
-    })
-    .catch((error) => console.log(error)) 
+    Swal.fire({
+      title: "Are you sure Want to Logout?",
+      text: "You won't be able to access your personal data!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!"
+    }).then((result) => {
+      if (result.isConfirmed) { 
+        logOut()
+        .then(() => {
+          Swal.fire({
+            title: "Logged out!",
+            text: "You are exited.",
+            icon: "success"
+          });
+        })
+        .catch((error) => console.log(error));
+     
+      }
+    });
   }
 
   const navOptions = 
