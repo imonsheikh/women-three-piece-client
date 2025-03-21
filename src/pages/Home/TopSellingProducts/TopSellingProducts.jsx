@@ -7,7 +7,7 @@ const TopSellingProducts = () => {
         <div>
         <div className='flex justify-center items-center relative'>
         <SectionTitle heading={'Top Selling Products'}></SectionTitle>
-        <div className='btn bg-primary-c text-white absolute right-0'><button>View All</button></div>  
+        <div className='btn md:btn-md btn-sm bg-primary-c text-white absolute right-0'><button>View All</button></div>  
         </div>
           {/* Products Grid */}
           <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2'>

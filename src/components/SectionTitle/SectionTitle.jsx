@@ -12,11 +12,11 @@ const SectionTitle = ({ heading }) => {
   }, [heading]);
 
   return (
-    <div className="text-center my-12">
+    <div className="text-center md:my-12 my-5">
       {/* Heading with Glow & Bright Gradient */}
       <h1
         ref={headingRef}
-        className="relative md:text-3xl text-3xl font-extrabold text-transparent bg-clip-text 
+        className="relative md:text-3xl text-lg font-extrabold text-transparent bg-clip-text 
         bg-gradient-to-r from-blue-900 via-purple-900  
         dark:from-blue-600 dark:to-purple-600 
         inline-block tracking-wide drop-shadow-lg animate-fadeIn"

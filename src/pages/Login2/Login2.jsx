@@ -22,7 +22,7 @@ const Login2 = () => {
         <div className="flex-col flex self-center p-10 sm:max-w-5xl xl:max-w-2xl z-10">
           <div className="self-start hidden lg:flex flex-col text-white">
             <img src="" alt="Logo" className="mb-3" />
-            <h1 className="mb-3 font-bold text-5xl">Hi! Welcome Back Aji</h1>
+            <h1 className="mb-3 font-bold sm:text-5xl text-2xl">Hi! Welcome Back Aji</h1>
             <p className="pr-3">
               Lorem ipsum is placeholder text commonly used in the graphic, print,
               and publishing industries for previewing layouts and visual mockups.
@@ -31,10 +31,10 @@ const Login2 = () => {
         </div>
 
         {/* Right Side */}
-        <div className="flex justify-center self-center z-10">
+        <div className="flex justify-center md:self-center z-10">
           <div className="p-12 bg-white mx-auto rounded-2xl w-100">
             <div className="mb-4">
-              <h3 className="font-semibold text-2xl text-gray-800">Sign In</h3>
+              <h3 className="font-semibold text-2xl text-gray-800">Log In</h3>
               <p className="text-gray-500">Please sign in to your account.</p>
             </div> 
             <SocialLogin></SocialLogin> 

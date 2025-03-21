@@ -11,8 +11,8 @@ const Main = () => {
             <Tooltip id='my-tooltip' className='z-10'></Tooltip>
             <Navbar></Navbar> 
             <Outlet></Outlet>
-            <Footer></Footer>
         </div>
+            <Footer></Footer>
       </div>
     );
 };
