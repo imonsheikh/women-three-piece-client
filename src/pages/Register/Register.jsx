@@ -13,7 +13,6 @@ import ErrorAlert from "../../components/ErrorAlert/ErrorAlert.jsx";
 import useAuth from "../../hooks/useAuth.jsx";
 import useAxiosPublic from "../../hooks/useAxiosPublic.jsx";
 import Swal from "sweetalert2/src/sweetalert2.js"; 
-import bcrypt from 'bcryptjs'
 
 const InputField = ({
   type,
@@ -54,49 +53,40 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Form Submitted", data);
   
-    // Hash the password
-    bcrypt.hash(data.password, 10, (err, hashedPassword) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
+    try {
+      console.log("Form Submitted", data); 
+      // createUser 
+      const res = await createUser(data?.email, data?.password);
+      console.log(res.user, "Logged User");
   
-      createUser(data?.email, hashedPassword)
-        .then((res) => {
-          console.log(res.user, "Logged User");
+      const fullName = `${data.firstName} ${data.lastName}`;
   
-          // Create fullName by combining firstName and lastName
-          const fullName = `${data.firstName} ${data.lastName}`;
+      const userInfo = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        name: fullName,
+        email: data.email,
+        password: data?.password,
+      };
   
-          const userInfo = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            name: fullName, // Add fullName here
-            email: data.email,
-            password: hashedPassword, // Store the hashed password
-          };
-  
-          axiosPublic.post("/users", userInfo).then((res) => {
-            if (res.data.insertedId) {
-              reset();
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "User Created Successfully",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              navigate("/");
-            }
-          });
-        })
-        .catch((error) => {
-          console.log(error);
+      const response = await axiosPublic.post("/users", userInfo);
+      if (response.data.insertedId) {
+        reset();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "User Created Successfully",
+          showConfirmButton: false,
+          timer: 1500,
         });
-    });
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

@@ -1,12 +1,58 @@
 import React, { useEffect } from "react";
 import SocialLogin from "../../components/SocialLogin/SocialLogin.jsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth.jsx";
+import Swal from "sweetalert2/src/sweetalert2.js";
 
 const Login2 = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [])
+  }, [])  
+
+  const {signIn, setLoading} = useAuth()
+  const navigate = useNavigate() 
+  const location = useLocation()
+  console.log(location);
+  
+  // const from = location.state?.from?.pathname || "/" 
+  const from =  "/" 
+  console.log('Want to go location', location.state); 
+
+
+  const handleLogin = (e) => {
+     e.preventDefault() 
+
+     const form = e.target 
+     const email = form.email.value 
+     const password = form.password.value  
+     console.log(email, password);  
+
+
+     //Call signIn
+     signIn(email, password)
+     .then(result => {
+       console.log(result);
+      Swal.fire({
+                 position: "top-end",
+                 icon: "success",
+                 title: "Login Successful",
+                 showConfirmButton: false,
+                 timer: 1500
+               });
+       navigate(from, { replace: true });
+       setLoading(false); // Stop loading on success
+     })
+     .catch(error => {
+       console.error(error);
+       Swal.fire({
+         title: "Login Failed",
+         text: error.message,
+         icon: "error"
+       });
+       setLoading(false); // Stop loading on error
+     });
+  }
 
   return (
     <div
@@ -39,7 +85,9 @@ const Login2 = () => {
             </div> 
             <SocialLogin></SocialLogin> 
             <div className="divider">OR</div>
-            <div className="space-y-5">
+            <form 
+            onSubmit={handleLogin}
+            className="space-y-5">
               {/* Email Input */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 tracking-wide">
@@ -48,7 +96,8 @@ const Login2 = () => {
                 <input
                   className="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
                   type="email"
-                  placeholder="mail@gmail.com"
+                  name="email"
+                  placeholder="yourgmail@gmail.com"
                 />
               </div>
 
@@ -60,6 +109,7 @@ const Login2 = () => {
                 <input
                   className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
                   type="password"
+                  name="password"
                   placeholder="Enter your password"
                 />
               </div>
@@ -67,7 +117,7 @@ const Login2 = () => {
               {/* Remember Me and Forgot Password */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <input
+                  {/* <input
                     id="remember_me"
                     name="remember_me"
                     type="checkbox"
@@ -78,15 +128,15 @@ const Login2 = () => {
                     className="ml-2 block text-sm text-gray-800"
                   >
                     Remember me
-                  </label>
+                  </label> */}
                 </div>
                 <div className="text-sm">
-                  <a
-                    href="#"
-                    className="text-green-400 hover:text-green-500"
+                  <Link
+                    to=''
+                    className="text-green-400 hover:text-green-500 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -99,7 +149,7 @@ const Login2 = () => {
                   Login
                 </button>
               </div>
-            </div>
+            </form>
             <div className="text-[14px] text-center mt-2">
                 <p>New Here? <Link to='/register' className="underline font-bold text-md text-primary-c ml-">Register</Link></p>
               </div>
