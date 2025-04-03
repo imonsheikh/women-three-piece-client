@@ -15,9 +15,9 @@ const Login2 = () => {
   const location = useLocation()
   console.log(location);
   
-  // const from = location.state?.from?.pathname || "/" 
-  const from =  "/" 
-  console.log('Want to go location', location.state); 
+  const from = location.state?.from?.pathname || "/" 
+  console.log(from);
+  console.log('Want to go location', location.state?.from?.pathname); 
 
 
   const handleLogin = (e) => {

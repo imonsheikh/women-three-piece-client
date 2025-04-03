@@ -8,6 +8,7 @@ import ProductDetails from "../pages/ProductDetails/ProductDetails.jsx";
 import Login from "../pages/Login/Login.jsx";
 import Login2 from "../pages/Login2/Login2.jsx";
 import Register from "../pages/Register/Register.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
 
 
 export const router = createBrowserRouter([
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/shop',
-                element: <Shop></Shop>
+                element: <PrivateRoute><Shop></Shop></PrivateRoute>
             },
             {
                 path: '/eid-offers',
