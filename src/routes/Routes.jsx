@@ -9,6 +9,7 @@ import Login from "../pages/Login/Login.jsx";
 import Login2 from "../pages/Login2/Login2.jsx";
 import Register from "../pages/Register/Register.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
+import CategoryDetails from "../pages/CategoryDetails/CategoryDetails.jsx";
 
 
 export const router = createBrowserRouter([
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
                 element: <Home></Home>
             },
             {
-                path: '/mens',
+                path: '/mens-collection',
                 element: <h1>Mens collection</h1>
             },
             {
@@ -34,8 +35,12 @@ export const router = createBrowserRouter([
                 element: <EidOffers></EidOffers>
             },
             {
-                path: '/product-details',
+                path: '/product-details/:id',
                 element: <ProductDetails></ProductDetails>
+            },
+            {
+                path: '/:categoryName',
+                element: <CategoryDetails></CategoryDetails>
             },
             // {
             //     path: '/login',

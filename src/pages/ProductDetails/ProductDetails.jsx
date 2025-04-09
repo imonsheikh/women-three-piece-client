@@ -7,11 +7,18 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useEffect, useState } from "react";
 
 import "./productDetails.css";
+import useProducts from "../../hooks/useProducts.jsx";
+import { useParams } from "react-router-dom";
 
 const ProductDetails = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1); 
+  const {id} = useParams()
+
+  const [products] = useProducts()
+  const Singleproduct = products.find(product => product._id === id) 
+   
 
   // Scroll to top when the page loads
   useEffect(() => {

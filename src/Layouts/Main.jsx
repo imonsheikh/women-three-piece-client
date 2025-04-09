@@ -16,12 +16,14 @@ const Main = () => {
 
     return (
       <div className=''>
-          <div className='lg:max-w-9/12 mx-auto'> 
-            <Tooltip id='my-tooltip' className='z-10'></Tooltip>
+          <div className='lg:max-w-9/12 mx-auto flex flex-col min-h-screen'> 
             <Navbar></Navbar> 
+            <div className='flex-grow'>
             <Outlet></Outlet>
-        </div>
+            </div>
             <Footer></Footer>
+            <Tooltip id='my-tooltip' className='z-10'></Tooltip>
+        </div>
       </div>
     );
 };

@@ -45,7 +45,7 @@ const Navbar = () => {
         <NavLink to="/">Woman Collection</NavLink>
       </li>
       <li>
-        <NavLink to="/mens">Men's Collection</NavLink>
+        <NavLink to="/mens-collection">Men's Collection</NavLink>
       </li>
       <li>
         <NavLink to="/eid-offers">Eid Offers</NavLink>

@@ -1,8 +1,11 @@
 import React from 'react';
 import SectionTitle from '../../../components/SectionTitle/SectionTitle.jsx';
 import ProductCard from '../../../components/ProductCard/ProductCard.jsx';
+import useProducts from '../../../hooks/useProducts.jsx';
 
-const TopSellingProducts = () => {
+const TopSellingProducts = () => {  
+    const [products = []] = useProducts()  
+
     return (
         <div>
         <div className='flex justify-center items-center relative'>
@@ -11,8 +14,11 @@ const TopSellingProducts = () => {
         </div>
           {/* Products Grid */}
           <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2'>
-            {[...Array(8)].map((_, index) => (
-                <ProductCard key={index} />
+            {products.map((product) => (
+                <ProductCard 
+                key={product._id}
+                product={product}
+                />
             ))}
         </div>
     </div>
