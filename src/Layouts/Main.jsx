@@ -8,11 +8,11 @@ import Loading from './../components/Loading/Loading';
 
 const Main = () => {  
 
-  const {loading} = useAuth()
+  // const {loading} = useAuth()
   
-  if(loading){
-    return <Loading></Loading>
-  }
+  // if(loading){
+  //   return <Loading></Loading>
+  // }
 
     return (
       <div className=''>

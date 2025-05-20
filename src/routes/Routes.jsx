@@ -10,6 +10,12 @@ import Login2 from "../pages/Login2/Login2.jsx";
 import Register from "../pages/Register/Register.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import CategoryDetails from "../pages/CategoryDetails/CategoryDetails.jsx";
+import Dashboard from "../Layouts/Dashboard.jsx";
+import DashboardHome from "../dashboardPages/DashboardHome/DashboardHome.jsx";
+import AddProduct from "../dashboardPages/AdminPages/AddProduct/AddProduct.jsx";
+import ManageUser from "../dashboardPages/AdminPages/ManageUser/ManageUser.jsx";
+import ManagePayment from "../dashboardPages/AdminPages/ManagePayment/ManagePayment.jsx";
+import SalesReport from "../dashboardPages/AdminPages/SalesReport/SalesReport.jsx";
 
 
 export const router = createBrowserRouter([
@@ -57,8 +63,32 @@ export const router = createBrowserRouter([
 
         ]
     },
-    // {
-    //     path: 'dashboard'
-    // }
+    {
+        path: '/dashboard',
+        errorElement: <ErrorPage></ErrorPage>,
+        element: <Dashboard/>,
+        children: [
+            {
+                path: 'home',
+                element: <DashboardHome/>
+            },
+            {
+                path: 'add-product',
+                element: <AddProduct/>
+            },
+            {
+                path: 'manage-payment',
+                element: <ManagePayment/>
+            },
+            {
+                path: 'manage-user',
+                element: <ManageUser/>
+            },
+            {
+                path: 'sales-report',
+                element: <SalesReport/>
+            }
+        ] 
+    }
 ])
 
