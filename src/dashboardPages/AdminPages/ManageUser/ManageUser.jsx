@@ -1,6 +1,6 @@
-import React from 'react';
 
-const ManageUser = () => {
+const ManageUser = () => {   
+
     return (
         <div>
             Manage User

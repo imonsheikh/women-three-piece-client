@@ -16,6 +16,8 @@ import AddProduct from "../dashboardPages/AdminPages/AddProduct/AddProduct.jsx";
 import ManageUser from "../dashboardPages/AdminPages/ManageUser/ManageUser.jsx";
 import ManagePayment from "../dashboardPages/AdminPages/ManagePayment/ManagePayment.jsx";
 import SalesReport from "../dashboardPages/AdminPages/SalesReport/SalesReport.jsx";
+import ManageCategory from "../dashboardPages/AdminPages/ManageCategory/ManageCategory.jsx";
+import ManageProducts from "../dashboardPages/AdminPages/ManageProducts/ManageProducts.jsx";
 
 
 export const router = createBrowserRouter([
@@ -70,11 +72,19 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: 'home',
-                element: <DashboardHome/>
+                element: <PrivateRoute><DashboardHome/></PrivateRoute>
             },
             {
                 path: 'add-product',
-                element: <AddProduct/>
+                element: <PrivateRoute><AddProduct/></PrivateRoute>
+            },
+            {
+                path: 'manage-category',
+                element: <PrivateRoute><ManageCategory/></PrivateRoute>
+            },
+            {
+                path: 'manage-products',
+                element: <PrivateRoute><ManageProducts/></PrivateRoute>
             },
             {
                 path: 'manage-payment',
@@ -91,4 +101,6 @@ export const router = createBrowserRouter([
         ] 
     }
 ])
+
+
 
