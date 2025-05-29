@@ -42,17 +42,15 @@ const Navbar = () => {
   const navOptions = (
     <>
       <li>
-        <NavLink to="/">Woman Collection</NavLink>
-      </li>
-      <li>
-        <NavLink to="/mens-collection">Men's Collection</NavLink>
-      </li>
-      <li>
-        <NavLink to="/eid-offers">Eid Offers</NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li>
         <NavLink to="/shop">Shop</NavLink>
       </li>
+      <li>
+        <NavLink to="/categories">Categories</NavLink>
+      </li>
+   
     </>
   );
   const defaultPhotoURL =
@@ -97,27 +95,16 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           {/* <ul className="menu menu-horizontal px-1">
             {navOptions}
-        </ul>   */}
-          {/* Search starts */}
-          <label className="input md:w-60 w-3.5 outline-none focus-within:outline-primary-c border-[1.5px] border-primary-c">
-            <svg
-              className="h-[1em] opacity-50"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <g
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input type="search" required placeholder="Search Products" />
-          </label>
+        </ul>   */} 
+
+<div className="w-full flex justify-center ">
+  <div className="navbar-center hidden lg:flex">
+    <ul className="menu menu-horizontal space-x-4 text-gray-700 font-medium">
+      {navOptions}
+    </ul>
+  </div>
+</div>
+
           {/* Search ends */}
         </div>
 
@@ -218,11 +205,11 @@ const Navbar = () => {
         </div>
       </div>
       {/*  */}
-      <div className="flex justify-center bg-accent-c font-semibold -mb-[20px]">
+      {/* <div className="flex justify-center bg-accent-c font-semibold -mb-[20px]">
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navOptions}</ul>
         </div>
-      </div>
+      </div> */}
       {/*  */}
     </div>
   );

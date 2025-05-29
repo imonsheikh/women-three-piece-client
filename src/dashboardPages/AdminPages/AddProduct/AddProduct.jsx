@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { IoMdCloudUpload } from "react-icons/io";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
+import Container from "../../../components/Container/Container.jsx";
 
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
@@ -134,13 +135,14 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="min-h-screen bg-soft">
+  <Container>
+      <div className="min-h-screen bg-soft">
       <div className=" py-2">
         <Title>Add Products</Title>
       </div>
-      <div className="border lg:w-9/12 w-full p-5">
+      <div className="border p-5">
         <form onSubmit={handleSubmit(handleAddProduct)} className="space-y-4">
-          <div className="flex flex-col gap-2 lg:w-9/12 w-full text-start">
+          <div className="flex flex-col gap-2  w-full text-start">
             {/* Image1 */}
             <div className="grid md:grid-cols-4 grid-cols-2 gap-2 text-center">
               {["image1", "image2", "image3", "image4"].map((imageId) => (
@@ -244,12 +246,13 @@ const AddProduct = () => {
                 Category
               </label>
               <select
+                defaultValue="" 
                 name="category"
                 {...register("category", { required: true })}
                 className="mt-1 w-full p-2 border border-gray-300 rounded-md"
                 required
               >
-                <option value="">Select Category</option>
+                <option value="" >Select Category</option>
                 {categories.map((category) => (
                   <option key={category._id} value={category.categoryName}>
                     {category.categoryName}
@@ -260,13 +263,15 @@ const AddProduct = () => {
             </div>
             <div className="w-full">
               <label className="text-sm font-medium text-gray-700">Type</label>
-              <select
+              <select  
+                defaultValue="" 
+
                 name="type"
                 {...register("type", { required: true })}
                 className="mt-1 w-full p-2 border border-gray-300 rounded-md"
                 required
               >
-                <option className="" disabled>
+                <option value="" className=""  >
                   Select Type
                 </option>
                 <option value="new_arrivals">New Arrivals</option>
@@ -326,6 +331,7 @@ const AddProduct = () => {
         </form>
       </div>
     </div>
+  </Container>
   );
 };
 

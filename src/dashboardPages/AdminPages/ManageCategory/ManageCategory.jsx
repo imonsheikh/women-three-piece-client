@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import useAxiosSecure from '../../../hooks/useAxiosSecure.jsx';
 import useCategories from '../../../hooks/useCategories.jsx';
+import Container from '../../../components/Container/Container.jsx';
+import toast from 'react-hot-toast';
 
 const ManageCategory = () => {
 //   const [categories, setCategories] = useState();
   const [categories, isLoading, refetch] = useCategories()
-  console.log(categories);
+  const [loading, setLoading] = useState()
+  // console.log(categories);
   
   const axiosSecure = useAxiosSecure();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,35 +61,53 @@ const ManageCategory = () => {
     const categoryName = form.categoryName.value;
     const imageFile = form.image.files[0];
 
-    try {
+    try { 
+      setLoading(true)
       let imageUrl = currentCategory?.image || '';
       if (imageFile) {
-        const imageData = new FormData();
-        imageData.append('image', imageFile);
-        const imgRes = await axiosSecure.post(imageHostingUrl, imageData); // Secure image upload
-        imageUrl = imgRes.data.data.display_url;
+        const formData = new FormData();
+        formData.append('image', imageFile);
+        const response = await fetch(imageHostingUrl, {
+          method: "POST",
+          body: formData
+        }); // Secure image upload
+        const imgData = await response.json()
+        if(imgData){
+          imageUrl = imgData.data.display_url; 
+        }else{
+        toast.error('category image upload failed')
+        return
+      } 
       }
 
       const categoryData = { name: categoryName, image: imageUrl };
 
       if (isEditMode) {
-        await axiosSecure.put(`/api/categories/${currentCategory._id}`, categoryData);
+        await axiosSecure.put(`/categories/${currentCategory._id}`, categoryData);
+        toast.success('Category Updated Successfully')
+        refetch()
       } else {
-        await axiosSecure.post('/api/categories', categoryData);
+        await axiosSecure.post('/categories', categoryData);
+        toast.success('Category Added Successfully')
+        refetch()
       }
 
     //   fetchCategories();
       closeModal();
     } catch (error) {
       console.error('Error submitting category:', error);
+    }finally{
+      setLoading(false)
     }
   };
 
   const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this category?')) {
       try {
-        await axiosSecure.delete(`/api/categories/${id}`);
+        await axiosSecure.delete(`/categories/${id}`);
         // fetchCategories();
+        toast.success('Category Deleted Successfully')
+        refetch()
       } catch (error) {
         console.error('Error deleting category:', error);
       }
@@ -94,9 +115,11 @@ const ManageCategory = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
+  <Container>
+      <div className="mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Manage Categories</h1>
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-between mb-4"> 
+        <h1 className='font-semibold'>Total Category: {categories?.length}</h1>
         <button
           className="btn bg-blue-500 text-white"
           onClick={() => openModal()}
@@ -111,34 +134,34 @@ const ManageCategory = () => {
             <tr className="bg-gray-100 text-gray-700">
               <th>#</th>
               <th>Image</th>
-              <th>Name</th>
+              <th>Category Name</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {categories.map((cat, index) => (
-              <tr key={cat._id}>
+            {categories.map((item, index) => (
+              <tr key={item._id}>
                 <td>{index + 1}</td>
                 <td>
                   <img
-                    src={cat.image}
-                    alt={cat.name}
+                    src={item.image}
+                    alt={item.name}
                     className="w-16 h-16 object-cover rounded"
                   />
                 </td>
-                <td>{cat.name}</td>
+                <td>{item.name}</td>
                 <td className="flex justify-center gap-4">
                   <button
                     className="text-blue-600 hover:text-blue-800"
-                    onClick={() => openModal(cat)}
+                    onClick={() => openModal(item)}
                   >
-                    <FaEdit />
+                    <FaEdit size={20} />
                   </button>
                   <button
                     className="text-red-600 hover:text-red-800"
-                    onClick={() => handleDelete(cat._id)}
+                    onClick={() => handleDelete(item._id)}
                   >
-                    <FaTrash />
+                    <FaTrash size={16} />
                   </button>
                 </td>
               </tr>
@@ -149,7 +172,7 @@ const ManageCategory = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
@@ -197,7 +220,7 @@ const ManageCategory = () => {
                   type="submit"
                   className="btn w-full bg-blue-500 text-white hover:bg-blue-600"
                 >
-                  {isEditMode ? 'Update Category' : 'Add Category'}
+                  {loading ? (isEditMode ? "Updating..." : "Adding...") : isEditMode ? "Update Category" : "Add Category"}
                 </button>
               </div>
             </form>
@@ -205,6 +228,7 @@ const ManageCategory = () => {
         </div>
       )}
     </div>
+  </Container>
   );
 };
 

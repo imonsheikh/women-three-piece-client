@@ -9,8 +9,6 @@ import { BiSolidCategory } from "react-icons/bi";
 import { GiShop } from "react-icons/gi";
 
 
-
-
 const Dashboard = () => {
   const [isAdmin, isAdminLoading] = useAdmin();
   
@@ -97,7 +95,7 @@ const Dashboard = () => {
         >
           <div className="flex items-center gap-2">
             <AiFillDollarCircle size={25} />
-            <p>Manage Payments</p>
+            <p>Manage Orders</p>
           </div>
         </NavLink>
       </li>

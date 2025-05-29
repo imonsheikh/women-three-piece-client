@@ -14,10 +14,14 @@ import Dashboard from "../Layouts/Dashboard.jsx";
 import DashboardHome from "../dashboardPages/DashboardHome/DashboardHome.jsx";
 import AddProduct from "../dashboardPages/AdminPages/AddProduct/AddProduct.jsx";
 import ManageUser from "../dashboardPages/AdminPages/ManageUser/ManageUser.jsx";
-import ManagePayment from "../dashboardPages/AdminPages/ManagePayment/ManagePayment.jsx";
 import SalesReport from "../dashboardPages/AdminPages/SalesReport/SalesReport.jsx";
 import ManageCategory from "../dashboardPages/AdminPages/ManageCategory/ManageCategory.jsx";
 import ManageProducts from "../dashboardPages/AdminPages/ManageProducts/ManageProducts.jsx";
+import Cart from "../pages/Cart/Cart.jsx";
+import Checkout from "../pages/Checkout/Checkout.jsx";
+import OrderConfirmation from "../pages/OrderConfirmation/OrderConfirmation .jsx";
+import MyOrders from "../dashboardPages/UserPages/MyOrders/MyOrders.jsx";
+import ManageOrders from "../dashboardPages/AdminPages/ManageOrders/ManageOrders.jsx";
 
 
 export const router = createBrowserRouter([
@@ -31,12 +35,20 @@ export const router = createBrowserRouter([
                 element: <Home></Home>
             },
             {
-                path: '/mens-collection',
-                element: <h1>Mens collection</h1>
-            },
-            {
                 path: '/shop',
                 element: <PrivateRoute><Shop></Shop></PrivateRoute>
+            },
+            {
+                path: '/cart',
+                element: <PrivateRoute><Cart></Cart></PrivateRoute>
+            },
+            {
+                path: '/checkout',
+                element: <PrivateRoute><Checkout></Checkout></PrivateRoute>
+            },
+            {
+                path: '/order-confirmation',
+                element: <PrivateRoute><OrderConfirmation></OrderConfirmation></PrivateRoute>
             },
             {
                 path: '/eid-offers',
@@ -88,7 +100,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'manage-payment',
-                element: <ManagePayment/>
+                element: <ManageOrders/>
             },
             {
                 path: 'manage-user',
@@ -97,6 +109,10 @@ export const router = createBrowserRouter([
             {
                 path: 'sales-report',
                 element: <SalesReport/>
+            },
+            {
+                path: 'my-orders',
+                element: <MyOrders/>
             }
         ] 
     }
