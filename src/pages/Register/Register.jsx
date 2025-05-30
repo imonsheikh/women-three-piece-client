@@ -54,13 +54,13 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("Form Submitted", data);
+    // console.log("Form Submitted", data);
   
     try {
-      console.log("Form Submitted", data); 
+      // console.log("Form Submitted", data); 
       // createUser 
       const res = await createUser(data?.email, data?.password);
-      console.log(res.user, "Logged User");
+      // console.log(res.user, "Logged User");
   
       const fullName = `${data.firstName} ${data.lastName}`;
   

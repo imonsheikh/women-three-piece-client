@@ -156,7 +156,7 @@ const Shop = () => {
                   onClick={() => handleCategoryChange(item)}
                   className={`w-full text-left px-4 py-2 rounded-md text-sm border ${
                     decodeURIComponent(name || "All") === item
-                      ? "bg-blue-500 text-white border-blue-500"
+                      ? "bg-primary-c text-white border-primary"
                       : "bg-white text-gray-700 border-gray-300"
                   } hover:shadow-sm transition`}
                 >

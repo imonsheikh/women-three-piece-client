@@ -3,7 +3,8 @@ import useAuth from './useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000',
+    // baseURL: 'http://localhost:5000',
+    baseURL: 'https://women-three-piece-server.vercel.app',
 })
 
 const useAxiosSecure = () => {
@@ -29,7 +30,7 @@ const useAxiosSecure = () => {
     },
     async(error) => {
         const status = error.response.status 
-        console.log('Status error in the interceptors', status);
+        // console.log('Status error in the interceptors', status);
         //For 401 OR 403 logout the user and move the user to the login page
         if(status === 401 || status === 403){
             await logOut()

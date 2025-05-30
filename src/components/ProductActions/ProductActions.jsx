@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import useCart from "../../hooks/useCart.jsx";
 
 const ProductActions = ({ product }) => { 
-    console.log(product);
+    // console.log(product);
     
   const { productPrice, discountPercentage, productName } = product;
   const { user } = useAuth();

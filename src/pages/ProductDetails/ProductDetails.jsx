@@ -164,7 +164,7 @@ const ProductDetails = () => {
         {!inCart ? (
           <button
             onClick={handleAddToCart}
-            className="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition"
+            className="w-full bg-primary-c text-white py-3 rounded-xl font-medium hover:bg-primary transition"
           >
             Add to Cart
           </button>

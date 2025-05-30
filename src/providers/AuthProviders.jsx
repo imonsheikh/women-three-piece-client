@@ -54,7 +54,7 @@ const AuthProviders = ({children}) => {
             }
           })
           .catch(error => {
-            console.log('Token error', error);
+            // console.log('Token error', error);
           })
         }else{
           localStorage.removeItem('access-token')

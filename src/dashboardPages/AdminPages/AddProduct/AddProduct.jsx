@@ -13,7 +13,7 @@ const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
 const AddProduct = () => { 
   const [categories =[], isLoading, refetch]= useCategories() 
-  console.log(categories);
+  // console.log(categories);
   
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
@@ -25,7 +25,7 @@ const AddProduct = () => {
     image3: null,
     image4: null,
   });
-  console.log(previews);
+  // console.log(previews);
 
   // const categories = [
   //   {
@@ -116,7 +116,7 @@ const AddProduct = () => {
         user: user?.email,
       };
 
-      console.log("Final Product Data:", productData);
+      // console.log("Final Product Data:", productData);
 
       // Send to your backend (optional)
       const res = await axiosSecure.post("/products", productData);

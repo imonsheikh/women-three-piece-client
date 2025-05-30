@@ -66,7 +66,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="flex flex-col justify-between max-w-sm w-full min-h-[420px] rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition duration-300 relative">
-      <span className="absolute bg-red-300 rounded-full px-4 py-1 text-sm text-green-600 top-1 right-1">
+      <span className="absolute bg-red-300 rounded-full px-4 py-1 text-sm text-green-600 top-1 right-1 z-20">
         Save {discountPercentage}%
       </span>
 
@@ -128,7 +128,7 @@ const ProductCard = ({ product }) => {
         {!inCart ? (
           <button
             onClick={handleAddToCart}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition text-sm md:text-base"
+            className="w-full bg-primary-c text-white py-2 px-4 rounded-lg font-medium hover:bg-primary transition text-sm md:text-base"
           >
             Add to Cart
           </button>

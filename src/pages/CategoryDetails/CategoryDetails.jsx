@@ -7,11 +7,11 @@ const CategoryDetails = () => {
   const { categoryName } = useParams();
   // console.log(categoryName);
   const [products = []] = useProducts();
-  console.log(products);
+  // console.log(products);
   const categoryProducts = products.filter(
     (product) => product.category === categoryName
   );
-  console.log(categoryProducts);
+  // console.log(categoryProducts);
 
   return (
     <div className="mt-5">

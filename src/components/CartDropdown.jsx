@@ -56,7 +56,7 @@ const CartDropdown = ({ carts }) => {
             </span>
             <Link
               to="/cart"
-              className="block text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4 transition"
+              className="block text-center bg-primary-c hover:bg-blue-700 text-white py-2 px-4 rounded mt-4 transition"
             >
               View Cart
             </Link>

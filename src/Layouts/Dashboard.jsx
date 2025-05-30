@@ -145,8 +145,17 @@ const Dashboard = () => {
         <div className="lg:hidden flex lg:px-4 px-2 py-3 mx-auto">
           <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-            <div className=" flex justify-between drawer-content">
-              <Link to='/'><img className=" w-[120px]" alt="Logo" /></Link>
+            <div className=" flex justify-between drawer-content">  
+
+                    {/* Logo */}
+                        <Link to="/" className="flex items-center space-x-2 text-indigo-700 font-bold text-lg md:text-xl">
+                          <img alt="Logo" className="w-10 h-10 object-contain" />
+                          <div className="leading-tight text-base lg:text-lg sm:block">
+                            <span className="block">Mehrab</span>
+                            <span className="text-sm font-light text-gray-600">Fashion House</span>
+                          </div>
+                        </Link>
+              
               <label htmlFor="my-drawer" className=" drawer-button ">
                 <TiThMenuOutline size={25} />
               </label>

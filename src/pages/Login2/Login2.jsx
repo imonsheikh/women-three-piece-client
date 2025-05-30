@@ -13,11 +13,11 @@ const Login2 = () => {
   const {signIn, setLoading} = useAuth()
   const navigate = useNavigate() 
   const location = useLocation()
-  console.log(location);
+  // console.log(location);
   
   const from = location.state?.from?.pathname || "/" 
-  console.log(from);
-  console.log('Want to go location', location.state?.from?.pathname); 
+  // console.log(from);
+  // console.log('Want to go location', location.state?.from?.pathname); 
 
 
   const handleLogin = (e) => {
@@ -26,13 +26,13 @@ const Login2 = () => {
      const form = e.target 
      const email = form.email.value 
      const password = form.password.value  
-     console.log(email, password);  
+    //  console.log(email, password);  
 
 
      //Call signIn
      signIn(email, password)
      .then(result => {
-       console.log(result);
+      //  console.log(result);
       Swal.fire({
                  position: "top-end",
                  icon: "success",

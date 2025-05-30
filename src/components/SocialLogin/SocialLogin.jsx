@@ -12,7 +12,7 @@ const SocialLogin = () => {
     const handleGoogleSignIn = () => {
       googleSignIn()
         .then(result => {
-          console.log('socialLogin', result.user);
+          // console.log('socialLogin', result.user);
           const userInfo = {
             email: result?.user?.email,
             name: result?.user?.displayName,
@@ -20,7 +20,7 @@ const SocialLogin = () => {
           }
           axiosPublic.post('/users', userInfo)
           .then(res => {
-            console.log(res.data, 'axios');
+            // console.log(res.data, 'axios');
             navigate('/');
             Swal.fire({
               position: "top-end",
