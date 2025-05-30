@@ -7,10 +7,14 @@ import { IoMdCloudUpload } from "react-icons/io";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import Container from "../../../components/Container/Container.jsx";
+import useCategories from "../../../hooks/useCategories.jsx";
 
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
-const AddProduct = () => {
+const AddProduct = () => { 
+  const [categories =[], isLoading, refetch]= useCategories() 
+  console.log(categories);
+  
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -23,33 +27,33 @@ const AddProduct = () => {
   });
   console.log(previews);
 
-  const categories = [
-    {
-      _id: "67bdcb3a81575fdceb70d829",
-      categoryName: "Personal Product",
-      image: "https://example.com/images/personal.jpg",
-    },
-    {
-      _id: "67bdcb3a81575fdceb70d830",
-      categoryName: "Electronics",
-      image: "https://example.com/images/electronics.jpg",
-    },
-    {
-      _id: "67bdcb3a81575fdceb70d831",
-      categoryName: "Home & Kitchen",
-      image: "https://example.com/images/home-kitchen.jpg",
-    },
-    {
-      _id: "67bdcb3a81575fdceb70d832",
-      categoryName: "Fashion",
-      image: "https://example.com/images/fashion.jpg",
-    },
-    {
-      _id: "67bdcb3a81575fdceb70d833",
-      categoryName: "Books & Stationery",
-      image: "https://example.com/images/books.jpg",
-    },
-  ];
+  // const categories = [
+  //   {
+  //     _id: "67bdcb3a81575fdceb70d829",
+  //     categoryName: "Personal Product",
+  //     image: "https://example.com/images/personal.jpg",
+  //   },
+  //   {
+  //     _id: "67bdcb3a81575fdceb70d830",
+  //     categoryName: "Electronics",
+  //     image: "https://example.com/images/electronics.jpg",
+  //   },
+  //   {
+  //     _id: "67bdcb3a81575fdceb70d831",
+  //     categoryName: "Home & Kitchen",
+  //     image: "https://example.com/images/home-kitchen.jpg",
+  //   },
+  //   {
+  //     _id: "67bdcb3a81575fdceb70d832",
+  //     categoryName: "Fashion",
+  //     image: "https://example.com/images/fashion.jpg",
+  //   },
+  //   {
+  //     _id: "67bdcb3a81575fdceb70d833",
+  //     categoryName: "Books & Stationery",
+  //     image: "https://example.com/images/books.jpg",
+  //   },
+  // ];
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -254,8 +258,8 @@ const AddProduct = () => {
               >
                 <option value="" >Select Category</option>
                 {categories.map((category) => (
-                  <option key={category._id} value={category.categoryName}>
-                    {category.categoryName}
+                  <option key={category._id} value={category.name}>
+                    {category.name}
                   </option>
                 ))}
                 {/* Add more categories as needed */}
@@ -278,6 +282,7 @@ const AddProduct = () => {
                 <option value="best_sellers">Best sellers</option>
                 <option value="special_offers">Special Offers</option>
                 <option value="promotions">Promotions</option>
+                <option value="promotions">Eid offers</option>
               </select>
             </div>
             <div className="w-full">

@@ -76,7 +76,7 @@ const Dashboard = () => {
           className={({ isActive }) =>
             isActive ? "text-primary-c font-bold text-base" : "text-base"
           }
-          to="/dashboard/manage-user"
+          to="/dashboard/manage-users"
         >
           <div className="flex items-center gap-2">
             <MdManageAccounts size={25} />

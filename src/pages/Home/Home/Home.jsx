@@ -7,13 +7,15 @@ import TopSellingProducts from '../TopSellingProducts/TopSellingProducts.jsx';
 import CustomerReview from '../CustomerReview/CustomerReview.jsx';
 import GetInTouch from '../GetInTouch/GetInTouch.jsx';
 import LogoMarque from '../LogoMarque/LogoMarque.jsx';
+import Categories from '../../Categories/Categories.jsx';
 
 const Home = () => {
     return (
         <div> 
             <Banner></Banner> 
             <Poster></Poster>
-            <ShopByCategories></ShopByCategories> 
+            {/* <ShopByCategories></ShopByCategories>  */}
+            <Categories/>
             <LatestProducts></LatestProducts>
             <TopSellingProducts></TopSellingProducts>
             <CustomerReview></CustomerReview> 

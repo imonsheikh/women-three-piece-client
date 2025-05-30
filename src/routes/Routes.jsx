@@ -13,7 +13,6 @@ import CategoryDetails from "../pages/CategoryDetails/CategoryDetails.jsx";
 import Dashboard from "../Layouts/Dashboard.jsx";
 import DashboardHome from "../dashboardPages/DashboardHome/DashboardHome.jsx";
 import AddProduct from "../dashboardPages/AdminPages/AddProduct/AddProduct.jsx";
-import ManageUser from "../dashboardPages/AdminPages/ManageUser/ManageUser.jsx";
 import SalesReport from "../dashboardPages/AdminPages/SalesReport/SalesReport.jsx";
 import ManageCategory from "../dashboardPages/AdminPages/ManageCategory/ManageCategory.jsx";
 import ManageProducts from "../dashboardPages/AdminPages/ManageProducts/ManageProducts.jsx";
@@ -22,6 +21,8 @@ import Checkout from "../pages/Checkout/Checkout.jsx";
 import OrderConfirmation from "../pages/OrderConfirmation/OrderConfirmation .jsx";
 import MyOrders from "../dashboardPages/UserPages/MyOrders/MyOrders.jsx";
 import ManageOrders from "../dashboardPages/AdminPages/ManageOrders/ManageOrders.jsx";
+import UpdateProduct from "../dashboardPages/AdminPages/UpdateProduct/UpdateProduct.jsx";
+import ManageUsers from "../dashboardPages/AdminPages/ManageUsers/ManageUsers.jsx";
 
 
 export const router = createBrowserRouter([
@@ -99,12 +100,16 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute><ManageProducts/></PrivateRoute>
             },
             {
+                path: 'update-product/:id',
+                element: <PrivateRoute><UpdateProduct/></PrivateRoute>
+            },
+            {
                 path: 'manage-payment',
                 element: <ManageOrders/>
             },
             {
-                path: 'manage-user',
-                element: <ManageUser/>
+                path: 'manage-users',
+                element: <ManageUsers/>
             },
             {
                 path: 'sales-report',

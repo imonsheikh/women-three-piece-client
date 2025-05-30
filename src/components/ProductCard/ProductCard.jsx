@@ -6,7 +6,7 @@ import useAddToCart from "../../hooks/useAddToCart.jsx";
 import useUpdateQuantity from "../../hooks/useUpdateQuantity.jsx";
 
 const ProductCard = ({ product }) => {
-  const { productName, productPrice, discountPercentage, images, _id } = product;
+  const { productName, productPrice, discountPercentage, images, _id } = product
   const originalPrice = productPrice / (1 - discountPercentage / 100);
   const { user } = useAuth();
   const [carts, refetch] = useCart();

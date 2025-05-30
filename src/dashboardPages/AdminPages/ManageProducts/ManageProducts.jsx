@@ -1,126 +1,166 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Title from "../../../components/Title";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import DeleteModal from "../../../components/DeleteModal/DeleteModal.jsx";
 
 const ManageProducts = () => {
   const axiosSecure = useAxiosSecure();
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 5;
+  const itemsPerPage = 10;
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const res = await axiosSecure.get("/products");
-      setProducts(res.data || []);
-    } catch (err) {
-      console.error("Error fetching products:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Load products
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    setLoading(true);
+    axiosSecure
+      .get("/products")
+      .then((res) => setProducts(res.data))
+      .catch(() => toast.error("Failed to load products"))
+      .finally(() => setLoading(false));
+  }, [axiosSecure]);
 
+  // Delete handler
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-    if (!confirmDelete) return;
-
     try {
-      await axiosSecure.delete(`/products/${id}`);
-      fetchProducts();
-    } catch (err) {
-      console.error("Error deleting product:", err);
+      const res = await axiosSecure.delete(`/product/${id}`);
+      if (res.data.deletedCount > 0) {
+        toast.success("Product deleted");
+        setProducts(products.filter((p) => p._id !== id));
+      }
+    } catch (error) {
+      toast.error("Deletion failed");
+    } finally {
+      setSelectedProduct(null);
     }
   };
 
-  const totalPages = Math.ceil(products.length / productsPerPage);
-  const paginatedProducts = products.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
-  );
+  // Pagination logic
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const selectedProducts = products.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="min-h-screen bg-white p-4">
       <Title>Manage Products</Title>
 
+      <div className="text-lg font-medium mt-2 mb-4 text-gray-700">
+        Total Products: {products.length}
+      </div>
+
       {loading ? (
-        <p className="text-gray-500">Loading products...</p>
+        <p className="text-center">Loading...</p>
       ) : products.length === 0 ? (
-        <p className="text-gray-500">No products found.</p>
+        <p className="text-center text-gray-500 mt-10">No products found</p>
       ) : (
-        <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-          <table className="min-w-full table-auto text-sm text-left">
-            <thead className="bg-gray-100 uppercase text-gray-700">
-              <tr>
-                <th className="py-3 px-5">#</th>
-                <th className="py-3 px-5">Product</th>
-                <th className="py-3 px-5">Price (BDT)</th>
-                <th className="py-3 px-5">Stock</th>
-                <th className="py-3 px-5">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedProducts.map((product, index) => (
-                <tr key={product._id} className="border-b hover:bg-gray-50">
-                  <td className="py-3 px-5">{(currentPage - 1) * productsPerPage + index + 1}</td>
-                  <td className="py-3 px-5 font-medium text-gray-900">{product.name}</td>
-                  <td className="py-3 px-5">
-                    {(Number(product.price) || 0).toFixed(2)}
-                  </td>
-                  <td className="py-3 px-5">{product.stock || "N/A"}</td>
-                  <td className="py-3 px-5 space-x-2">
-                    <button
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                      onClick={() => alert("Implement update logic here")}
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                      onClick={() => handleDelete(product._id)}
-                    >
-                      <FaTrash />
-                    </button>
-                  </td>
+        <>
+          <div className="overflow-x-auto mt-2">
+            <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
+              <thead className="bg-gray-100 text-center">
+                <tr>
+                  <th className="p-2 border">SL</th>
+                  <th className="p-2 border">Image</th>
+                  <th className="p-2 border">Name</th>
+                  <th className="p-2 border">Brand</th>
+                  <th className="p-2 border">Price</th>
+                  <th className="p-2 border">Discount</th>
+                  <th className="p-2 border">Available</th>
+                  <th className="p-2 border">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {selectedProducts.map((product, index) => (
+                  <tr key={product._id} className="hover:bg-gray-50 text-center">
+                    <td className="p-2 border">{startIndex + index + 1}</td>
+                    <td className="p-2 border">
+                      <img
+                        src={product.images?.[0]}
+                        alt={product.productName}
+                        className="w-12 h-12 object-cover rounded mx-auto"
+                      />
+                    </td>
+                    <td className="p-2 border">{product.productName}</td>
+                    <td className="p-2 border">{product.brandName}</td>
+                    <td className="p-2 border">BDT {product.productPrice}</td>
+                    <td className="p-2 border">{product.discountPercentage}%</td>
+                    <td className="p-2 border">
+                      {product.isAvailable ? (
+                        <span className="text-green-600 font-semibold">Yes</span>
+                      ) : (
+                        <span className="text-red-500 font-semibold">No</span>
+                      )}
+                    </td>
+                    <td className="p-2 border">
+                      <div className="flex gap-3 justify-center">
+                        <Link
+                          to={`/dashboard/update-product/${product._id}`}
+                          className="text-blue-600 hover:underline font-semibold"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => setSelectedProduct(product)}
+                          className="text-red-600 hover:underline font-semibold"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {/* Pagination Controls */}
-          <div className="flex justify-center items-center gap-2 py-6">
+          <div className="flex justify-center mt-6 gap-2">
             <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-3 py-1 border rounded disabled:opacity-50"
+              className="px-3 py-1 border rounded disabled:opacity-40"
             >
               Prev
             </button>
-            {[...Array(totalPages)].map((_, idx) => (
+            {Array.from({ length: totalPages }, (_, i) => (
               <button
-                key={idx}
-                onClick={() => setCurrentPage(idx + 1)}
+                key={i}
+                onClick={() => handlePageChange(i + 1)}
                 className={`px-3 py-1 border rounded ${
-                  currentPage === idx + 1 ? "bg-blue-600 text-white" : "hover:bg-gray-200"
+                  currentPage === i + 1 ? "bg-blue-500 text-white" : ""
                 }`}
               >
-                {idx + 1}
+                {i + 1}
               </button>
             ))}
             <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="px-3 py-1 border rounded disabled:opacity-50"
+              className="px-3 py-1 border rounded disabled:opacity-40"
             >
               Next
             </button>
           </div>
-        </div>
+        </>
+      )}
+
+      {/* Delete Modal */}
+      {selectedProduct && (
+        <DeleteModal
+          product={selectedProduct}
+          onConfirm={() => handleDelete(selectedProduct._id)}
+          onCancel={() => setSelectedProduct(null)}
+        />
       )}
     </div>
   );

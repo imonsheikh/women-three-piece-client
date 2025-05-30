@@ -1,40 +1,43 @@
 import React from "react";
-import { IoSearch } from "react-icons/io5";
-import "./Navbar.css";
 import { Link, NavLink } from "react-router-dom";
-import HotLine from "../../components/HotLine/HotLine.jsx";
-import logo from "../../assets/logo/logo.png";
+import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth.jsx";
-import Swal from "sweetalert2/src/sweetalert2.js";
-// import 'sweetalert2/src/sweetalert2.scss'
-import "sweetalert2/dist/sweetalert2.min.css";
+import HotLine from "../../components/HotLine/HotLine.jsx";
 import Loading from "../../components/Loading/Loading.jsx";
+import logo from "../../assets/logo/logo.png";
+import useCart from "../../hooks/useCart.jsx";
+import { FiShoppingCart } from "react-icons/fi";
+import CartDropdown from "../../components/CartDropdown.jsx";
+import useAdmin from "../../hooks/useAdmin.jsx";
 
 const Navbar = () => {
-  const { user, logOut, loading } = useAuth();
-  if (loading) return <Loading></Loading>;
-  console.log(user);
+  const { user, logOut, loading } = useAuth(); 
+  const [isAdmin] = useAdmin()
+  const [carts, refetch] = useCart();
+
+  if (loading) return <Loading />;
+
+  const defaultPhotoURL =
+    "https://img.icons8.com/?size=100&id=85147&format=png&color=000000";
 
   const handleLogout = () => {
     Swal.fire({
-      title: "Are you sure Want to Logout?",
-      text: "You won't be able to access your personal data!",
+      title: "Are you sure you want to logout?",
+      text: "You will need to login again to access your account.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes!",
+      confirmButtonText: "Yes, logout",
     }).then((result) => {
       if (result.isConfirmed) {
         logOut()
           .then(() => {
-            Swal.fire({
-              title: "Logged out!",
-              text: "You are exited.",
-              icon: "success",
-            });
+            Swal.fire("Logged out!", "You have been logged out.", "success");
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            Swal.fire("Error", error.message, "error");
+          });
       }
     });
   };
@@ -42,176 +45,157 @@ const Navbar = () => {
   const navOptions = (
     <>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
+              : "hover:text-indigo-500 transition"
+          }
+        >
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/shop">Shop</NavLink>
+        <NavLink
+          to="/shop"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
+              : "hover:text-indigo-500 transition"
+          }
+        >
+          Shop
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/categories">Categories</NavLink>
+        <NavLink
+          to="/categories"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
+              : "hover:text-indigo-500 transition"
+          }
+        >
+          Categories
+        </NavLink>
       </li>
-   
     </>
   );
-  const defaultPhotoURL =
-    "https://img.icons8.com/?size=100&id=85147&format=png&color=000000";
 
   return (
-    <div className="top-0  sticky z-20">
-      <div className="navbar bg-base-100 shadow-sm">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
-              </svg>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              {navOptions}
-            </ul>
-          </div>
-          <div className="w-12">
-            <img className="w-full h-full" src={logo} alt="" />
-          </div>
-          <Link to="/" className="font-medium md:text-lg text-[10px]">
-            Mehrab <br /> Fashion House
-          </Link>
-        </div>
-        <div className="navbar-center hidden lg:flex">
-          {/* <ul className="menu menu-horizontal px-1">
-            {navOptions}
-        </ul>   */} 
+    <header className="sticky top-0 z-30 bg-white shadow-md">
+      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between h-16">
+        {/* Logo & Brand */}
+        <Link
+          to="/"
+          className="flex items-center space-x-3 text-indigo-700 font-bold text-lg md:text-xl"
+          aria-label="Mehrab Fashion House"
+        >
+          <img
+            src={logo}
+            alt="Mehrab Fashion House Logo"
+            className="w-10 h-10 object-contain"
+          />
+          <span className="hidden sm:block leading-tight">
+            Mehrab <br />
+            <span className="text-sm font-light">Fashion House</span>
+          </span>
+        </Link>
 
-<div className="w-full flex justify-center ">
-  <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal space-x-4 text-gray-700 font-medium">
-      {navOptions}
+        {/* Navigation Menu */}
+        <nav className="hidden lg:flex">
+          <ul className="flex space-x-8 text-gray-700">{navOptions}</ul>
+        </nav>
+
+        {/* Right Side Actions */}
+        <div className="flex items-center space-x-4">
+          <HotLine />
+
+          {/* Cart Icon */}
+        <CartDropdown carts={carts}/>
+
+          {/* User Avatar / Login */}
+          {user ? (
+  <div className="dropdown dropdown-end relative">
+    <button
+      tabIndex={0}
+      aria-label="User menu"
+      className="btn btn-ghost btn-circle avatar ring-2 ring-indigo-500 ring-offset-2 hover:ring-indigo-600 transition"
+    >
+      <div className="w-10 h-10 rounded-full overflow-hidden">
+        <img
+          src={user.photoURL || defaultPhotoURL}
+          alt={user.displayName || "User"}
+          referrerPolicy="no-referrer"
+          className="object-cover w-full h-full"
+        />
+      </div>
+    </button>
+
+    <ul className="menu menu-sm dropdown-content bg-white rounded-lg shadow-lg z-50 mt-3 w-56 border border-gray-200 overflow-y-auto h-40 p-5 space-y-4 text-center flex flex-col justify-between">
+      <li>
+        <Link
+          to="/dashboard/home"
+          className="block px-4 py-3 text-gray-900 hover:bg-indigo-100 hover:text-indigo-700 transition font-semibold rounded-md text-base"
+        >
+          {isAdmin ? "Dashboard" : "My Profile"}
+        </Link>
+      </li>
+      <li>
+        <button
+          onClick={handleLogout}
+          className="w-full text-left px-4 py-3 bg-red-900 text-white rounded-md hover:bg-red-800 transition font-semibold text-base"
+        >
+          Logout
+        </button>
+      </li>
     </ul>
   </div>
-</div>
+) : (
+  <Link to="/login">
+    <button className="btn btn-primary px-6 py-2 font-semibold hover:bg-indigo-700 transition">
+      Login
+    </button>
+  </Link>
+)}
 
-          {/* Search ends */}
-        </div>
 
-        <div className="navbar-end gap-2">
-          <HotLine></HotLine>
-          <div className="flex gap-2">
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle"
-              >
-                <div className="indicator">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    {" "}
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                    />{" "}
-                  </svg>
-                  <span className="badge badge-sm indicator-item bg-red-500 text-">8</span>
-                </div>
-              </div>
-              <div
-                tabIndex={0}
-                className="card card-compact dropdown-content bg-base-100 z-1 mt-3 w-52 shadow"
-              >
-                <div className="card-body">
-                  <span className="text-lg font-bold">8 Items</span>
-                  <span className="text-info">Subtotal: $999</span>
-                  <div className="card-actions">
-                    <button className="btn btn-primary btn-block">
-                      View cart
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {user ? (
-              <>
-                {/* <button className="btn btn-ghost">
-            LogOut
-          </button>  */}
-                <div className="dropdown">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="btn btn-ghost btn-circle avatar"
-                  >
-                    <div className="w-10 rounded-full">
-                      {user?.photoURL ? (
-                        <img alt="User" referrerPolicy="no-referrer" src={user.photoURL} />
-                      ) : (
-                        <img alt="Default User" src={defaultPhotoURL} />
-                      )}
-                    </div>
-                  </div>
-                  <ul
-                    tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow right-0"
-                  >
-                    <li>
-                      <a className="justify-between">
-                        {user?.displayName || "N/A"}
-                        <span className="badge">New</span>
-                      </a>
-                    </li>
-                    <li>
-                      <Link to="/dashboard/home">Dashboard</Link>
-                    </li>
-                    <li>
-                      <a>Settings</a>
-                    </li>
-                    <li onClick={handleLogout} className="btn btn-warning">
-                      Logout
-                    </li>
-                  </ul>
-                </div>
-              </>
-            ) : (
-              <>
-                <Link to="/login">
-                  <button className="btn btn-primary text-white">Login</button>
-                </Link>
-              </>
-            )}
-
-            <div className="dropdown dropdown-end "></div>
-          </div>
         </div>
       </div>
-      {/*  */}
-      {/* <div className="flex justify-center bg-accent-c font-semibold -mb-[20px]">
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{navOptions}</ul>
+
+      {/* Mobile Menu (visible on small screens) */}
+      <div className="lg:hidden">
+        <div className="dropdown dropdown-start">
+          <button
+            tabIndex={0}
+            aria-label="Open menu"
+            className="btn btn-ghost btn-circle"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-700"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
+            </svg>
+          </button>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-white rounded-lg shadow-lg mt-3 w-48 p-2 border border-gray-200"
+          >
+            {navOptions}
+          </ul>
         </div>
-      </div> */}
-      {/*  */}
-    </div>
+      </div>
+    </header>
   );
 };
 

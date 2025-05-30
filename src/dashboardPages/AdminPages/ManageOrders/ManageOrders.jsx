@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import OrderRow from "../../../components/OrderRow/OrderRow.jsx";
 import useAxiosSecure from '../../../hooks/useAxiosSecure.jsx';
+import Loading from "../../../components/Loading/Loading.jsx";
+import Container from "../../../components/Container/Container.jsx";
 
 const ORDERS_PER_PAGE = 10;
 
@@ -43,11 +45,12 @@ const ManageOrders = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+  <Container>
+      <div className="max-w-7xl ">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">All Orders</h2>
 
       {loading ? (
-        <p className="text-gray-500">Loading orders...</p>
+       <Loading/>
       ) : orders.length === 0 ? (
         <p className="text-gray-500">No orders found.</p>
       ) : (
@@ -112,6 +115,7 @@ const ManageOrders = () => {
         </>
       )}
     </div>
+  </Container>
   );
 };
 
