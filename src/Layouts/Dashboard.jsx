@@ -146,7 +146,7 @@ const Dashboard = () => {
           <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className=" flex justify-between drawer-content">
-              <img className=" w-[120px]" alt="Logo" />
+              <Link to='/'><img className=" w-[120px]" alt="Logo" /></Link>
               <label htmlFor="my-drawer" className=" drawer-button ">
                 <TiThMenuOutline size={25} />
               </label>

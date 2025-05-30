@@ -2,7 +2,7 @@ import React from 'react';
 
 const Poster = () => {
     return (
-        <div className='grid lg:grid-cols-4 md:grid-cols-2'>
+        <div className='md:grid lg:grid-cols-4 md:grid-cols-2 md:block hidden'>
             <div className='border-r-4 border-blue-800 flex justify-center items-center gap-4 bg-blue-100 px-[12px] py-[10px]'>
                 <div className=''>
                  <img className='min-w-16 h-16' src="https://img.icons8.com/?size=100&id=23095&format=png&color=000000" alt="" /> 

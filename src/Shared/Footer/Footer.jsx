@@ -1,64 +1,75 @@
 import React from 'react';
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Footer = () => {
-    return (
-        <footer className="bg-gray-900 text-gray-300 py-10 px-5 mt-5">
-            <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-6">
-                {/* Logo & About */}
-                <div>
-                    <h2 className="text-white text-2xl font-bold">Mehrab Fashion House</h2>
-                    <p className="mt-3 text-gray-400">Your ultimate destination for elegant women's fashion.</p>
-                </div>
-                
-                {/* Quick Links */}
-                <div>
-                    <h6 className="text-white font-semibold mb-3">Quick Links</h6>
-                    <ul>
-                        <li><a href="#" className="hover:text-white">Order Tracking</a></li>
-                        <li><a href="#" className="hover:text-white">About Us</a></li>
-                        <li><a href="#" className="hover:text-white">Contact Us</a></li>
-                        <li><a href="#" className="hover:text-white">Login</a></li>
-                        <li><a href="#" className="hover:text-white">Register</a></li>
-                    </ul>
-                </div>
+  return (
+    <footer className="bg-gray-900 text-gray-300 py-10 px-4 mt-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        
+        {/* 1. Logo & About */}
+        <div>
+          <h2 className="text-white text-2xl font-bold">Mehrab Fashion House</h2>
+          <p className="mt-3 text-sm text-gray-400">
+            Your ultimate destination for elegant women's fashion.
+          </p>
+        </div>
 
-                {/* Information */}
-                <div>
-                    <h6 className="text-white font-semibold mb-3">Information</h6>
-                    <ul>
-                        <li><a href="#" className="hover:text-white">Delivery Policy</a></li>
-                        <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" className="hover:text-white">Return Policy</a></li>
-                        <li><a href="#" className="hover:text-white">About Us</a></li>
-                    </ul>
-                </div>
+        {/* 2. Quick Links */}
+        <div>
+          <h6 className="text-white font-semibold mb-3 text-base">Quick Links</h6>
+          <ul className="space-y-2 text-sm">
+            <li><a href="#" className="hover:text-white transition">Home</a></li>
+            <li><a href="#" className="hover:text-white transition">Shop</a></li>
+            <li><a href="#" className="hover:text-white transition">Login</a></li>
+            <li><a href="#" className="hover:text-white transition">Register</a></li>
+          </ul>
+        </div>
 
-                {/* Newsletter */}
-                <div>
-                    <h6 className="text-white font-semibold mb-3">Newsletter</h6>
-                    <p className="text-gray-400 mb-3">Subscribe to get the latest updates & offers.</p>
-                    <div className="flex">
-                        <input type="email" placeholder="Enter your email" className="p-2 w-full rounded-l-md text-gray-800 bg-white" />
-                        <button className="bg-primary-c px-4 py-2 text-white rounded-r-md">Subscribe</button>
-                    </div>
-                </div>
-            </div>
+        {/* 3. Customer Service */}
+        <div>
+          <h6 className="text-white font-semibold mb-3 text-base">Customer Service</h6>
+          <ul className="space-y-2 text-sm">
+            <li><a href="#" className="hover:text-white transition">Order Tracking</a></li>
+            <li><a href="#" className="hover:text-white transition">Return Policy</a></li>
+            <li><a href="#" className="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="#" className="hover:text-white transition">Terms & Conditions</a></li>
+          </ul>
+        </div>
 
-            {/* Social Media Links */}
-            <div className="mt-8 text-center">
-                <h6 className="text-white font-semibold mb-3">Follow Us</h6>
-                <div className="flex justify-center space-x-5">
-                    <a href="#" className="text-primary-c text-2xl hover:text-white"><FaFacebook /></a>
-                    <a href="#" className="text-primary-c text-2xl hover:text-white"><FaInstagram /></a>
-                    <a href="#" className="text-primary-c text-2xl hover:text-white"><FaTwitter /></a>
-                    <a href="#" className="text-primary-c text-2xl hover:text-white"><FaYoutube /></a>
-                </div>
-                <hr className='text-white mt-4 max-w-7xl mx-auto' />
-                <p className="text-gray-500 mt-5">&copy; Mehrab Fashion House. All rights reserved.</p>
-            </div>
-        </footer>
-    );
+        {/* 4. Contact Info */}
+        <div>
+          <h6 className="text-white font-semibold mb-3 text-base">Contact Us</h6>
+          <ul className="space-y-3 text-sm">
+            <li className="flex items-center space-x-2">
+              <FaPhone className="text-primary-c" />
+              <span>+880 1234-567890</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaEnvelope className="text-primary-c" />
+              <span>support@mehrabfashion.com</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaMapMarkerAlt className="text-primary-c" />
+              <span>Gulshan, Dhaka, Bangladesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="mt-10 text-center">
+        <h6 className="text-white font-semibold mb-4 text-base">Follow Us</h6>
+        <div className="flex justify-center space-x-5 mb-6">
+          <a href="#" className="text-primary-c text-xl hover:text-white"><FaFacebook /></a>
+          <a href="#" className="text-primary-c text-xl hover:text-white"><FaInstagram /></a>
+          <a href="#" className="text-primary-c text-xl hover:text-white"><FaTwitter /></a>
+          <a href="#" className="text-primary-c text-xl hover:text-white"><FaYoutube /></a>
+        </div>
+        <hr className="border-gray-700 max-w-7xl mx-auto" />
+        <p className="text-sm text-gray-500 mt-4">&copy; {new Date().getFullYear()} Mehrab Fashion House. All rights reserved.</p>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

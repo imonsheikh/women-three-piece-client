@@ -11,7 +11,7 @@ const SectionTitle = ({ heading }) => {
   }, [heading]);
 
   return (
-    <div className="text-center my-8">
+    <div className="text-center my-4">
       <h2
         ref={headingRef}
         className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-700 inline-block"

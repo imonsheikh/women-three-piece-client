@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-// import emailjs from 'emailjs-com';
 import SectionTitle from '../../../components/SectionTitle/SectionTitle.jsx';
+import emailjs from '@emailjs/browser';
 
 const GetInTouch = () => {
   const form = useRef();
@@ -11,10 +11,10 @@ const GetInTouch = () => {
 
     emailjs
       .sendForm(
-        'your_service_id',      // replace with your EmailJS service ID
-        'your_template_id',     // replace with your EmailJS template ID
+        'service_hqeg6ig',      // replace with your EmailJS service ID
+        'template_21aqlmf',     // replace with your EmailJS template ID
         form.current,
-        'your_public_key'       // replace with your EmailJS public key
+        'L-b68LLQb_AUBM-fo'       // replace with your EmailJS public key
       )
       .then(
         () => {
