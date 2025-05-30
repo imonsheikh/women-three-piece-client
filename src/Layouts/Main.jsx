@@ -5,6 +5,7 @@ import Footer from '../Shared/Footer/Footer.jsx';
 import { Tooltip } from 'react-tooltip'
 import useAuth from '../hooks/useAuth.jsx';
 import Loading from './../components/Loading/Loading';
+import ScrollToTop from '../components/ScrollToTop.jsx';
 
 const Main = () => {  
 
@@ -15,7 +16,8 @@ const Main = () => {
   // }
 
     return (
-      <div className=''>
+      <div className=''>  
+          <ScrollToTop/>
           <div className='lg:max-w-9/12 mx-auto flex flex-col min-h-screen'> 
             <Navbar></Navbar> 
             <div className='flex-grow'>

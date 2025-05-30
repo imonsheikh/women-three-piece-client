@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 const SectionTitle = ({ heading }) => {
   const headingRef = useRef(null);
@@ -12,27 +11,18 @@ const SectionTitle = ({ heading }) => {
   }, [heading]);
 
   return (
-    <div className="text-center md:my-12 my-5">
-      {/* Heading with Glow & Bright Gradient */}
-      <h1
+    <div className="text-center my-8">
+      <h2
         ref={headingRef}
-        className="relative md:text-3xl text-lg font-extrabold text-transparent bg-clip-text 
-        bg-gradient-to-r from-blue-900 via-purple-900  
-        dark:from-blue-600 dark:to-purple-600 
-        inline-block tracking-wide drop-shadow-lg animate-fadeIn"
-        // style={{ textShadow: "0px 0px 10px rgba(147, 51, 234, 0.6)" }} // Glow Effect
+        className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-700 inline-block"
       >
         {heading}
-      </h1>
+      </h2>
 
-      {/* Animated Underline with Glow Effect */}
-      <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: underLineWidth }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
-        className="mt-2 h-1 mx-auto bg-gradient-to-r from-blue-500 via-purple-500        dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 
-        rounded-full shadow-lg"
-        // style={{ boxShadow: "0px 0px 12px rgba(147, 51, 234, 0.7)" }} // Glow Effect
+      {/* Underline that matches text width */}
+      <div
+        style={{ width: underLineWidth }}
+        className="h-1 mt-2 bg-blue-500 rounded-full mx-auto"
       />
     </div>
   );

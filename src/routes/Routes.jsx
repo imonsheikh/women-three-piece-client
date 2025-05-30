@@ -23,6 +23,7 @@ import MyOrders from "../dashboardPages/UserPages/MyOrders/MyOrders.jsx";
 import ManageOrders from "../dashboardPages/AdminPages/ManageOrders/ManageOrders.jsx";
 import UpdateProduct from "../dashboardPages/AdminPages/UpdateProduct/UpdateProduct.jsx";
 import ManageUsers from "../dashboardPages/AdminPages/ManageUsers/ManageUsers.jsx";
+import Categories from "../pages/Categories/Categories.jsx";
 
 
 export const router = createBrowserRouter([
@@ -38,6 +39,14 @@ export const router = createBrowserRouter([
             {
                 path: '/shop',
                 element: <PrivateRoute><Shop></Shop></PrivateRoute>
+            },
+            {
+                path: '/shop/category/:name',
+                element: <PrivateRoute><Shop></Shop></PrivateRoute>
+            },
+            {
+                path: '/categories',
+                element: <PrivateRoute><Categories></Categories></PrivateRoute>
             },
             {
                 path: '/cart',

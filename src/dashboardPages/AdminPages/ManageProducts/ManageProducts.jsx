@@ -103,12 +103,13 @@ const ManageProducts = () => {
                     </td>
                     <td className="p-2 border">
                       <div className="flex gap-3 justify-center">
-                        <Link
+                        <button 
+                          onClick={() => alert('Feature Will be coming soon')}
                           to={`/dashboard/update-product/${product._id}`}
                           className="text-blue-600 hover:underline font-semibold"
                         >
                           Edit
-                        </Link>
+                        </button>
                         <button
                           onClick={() => setSelectedProduct(product)}
                           className="text-red-600 hover:underline font-semibold"
