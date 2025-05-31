@@ -17,7 +17,7 @@ const UserHome = () => {
       {/* Profile Overview */}
       <div className="max-w-3xl border rounded-xl shadow p-6 bg-gray-50 mb-8">
         <h2 className="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
-          👤 Your Information
+           Your Information
         </h2>
 
         <div className="flex items-center gap-6 mb-6">
@@ -44,7 +44,7 @@ const UserHome = () => {
         <Link to="/shop">
           <div className="border rounded-2xl shadow-sm hover:shadow-md transition-all p-5 text-center hover:bg-gray-100">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              🛍️ Browse Products
+               Browse Products
             </h2>
             <p className="text-gray-500 text-sm">
               Check out new and trending items

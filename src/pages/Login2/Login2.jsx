@@ -3,9 +3,10 @@ import SocialLogin from "../../components/SocialLogin/SocialLogin.jsx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.jsx";
 import Swal from "sweetalert2/src/sweetalert2.js";
+import useAxiosPublic from "../../hooks/useAxiosPublic.jsx";
 
 const Login2 = () => {
-
+  const axiosPublic = useAxiosPublic()
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])  
@@ -19,41 +20,49 @@ const Login2 = () => {
   // console.log(from);
   // console.log('Want to go location', location.state?.from?.pathname); 
 
+  const handleLogin = async (e) => {
+    console.log('d');
 
-  const handleLogin = (e) => {
-     e.preventDefault() 
-
-     const form = e.target 
-     const email = form.email.value 
-     const password = form.password.value  
-    //  console.log(email, password);  
-
-
-     //Call signIn
-     signIn(email, password)
-     .then(result => {
-      //  console.log(result);
+    e.preventDefault();
+  
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+  
+    setLoading(true);
+  
+    try {
+      const result = await signIn(email, password);
+      const loggedUser = result.user;
+      console.log(loggedUser, 'd');
+      
+  
+         //Take JWT token by axiosPublic 
+         const res = await axiosPublic.post('/jwt', { email: loggedUser.email });
+         // Token Saving to localStorage 
+         localStorage.setItem('access-token', res.data.token);
+  
       Swal.fire({
-                 position: "top-end",
-                 icon: "success",
-                 title: "Login Successful",
-                 showConfirmButton: false,
-                 timer: 1500
-               });
-       navigate(from, { replace: true });
-       setLoading(false); // Stop loading on success
-     })
-     .catch(error => {
-       console.error(error);
-       Swal.fire({
-         title: "Login Failed",
-         text: error.message,
-         icon: "error"
-       });
-       setLoading(false); // Stop loading on error
-     });
-  }
-
+        position: "top-end",
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+  
+      setLoading(false);
+      navigate(from, { replace: true });
+  
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Login Failed",
+        text: error.message,
+        icon: "error",
+      });
+      setLoading(false);
+    }
+  };
   return (
     <div
       className="bg-no-repeat bg-cover bg-center relative"

@@ -24,6 +24,7 @@ import ManageOrders from "../dashboardPages/AdminPages/ManageOrders/ManageOrders
 import UpdateProduct from "../dashboardPages/AdminPages/UpdateProduct/UpdateProduct.jsx";
 import ManageUsers from "../dashboardPages/AdminPages/ManageUsers/ManageUsers.jsx";
 import Categories from "../pages/Categories/Categories.jsx";
+import AdminRoute from "./AdminRoute.jsx";
 
 
 export const router = createBrowserRouter([
@@ -38,15 +39,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/shop',
-                element: <PrivateRoute><Shop></Shop></PrivateRoute>
+                element: <Shop></Shop>
             },
             {
                 path: '/shop/category/:name',
-                element: <PrivateRoute><Shop></Shop></PrivateRoute>
+                element: <Shop></Shop>
             },
             {
                 path: '/categories',
-                element: <PrivateRoute><Categories></Categories></PrivateRoute>
+                element: <Categories></Categories>
             },
             {
                 path: '/cart',
@@ -98,15 +99,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'add-product',
-                element: <PrivateRoute><AddProduct/></PrivateRoute>
+                element: <AdminRoute><PrivateRoute><AddProduct/></PrivateRoute></AdminRoute>
             },
             {
                 path: 'manage-category',
-                element: <PrivateRoute><ManageCategory/></PrivateRoute>
+                element: <AdminRoute><PrivateRoute><ManageCategory/></PrivateRoute></AdminRoute>
             },
             {
                 path: 'manage-products',
-                element: <PrivateRoute><ManageProducts/></PrivateRoute>
+                element: <AdminRoute><PrivateRoute><ManageProducts/></PrivateRoute></AdminRoute>
             },
             {
                 path: 'update-product/:id',
@@ -114,11 +115,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'manage-payment',
-                element: <ManageOrders/>
+                element: <AdminRoute><PrivateRoute><ManageOrders/></PrivateRoute></AdminRoute>
             },
             {
                 path: 'manage-users',
-                element: <ManageUsers/>
+                element:<AdminRoute><PrivateRoute><ManageUsers/></PrivateRoute></AdminRoute>
             },
             {
                 path: 'sales-report',

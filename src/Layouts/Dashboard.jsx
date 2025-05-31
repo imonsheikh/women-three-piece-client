@@ -7,6 +7,7 @@ import { AiFillDollarCircle } from "react-icons/ai";
 import Loading from "../components/Loading/Loading.jsx";
 import { BiSolidCategory } from "react-icons/bi";
 import { GiShop } from "react-icons/gi";
+import { FaShoppingBag } from "react-icons/fa";
 
 
 const Dashboard = () => {
@@ -125,7 +126,7 @@ const Dashboard = () => {
           to="/dashboard/my-orders"
         >
           <div className="flex items-center gap-2">
-            <IoHomeSharp size={25} />
+            <FaShoppingBag size={25} />
             <p>My Orders</p>
           </div>
         </NavLink>
