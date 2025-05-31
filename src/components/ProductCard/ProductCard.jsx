@@ -33,14 +33,16 @@ const ProductCard = ({ product }) => {
     setQuantity((prev) => prev + 1);
     setTotalPrice((prev) => prev + productPrice);
     
-    const res = await updateQuantity(cartItemId, "increase");
-    if (res.status !== 200) { 
-    // Rollback if failed
-      setQuantity((prev) => prev - 1);
-    setTotalPrice((prev) => prev - productPrice);
-    }else{
-      refetch();
-    }
+    await updateQuantity(cartItemId, "increase");
+    // refetch()
+    // const res = await updateQuantity(cartItemId, "increase");
+    // if (res.status !== 200) { 
+    // // Rollback if failed
+    //   setQuantity((prev) => prev - 1);
+    // setTotalPrice((prev) => prev - productPrice);
+    // }else{
+    //   refetch();
+    // }
   };
 
   const decreaseQty = async () => {
@@ -48,13 +50,15 @@ const ProductCard = ({ product }) => {
     // Optimistically update UI
     setQuantity((prev) => prev - 1);
     setTotalPrice((prev) => prev - productPrice);
-
-    const res = await updateQuantity(cartItemId, "decrease");
-    if (res.status === 200) {
-      setQuantity((prev) => prev + 1);
-      setTotalPrice((prev) => prev + productPrice);
-      refetch();//Optional
-    }
+    
+    await updateQuantity(cartItemId, "decrease");
+    // refetch();
+    // const res = await updateQuantity(cartItemId, "decrease");
+    // if (res.status === 200) {
+    //   setQuantity((prev) => prev + 1);
+    //   setTotalPrice((prev) => prev + productPrice);
+    //   refetch();//Optional
+    // }
   };
 
   useEffect(() => {

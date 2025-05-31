@@ -130,7 +130,7 @@ const ProductDetails = () => {
         <p className="text-gray-600 mb-4 text-sm">{shortDescription}</p>
 
         <div className="flex items-center space-x-3 mb-5">
-          <p className="text-2xl font-bold text-blue-600">
+          <p className="text-xl font-bold text-blue-600">
             BDT {totalPrice.toFixed(2)}
           </p>
           <p className="text-lg line-through text-gray-400">
