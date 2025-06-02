@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCart from "../../hooks/useCart";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
@@ -11,30 +11,58 @@ const Cart = () => {
   const [carts, refetch] = useCart();
   const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
+  const [localCart, setLocalCart] = useState([]);
+
+  // Sync local cart with server cart
+  useEffect(() => {
+    if (carts.length) {
+      setLocalCart(carts.map((item) => ({ ...item })));
+    } else {
+      setLocalCart([]);
+    }
+  }, [carts]);
 
   const updateQuantity = async (itemId, action) => {
-    setLoading(true);
+    // Optimistically update UI
+    setLocalCart((prev) =>
+      prev.map((item) =>
+        item._id === itemId
+          ? {
+              ...item,
+              quantity:
+                action === "increase"
+                  ? item.quantity + 1
+                  : item.quantity > 1
+                  ? item.quantity - 1
+                  : 1,
+              totalPrice:
+                (action === "increase"
+                  ? item.quantity + 1
+                  : item.quantity > 1
+                  ? item.quantity - 1
+                  : 1) * item.productPrice,
+            }
+          : item
+      )
+    );
+
     try {
-      const response = await axiosSecure.patch(`/cart/${itemId}/${action}`);
-      if (response.status === 200) {
-        refetch();
-      }
+      await axiosSecure.patch(`/cart/${itemId}/${action}`);
+      refetch(); // sync server
     } catch (err) {
       console.error("Error updating quantity:", err);
-    } finally {
-      setLoading(false);
     }
   };
 
   const removeFromCart = async (id) => {
-    setLoading(true);
+    // Optimistically remove from UI
+    setLocalCart((prev) => prev.filter((item) => item._id !== id));
+
     try {
       await axiosSecure.delete(`/cart/${id}`);
       refetch();
     } catch (err) {
       console.error("Error removing item:", err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -50,13 +78,12 @@ const Cart = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axiosSecure.delete("/cart", {
+          await axiosSecure.delete("/cart", {
             params: { email: user.email },
           });
-          if (response.data.deletedCount > 0) {
-            Swal.fire("Cleared!", "Your cart has been cleared.", "success");
-            refetch();
-          }
+          setLocalCart([]);
+          Swal.fire("Cleared!", "Your cart has been cleared.", "success");
+          refetch();
         } catch (error) {
           console.error("Error clearing cart:", error);
           Swal.fire("Error!", "Failed to clear the cart.", "error");
@@ -65,8 +92,9 @@ const Cart = () => {
     });
   };
 
-  const total = carts.reduce(
-    (sum, item) => sum + (item.totalPrice || item.productPrice * item.quantity),
+  const total = localCart.reduce(
+    (sum, item) =>
+      sum + (item.totalPrice || item.productPrice * item.quantity),
     0
   );
 
@@ -75,12 +103,12 @@ const Cart = () => {
       <div className="bg-white rounded-2xl shadow-md p-6">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Shopping Cart</h2>
 
-        {carts.length === 0 ? (
+        {localCart.length === 0 ? (
           <p className="text-gray-500">Your cart is currently empty.</p>
         ) : (
           <>
             <ul className="divide-y divide-gray-200">
-              {carts.map((item, index) => (
+              {localCart.map((item, index) => (
                 <li
                   key={item._id}
                   className="py-6 flex items-center justify-between gap-4"
@@ -101,7 +129,10 @@ const Cart = () => {
                       </p>
                       <div className="flex items-center mt-2">
                         <button
-                          onClick={() => updateQuantity(item._id, "decrease")}
+                          onClick={() =>
+                            item.quantity > 1 &&
+                            updateQuantity(item._id, "decrease")
+                          }
                           className="w-8 h-8 flex items-center justify-center border rounded hover:bg-gray-100"
                           disabled={loading || item.quantity <= 1}
                         >
@@ -131,7 +162,11 @@ const Cart = () => {
                       <FaTrash size={18} />
                     </button>
                     <p className="text-gray-700 font-semibold">
-                      BDT {(item.totalPrice || item.productPrice * item.quantity).toFixed(2)}
+                      BDT{" "}
+                      {(
+                        item.totalPrice ||
+                        item.productPrice * item.quantity
+                      ).toFixed(2)}
                     </p>
                   </div>
                 </li>

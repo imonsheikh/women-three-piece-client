@@ -59,33 +59,53 @@ const ProductDetails = () => {
   } = product;
 
   const originalPrice = productPrice / (1 - discountPercentage / 100);
+   
+  // option1: practice; 
+  // const increaseQty = async () => {
+  //   if (!cartItemId) return;
+  //   try {
+  //     const res = await updateQuantity(cartItemId, "increase");
+  //     if (res.status === 200) {
+  //       setQuantity((prev) => prev + 1);
+  //       setTotalPrice((prev) => prev + productPrice);
+  //       refetch();
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to increase quantity:", err);
+  //   }
+  // };  
 
+  //option2: practice: 
   const increaseQty = async () => {
     if (!cartItemId) return;
-    try {
-      const res = await updateQuantity(cartItemId, "increase");
-      if (res.status === 200) {
-        setQuantity((prev) => prev + 1);
-        setTotalPrice((prev) => prev + productPrice);
-        refetch();
-      }
-    } catch (err) {
-      console.error("Failed to increase quantity:", err);
-    }
+    setQuantity((prev) => prev + 1);
+    setTotalPrice((prev) => prev + productPrice);
+    await updateQuantity(cartItemId, "increase");
+    await refetch();
   };
+  
+  //option1:
+  // const decreaseQty = async () => {
+  //   if (quantity <= 1 || !cartItemId) return;
+  //   try {
+  //     const res = await updateQuantity(cartItemId, "decrease");
+  //     if (res.status === 200) {
+  //       setQuantity((prev) => prev - 1);
+  //       setTotalPrice((prev) => prev - productPrice);
+  //       refetch();
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to decrease quantity:", err);
+  //   }
+  // };
 
+  //option2:
   const decreaseQty = async () => {
     if (quantity <= 1 || !cartItemId) return;
-    try {
-      const res = await updateQuantity(cartItemId, "decrease");
-      if (res.status === 200) {
-        setQuantity((prev) => prev - 1);
-        setTotalPrice((prev) => prev - productPrice);
-        refetch();
-      }
-    } catch (err) {
-      console.error("Failed to decrease quantity:", err);
-    }
+    setQuantity((prev) => prev - 1);
+    setTotalPrice((prev) => prev - productPrice);
+    await updateQuantity(cartItemId, "decrease");
+    await refetch();
   };
 
   const handleAddToCart = async () => {
