@@ -8,6 +8,7 @@ import useUpdateQuantity from "../../hooks/useUpdateQuantity.jsx";
 const ProductCard = ({ product }) => {
   const { productName, productPrice, discountPercentage, images, _id } = product;
   const originalPrice = productPrice / (1 - discountPercentage / 100);
+
   const { user } = useAuth();
   const [carts, refetch] = useCart();
   const { addToCart } = useAddToCart();
@@ -18,51 +19,37 @@ const ProductCard = ({ product }) => {
   const [cartItemId, setCartItemId] = useState(null);
   const [totalPrice, setTotalPrice] = useState(productPrice);
   const [hovered, setHovered] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleAddToCart = async () => {
+    if (isAdding) return;
+    setIsAdding(true);
     const result = await addToCart(product, quantity);
     if (result.success || result.alreadyInCart) {
       setInCart(true);
-      refetch();
+      await refetch(); // Wait for updated cart
     }
+    setIsAdding(false);
   };
 
   const increaseQty = async () => {
-    if (!cartItemId) return; 
-    // Optimistically update UI
+    if (!cartItemId) return;
     setQuantity((prev) => prev + 1);
     setTotalPrice((prev) => prev + productPrice);
-    
     await updateQuantity(cartItemId, "increase");
-    // refetch()
-    // const res = await updateQuantity(cartItemId, "increase");
-    // if (res.status !== 200) { 
-    // // Rollback if failed
-    //   setQuantity((prev) => prev - 1);
-    // setTotalPrice((prev) => prev - productPrice);
-    // }else{
-    //   refetch();
-    // }
+    await refetch();
   };
 
   const decreaseQty = async () => {
-    if (quantity <= 1 || !cartItemId) return; 
-    // Optimistically update UI
+    if (quantity <= 1 || !cartItemId) return;
     setQuantity((prev) => prev - 1);
     setTotalPrice((prev) => prev - productPrice);
-    
     await updateQuantity(cartItemId, "decrease");
-    // refetch();
-    // const res = await updateQuantity(cartItemId, "decrease");
-    // if (res.status === 200) {
-    //   setQuantity((prev) => prev + 1);
-    //   setTotalPrice((prev) => prev + productPrice);
-    //   refetch();//Optional
-    // }
+    await refetch();
   };
 
   useEffect(() => {
-    if (carts && _id) {
+    if (Array.isArray(carts) && carts.length && _id) {
       const found = carts.find((item) => item.productId === _id);
       if (found) {
         setInCart(true);
@@ -90,7 +77,6 @@ const ProductCard = ({ product }) => {
         onMouseLeave={() => setHovered(false)}
       >
         <Link to={`/product-details/${_id}`} className="block w-full h-full">
-          {/* First Image */}
           <img
             src={images[0]}
             alt={productName}
@@ -98,7 +84,6 @@ const ProductCard = ({ product }) => {
               hovered ? "opacity-0" : "opacity-100"
             }`}
           />
-          {/* Second Image on Hover */}
           {images[1] && (
             <img
               src={images[1]}
@@ -121,7 +106,7 @@ const ProductCard = ({ product }) => {
           </p>
         </div>
 
-        {inCart && (
+        {inCart ? (
           <div className="flex items-center space-x-4 mb-4">
             <button
               onClick={decreaseQty}
@@ -137,19 +122,20 @@ const ProductCard = ({ product }) => {
               +
             </button>
           </div>
-        )}
-
-        {!inCart ? (
+        ) : (
           <button
             onClick={handleAddToCart}
+            disabled={isAdding}
             className="w-full bg-primary-c text-white py-2 px-4 rounded-lg font-medium hover:bg-primary transition text-sm md:text-base"
           >
-            Add to Cart
+            {isAdding ? "Adding..." : "Add to Cart"}
           </button>
-        ) : (
+        )}
+
+        {inCart && (
           <Link
             to="/cart"
-            className="w-full bg-gray-100 text-gray-800 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition text-center block text-sm md:text-base"
+            className="w-full bg-gray-100 text-gray-800 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition text-center block text-sm md:text-base mt-2"
           >
             View Cart
           </Link>
