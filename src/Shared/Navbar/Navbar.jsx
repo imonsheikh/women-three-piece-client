@@ -64,7 +64,7 @@ const Navbar = () => {
               : "hover:text-indigo-500 transition"
           }
         >
-          Shop
+          Products
         </NavLink>
       </li>
       <li>
@@ -84,7 +84,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-30 bg-white shadow-md">
-      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between h-16">
+      <div className="container flex items-center justify-between h-16 lg:max-w-9/12 mx-auto ">
 
         {/* Left: Logo (desktop) or Mobile menu */}
         <div className="flex items-center lg:space-x-6 w-1/3 lg:w-auto">
@@ -172,7 +172,7 @@ const Navbar = () => {
             </div>
           ) : (
             <Link to="/login">
-              <button className="btn btn-primary px-6 py-2 font-semibold hover:bg-indigo-700 transition">
+              <button className="btn btn-primary px-6 py-2 font-semibold hover:bg-indigo-700 transition text-white">
                 Login
               </button>
             </Link>

@@ -18,14 +18,14 @@ const Main = () => {
     return (
       <div className=''>  
           <ScrollToTop/>
-          <div className='lg:max-w-9/12 mx-auto flex flex-col min-h-screen'> 
             <Navbar></Navbar> 
+          <div className='lg:max-w-9/12 mx-auto flex flex-col min-h-screen'> 
             <div className='flex-grow'>
             <Outlet></Outlet>
             </div>
-            <Footer></Footer>
             <Tooltip id='my-tooltip' className='z-10'></Tooltip>
         </div>
+            <Footer></Footer>
       </div>
     );
 };

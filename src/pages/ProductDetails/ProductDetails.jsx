@@ -156,7 +156,7 @@ const ProductDetails = () => {
           <p className="text-lg line-through text-gray-400">
             BDT {(originalPrice * quantity).toFixed(2)}
           </p>
-          <span className="bg-green-100 text-green-700 px-2 py-1 text-xs rounded-full">
+          <span className="px-2 py-1 text-xs rounded-full text-red-800 bg-[#f6c600]">
             Save {discountPercentage}%
           </span>
         </div>

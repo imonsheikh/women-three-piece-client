@@ -8,22 +8,27 @@ import useAuth from "../../hooks/useAuth.jsx";
 
 const Cart = () => {
   const { user } = useAuth();
-  const [carts, refetch] = useCart();
+  const [carts, refetch, isLoading] = useCart();
   const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const [localCart, setLocalCart] = useState([]);
 
-  // Sync local cart with server cart
+  // Corrected useEffect to avoid flickering
   useEffect(() => {
-    if (carts.length) {
+    if (!isLoading && Array.isArray(carts)) {
       setLocalCart(carts.map((item) => ({ ...item })));
-    } else {
-      setLocalCart([]);
     }
-  }, [carts]);
+  }, [carts, isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-10 text-gray-500 font-semibold text-lg">
+        Loading your cart...
+      </div>
+    );
+  }
 
   const updateQuantity = async (itemId, action) => {
-    // Optimistically update UI
     setLocalCart((prev) =>
       prev.map((item) =>
         item._id === itemId
@@ -48,14 +53,13 @@ const Cart = () => {
 
     try {
       await axiosSecure.patch(`/cart/${itemId}/${action}`);
-      refetch(); // sync server
+      refetch();
     } catch (err) {
       console.error("Error updating quantity:", err);
     }
   };
 
   const removeFromCart = async (id) => {
-    // Optimistically remove from UI
     setLocalCart((prev) => prev.filter((item) => item._id !== id));
 
     try {
