@@ -20,7 +20,7 @@ const ManageProducts = () => {
     setLoading(true);
     axiosSecure
       .get("/products")
-      .then((res) => setProducts(res.data))
+      .then((res) => setProducts(res.data.reverse()))
       .catch(() => toast.error("Failed to load products"))
       .finally(() => setLoading(false));
   }, [axiosSecure]);
