@@ -2,7 +2,7 @@ import useAdmin from "../hooks/useAdmin";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { IoAddCircleSharp, IoHomeSharp } from "react-icons/io5";
 import { TiThMenuOutline } from "react-icons/ti";
-import { MdManageAccounts } from "react-icons/md";
+import { MdCategory, MdManageAccounts } from "react-icons/md";
 import { AiFillDollarCircle } from "react-icons/ai";
 import Loading from "../components/Loading/Loading.jsx";
 import { BiSolidCategory } from "react-icons/bi";
@@ -56,6 +56,19 @@ const Dashboard = () => {
           <div className="flex items-center gap-2">
             <BiSolidCategory size={25} />
             <p>Manage Category</p>
+          </div>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "text-primary-c font-bold text-base" : "text-base"
+          }
+          to="/dashboard/sub-categories"
+        >
+          <div className="flex items-center gap-2">
+            <MdCategory size={25} />
+            <p>Sub Categories</p>
           </div>
         </NavLink>
       </li>

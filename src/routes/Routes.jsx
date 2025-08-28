@@ -25,6 +25,7 @@ import UpdateProduct from "../dashboardPages/AdminPages/UpdateProduct/UpdateProd
 import ManageUsers from "../dashboardPages/AdminPages/ManageUsers/ManageUsers.jsx";
 import Categories from "../pages/Categories/Categories.jsx";
 import AdminRoute from "./AdminRoute.jsx";
+import ManageSubCategory from "../dashboardPages/AdminPages/SubCategories/SubCategories.jsx";
 
 
 export const router = createBrowserRouter([
@@ -104,6 +105,10 @@ export const router = createBrowserRouter([
             {
                 path: 'manage-category',
                 element: <AdminRoute><PrivateRoute><ManageCategory/></PrivateRoute></AdminRoute>
+            },
+            {
+                path: 'sub-categories',
+                element: <AdminRoute><PrivateRoute><ManageSubCategory/></PrivateRoute></AdminRoute>
             },
             {
                 path: 'manage-products',
