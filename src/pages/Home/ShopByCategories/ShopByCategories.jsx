@@ -17,7 +17,7 @@ const ShopByCategories = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {displayedCategories.map((category) => (
             <Link
-              to={`/shop/category/${encodeURIComponent(category.name)}`}
+              to={`/${encodeURIComponent(category.name)}`}
               key={category._id}
               className="group rounded-2xl overflow-hidden relative shadow hover:shadow-xl transition duration-300"
             >

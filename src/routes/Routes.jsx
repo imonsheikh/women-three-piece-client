@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
                 element: <GetInTouch></GetInTouch>
             },
             {
-                path: '/shop/category/:name',
+                path: '/:name',
                 element: <Shop></Shop>
             },
             {

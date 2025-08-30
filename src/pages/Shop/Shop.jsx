@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
 import useProducts from "../../hooks/useProducts.jsx";
 import useCategories from "../../hooks/useCategories.jsx";
 import useSubCategories from "../../hooks/useSubCategories.jsx";
 import { FiBox } from "react-icons/fi";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs.jsx";
 
 const Shop = () => {
   const [products, productsLoading] = useProducts();
   const [categories, categoriesLoading] = useCategories();
   const [subCategories, subCategoriesLoading] = useSubCategories();
 
-  const { name } = useParams();
   const navigate = useNavigate();
-  const categoryFromUrl = name ? decodeURIComponent(name) : "All";
 
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
-  const fullText = "Search products...";
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const itemsPerPage = 6;
+  const fullText = "Search products...";
 
   // Animated Placeholder
   useEffect(() => {
@@ -48,61 +49,66 @@ const Shop = () => {
   }, []);
   const displayPlaceholder = animatedPlaceholder + (cursorVisible ? "|" : " ");
 
-  // Build Category Map
-  const categoryMap = categories.reduce((acc, cat) => {
-    const subs = subCategories.filter((sub) => sub.categoryId === cat._id);
-    acc[cat.name] = subs.map((s) => s.name);
-    return acc;
-  }, {});
+  // Memoized categoryMap
+  const categoryMap = useMemo(() => {
+    const map = {};
+    categories.forEach((cat) => {
+      const subs = subCategories
+        .filter((sub) => sub.categoryId === cat._id)
+        .map((s) => s.name);
+      map[cat.name] = subs;
+    });
+    return map;
+  }, [categories, subCategories]);
 
   const allCategories = ["All", ...categories.map((c) => c.name)];
 
-  // Navigate
+  // Navigate + state update
   const handleNavigate = (cat, sub) => {
-    if (cat === "All") navigate("/products");
-    else if (sub)
-      navigate(
-        `/shop/category/${encodeURIComponent(cat)}/${encodeURIComponent(sub)}`
-      );
-    else navigate(`/shop/category/${encodeURIComponent(cat)}`);
+    setSelectedCategory(cat);
+    setSelectedSubCategory(sub || null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Filter Products
-  const filteredProducts = products
-    .filter((product) => {
-      const matchSearch = product.productName
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const matchCategory =
-        categoryFromUrl === "All" || product.category === categoryFromUrl;
-      return matchSearch && matchCategory;
-    })
-    .sort((a, b) => {
-      if (sortOrder === "asc") return a.productPrice - b.productPrice;
-      if (sortOrder === "desc") return b.productPrice - a.productPrice;
-      return 0;
-    });
+  // Filtered Products
+  const filteredProducts = useMemo(() => {
+    return products
+      .filter((product) => {
+        const matchSearch = product.productName
+          .toLowerCase()
+          .includes(search.toLowerCase());
+
+        const matchCategory =
+          selectedCategory === "All" || product.category === selectedCategory;
+
+        const matchSubCategory =
+          !selectedSubCategory || product.subCategory === selectedSubCategory;
+
+        return matchSearch && matchCategory && matchSubCategory;
+      })
+      .sort((a, b) => {
+        if (sortOrder === "asc") return a.productPrice - b.productPrice;
+        if (sortOrder === "desc") return b.productPrice - a.productPrice;
+        return 0;
+      });
+  }, [products, search, sortOrder, selectedCategory, selectedSubCategory]);
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, name, sortOrder]);
+  }, [search, selectedCategory, selectedSubCategory, sortOrder]);
 
-  // Show loading if any data is loading
   if (productsLoading || categoriesLoading || subCategoriesLoading) {
-    return (
-      <div className="text-center py-16 text-gray-500 text-lg">
-        Loading products...
-      </div>
-    );
+    return <div className="text-center py-20 text-gray-500">Loading...</div>;
   }
 
   return (
@@ -114,7 +120,7 @@ const Shop = () => {
             <button
               onClick={() => handleNavigate(cat)}
               className={`px-5 py-2 rounded-full font-medium transition ${
-                decodeURIComponent(name || "All") === cat
+                selectedCategory === cat
                   ? "bg-blue-600 text-white shadow-md"
                   : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
               }`}
@@ -122,25 +128,36 @@ const Shop = () => {
               {cat}
             </button>
 
-            {cat !== "All" && categoryMap[cat]?.length > 0 && (
-              <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-50">
-                <ul className="py-2">
-                  {categoryMap[cat].map((sub) => (
-                    <li key={sub}>
-                      <button
-                        onClick={() => handleNavigate(cat, sub)}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded"
-                      >
-                        {sub}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {cat !== "All" &&
+              categoryMap[cat] &&
+              categoryMap[cat].length > 0 && (
+                <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-50">
+                  <ul className="py-2">
+                    {categoryMap[cat].map((sub) => (
+                      <li key={sub}>
+                        <button
+                          onClick={() => handleNavigate(cat, sub)}
+                          className={`block w-full text-left px-4 py-2 text-sm rounded font-semibold transition ${
+                            selectedSubCategory === sub
+                              ? "bg-blue-100 text-blue-600"
+                              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                          }`}
+                        >
+                          {sub}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
           </div>
         ))}
       </div>
+
+      <BreadCrumbs
+        selectedCategory={selectedCategory}
+        selectedSubCategory={selectedSubCategory}
+      />
 
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
@@ -151,7 +168,6 @@ const Shop = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
         <select
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
@@ -167,10 +183,11 @@ const Shop = () => {
 
       {/* Product Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedProducts.map((product, idx) => (
-          <ProductCard key={idx} product={product} />
-        ))}
-        {paginatedProducts.length === 0 && (
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map((product, idx) => (
+            <ProductCard key={idx} product={product} />
+          ))
+        ) : (
           <div className="col-span-full text-center py-16 text-gray-500 flex flex-col items-center space-y-4">
             <FiBox className="text-5xl text-gray-400" />
             <h3 className="text-xl font-semibold text-gray-600">
