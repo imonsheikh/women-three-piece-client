@@ -57,7 +57,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/shop"
+          to="/products"
           className={({ isActive }) =>
             isActive
               ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
@@ -67,7 +67,7 @@ const Navbar = () => {
           Products
         </NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink
           to="/categories"
           className={({ isActive }) =>
@@ -77,6 +77,30 @@ const Navbar = () => {
           }
         >
           Categories
+        </NavLink>
+      </li> */}
+      <li>
+        <NavLink
+          to="/about-us"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
+              : "hover:text-indigo-500 transition"
+          }
+        >
+          About Us
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/contact-us"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
+              : "hover:text-indigo-500 transition"
+          }
+        >
+          Contact Us
         </NavLink>
       </li>
     </>
@@ -127,8 +151,8 @@ const Navbar = () => {
         </div>
 
         {/* Center: Nav Menu (desktop only) */}
-        <nav className="hidden lg:flex justify-center w-1/3">
-          <ul className="flex space-x-8 text-gray-700">{navLinks}</ul>
+        <nav className="hidden lg:flex justify-center">
+          <ul className="flex space-x-5 text-gray-700">{navLinks}</ul>
         </nav>
 
         {/* Right: Cart + User */}

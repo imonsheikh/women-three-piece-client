@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
 import useProducts from "../../hooks/useProducts.jsx";
@@ -20,11 +20,10 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Animated Placeholder Typing Effect
+  // Animated Placeholder
   useEffect(() => {
     let index = 0;
     let forward = true;
-
     const typingInterval = setInterval(() => {
       if (forward) {
         setAnimatedPlaceholder(fullText.slice(0, index));
@@ -36,36 +35,41 @@ const Shop = () => {
         }
       }
     }, 120);
-
     return () => clearInterval(typingInterval);
   }, []);
 
-  // Cursor Blinking Effect
+  // Cursor Blink
   useEffect(() => {
-    const blink = setInterval(() => {
-      setCursorVisible((prev) => !prev);
-    }, 500);
+    const blink = setInterval(() => setCursorVisible((p) => !p), 500);
     return () => clearInterval(blink);
   }, []);
-
   const displayPlaceholder = animatedPlaceholder + (cursorVisible ? "|" : " ");
 
-  // Extract categories
-  const categories = [
-    "All",
-    ...new Set(products?.map((p) => p?.category).filter(Boolean)),
-  ];
+  // Category Map
+  const categoryMap = products.reduce((acc, product) => {
+    const { category, subCategory } = product;
+    if (!category) return acc;
+    if (!acc[category]) acc[category] = new Set();
+    if (subCategory) acc[category].add(subCategory);
+    return acc;
+  }, {});
 
-  // Handle category change
-  const handleCategoryChange = (cat) => {
+  const categories = ["All", ...Object.keys(categoryMap)];
+
+  // Navigate
+  const handleNavigate = (cat, sub) => {
     if (cat === "All") {
-      navigate("/shop");
+      navigate("/products");
+    } else if (sub) {
+      navigate(
+        `/shop/category/${encodeURIComponent(cat)}/${encodeURIComponent(sub)}`
+      );
     } else {
       navigate(`/shop/category/${encodeURIComponent(cat)}`);
     }
   };
 
-  // Filtered & Sorted Products
+  // Filter Products
   const filteredProducts = products
     .filter((product) => {
       const matchSearch = product.productName
@@ -81,7 +85,7 @@ const Shop = () => {
       return 0;
     });
 
-  // Pagination Logic
+  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
@@ -89,9 +93,7 @@ const Shop = () => {
   );
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
   useEffect(() => {
@@ -99,10 +101,45 @@ const Shop = () => {
   }, [search, name, sortOrder]);
 
   return (
-    <div className="max-w-7xl mx-auto p-4 mt-10">
-      <h1 className="text-3xl font-semibold mb-6 text-gray-800">All Products</h1>
+    <div className="mx-auto py-4 mt-4">
+    {/* Horizontal Categories Menu */}
+<div className="flex flex-wrap justify-center gap-4 mb-8 border-b pb-3">
+  {categories.map((cat) => (
+    <div key={cat} className="relative group">
+      <button
+        onClick={() => handleNavigate(cat)}
+        className={`px-5 py-2 rounded-full font-medium transition ${
+          decodeURIComponent(name || "All") === cat
+            ? "bg-blue-600 text-white shadow-md"
+            : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+        }`}
+      >
+        {cat}
+      </button>
 
-      {/* Top Bar: Search & Sort */}
+      {/* Subcategories Dropdown */}
+      {cat !== "All" && categoryMap[cat] && (
+        <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-50">
+          <ul className="py-2">
+            {[...categoryMap[cat]].map((sub) => (
+              <li key={sub}>
+                <button
+                  onClick={() => handleNavigate(cat, sub)}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded"
+                >
+                  {sub}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+
+
+      {/* Top Bar */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <input
           type="text"
@@ -125,99 +162,54 @@ const Shop = () => {
         </select>
       </div>
 
-      {/* Main Content: Sidebar + Products */}
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Sidebar: Categories */}
-        <div className="md:w-1/5 w-full">
-          <h2 className="text-lg font-medium text-gray-700 mb-3">Categories</h2>
-
-          {/* Mobile View */}
-          <div className="flex md:hidden overflow-x-auto space-x-2 pb-2">
-            {categories.map((item) => (
-              <button
-                key={item}
-                onClick={() => handleCategoryChange(item)}
-                className={`flex-shrink-0 px-4 py-2 rounded-full text-sm border whitespace-nowrap ${
-                  decodeURIComponent(name || "All") === item
-                    ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-white text-gray-700 border-gray-300"
-                } hover:shadow-sm transition`}
-              >
-                {item}
-              </button>
-            ))}
+      {/* Product Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {paginatedProducts.map((product, idx) => (
+          <ProductCard key={idx} product={product} />
+        ))}
+        {paginatedProducts.length === 0 && (
+          <div className="col-span-full text-center py-16 text-gray-500 flex flex-col items-center space-y-4">
+            <FiBox className="text-5xl text-gray-400" />
+            <h3 className="text-xl font-semibold text-gray-600">
+              No products found
+            </h3>
+            <p className="text-sm text-gray-400">
+              We couldn’t find any products matching your search.
+            </p>
           </div>
-
-          {/* Desktop View */}
-          <ul className="hidden md:block space-y-2">
-            {categories.map((item) => (
-              <li key={item}>
-                <button
-                  onClick={() => handleCategoryChange(item)}
-                  className={`w-full text-left px-4 py-2 rounded-md text-sm border ${
-                    decodeURIComponent(name || "All") === item
-                      ? "bg-primary-c text-white border-primary"
-                      : "bg-white text-gray-700 border-gray-300"
-                  } hover:shadow-sm transition`}
-                >
-                  {item}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Product Grid */}
-        <div className="md:w-4/5">
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {paginatedProducts.map((product, idx) => (
-              <ProductCard key={idx} product={product} />
-            ))}
-      {paginatedProducts.length === 0 && (
-  <div className="col-span-full text-center py-16 text-gray-500 flex flex-col items-center space-y-4">
-    <FiBox className="text-5xl text-gray-400" />
-    <h3 className="text-xl font-semibold text-gray-600">No products found</h3>
-    <p className="text-sm text-gray-400">
-      We couldn’t find any products matching your search.
-    </p>
-  </div>
-)}
-          </div>
-
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center mt-8 space-x-2">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="px-3 py-1 border rounded disabled:opacity-50"
-              >
-                Prev
-              </button>
-              {Array.from({ length: totalPages }, (_, idx) => (
-                <button
-                  key={idx + 1}
-                  onClick={() => handlePageChange(idx + 1)}
-                  className={`px-3 py-1 border rounded ${
-                    currentPage === idx + 1
-                      ? "bg-blue-500 text-white"
-                      : "bg-white"
-                  }`}
-                >
-                  {idx + 1}
-                </button>
-              ))}
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 border rounded disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          )}
-        </div>
+        )}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center mt-8 space-x-2">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-1 border rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+          {Array.from({ length: totalPages }, (_, idx) => (
+            <button
+              key={idx + 1}
+              onClick={() => handlePageChange(idx + 1)}
+              className={`px-3 py-1 border rounded ${
+                currentPage === idx + 1 ? "bg-blue-600 text-white" : "bg-white"
+              }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 border rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

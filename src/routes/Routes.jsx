@@ -26,6 +26,8 @@ import ManageUsers from "../dashboardPages/AdminPages/ManageUsers/ManageUsers.js
 import Categories from "../pages/Categories/Categories.jsx";
 import AdminRoute from "./AdminRoute.jsx";
 import ManageSubCategory from "../dashboardPages/AdminPages/SubCategories/SubCategories.jsx";
+import GetInTouch from "../pages/Home/GetInTouch/GetInTouch.jsx";
+import AboutUs from "../pages/AboutUs/AboutUs.jsx";
 
 
 export const router = createBrowserRouter([
@@ -39,8 +41,16 @@ export const router = createBrowserRouter([
                 element: <Home></Home>
             },
             {
-                path: '/shop',
+                path: '/products',
                 element: <Shop></Shop>
+            },
+            {
+                path: '/about-us',
+                element: <AboutUs></AboutUs>
+            },
+            {
+                path: '/contact-us',
+                element: <GetInTouch></GetInTouch>
             },
             {
                 path: '/shop/category/:name',

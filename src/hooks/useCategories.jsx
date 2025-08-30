@@ -16,4 +16,4 @@ const useCategories = () => {
     return [categories, isLoading, refetch]
 };
 
-export default useCategories;
+export default useCategories; 

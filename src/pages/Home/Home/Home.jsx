@@ -18,7 +18,7 @@ const Home = () => {
             <LatestProducts></LatestProducts>
             <TopSellingProducts></TopSellingProducts>
             <CustomerReview></CustomerReview> 
-            <GetInTouch></GetInTouch>
+            {/* <GetInTouch></GetInTouch> */}
             <LogoMarque></LogoMarque>
         </div>
     );
