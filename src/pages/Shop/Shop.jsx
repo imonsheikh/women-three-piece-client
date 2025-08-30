@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
 import useProducts from "../../hooks/useProducts.jsx";
+import useCategories from "../../hooks/useCategories.jsx";
+import useSubCategories from "../../hooks/useSubCategories.jsx";
 import { FiBox } from "react-icons/fi";
 
 const Shop = () => {
-  const [products = []] = useProducts();
+  const [products, productsLoading] = useProducts();
+  const [categories, categoriesLoading] = useCategories();
+  const [subCategories, subCategoriesLoading] = useSubCategories();
+
   const { name } = useParams();
   const navigate = useNavigate();
-
   const categoryFromUrl = name ? decodeURIComponent(name) : "All";
 
   const [search, setSearch] = useState("");
@@ -16,7 +20,6 @@ const Shop = () => {
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
   const fullText = "Search products...";
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -45,28 +48,23 @@ const Shop = () => {
   }, []);
   const displayPlaceholder = animatedPlaceholder + (cursorVisible ? "|" : " ");
 
-  // Category Map
-  const categoryMap = products.reduce((acc, product) => {
-    const { category, subCategory } = product;
-    if (!category) return acc;
-    if (!acc[category]) acc[category] = new Set();
-    if (subCategory) acc[category].add(subCategory);
+  // Build Category Map
+  const categoryMap = categories.reduce((acc, cat) => {
+    const subs = subCategories.filter((sub) => sub.categoryId === cat._id);
+    acc[cat.name] = subs.map((s) => s.name);
     return acc;
   }, {});
 
-  const categories = ["All", ...Object.keys(categoryMap)];
+  const allCategories = ["All", ...categories.map((c) => c.name)];
 
   // Navigate
   const handleNavigate = (cat, sub) => {
-    if (cat === "All") {
-      navigate("/products");
-    } else if (sub) {
+    if (cat === "All") navigate("/products");
+    else if (sub)
       navigate(
         `/shop/category/${encodeURIComponent(cat)}/${encodeURIComponent(sub)}`
       );
-    } else {
-      navigate(`/shop/category/${encodeURIComponent(cat)}`);
-    }
+    else navigate(`/shop/category/${encodeURIComponent(cat)}`);
   };
 
   // Filter Products
@@ -85,13 +83,11 @@ const Shop = () => {
       return 0;
     });
 
-  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
@@ -100,44 +96,51 @@ const Shop = () => {
     setCurrentPage(1);
   }, [search, name, sortOrder]);
 
+  // Show loading if any data is loading
+  if (productsLoading || categoriesLoading || subCategoriesLoading) {
+    return (
+      <div className="text-center py-16 text-gray-500 text-lg">
+        Loading products...
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto py-4 mt-4">
-    {/* Horizontal Categories Menu */}
-<div className="flex flex-wrap justify-center gap-4 mb-8 border-b pb-3">
-  {categories.map((cat) => (
-    <div key={cat} className="relative group">
-      <button
-        onClick={() => handleNavigate(cat)}
-        className={`px-5 py-2 rounded-full font-medium transition ${
-          decodeURIComponent(name || "All") === cat
-            ? "bg-blue-600 text-white shadow-md"
-            : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-        }`}
-      >
-        {cat}
-      </button>
+      {/* Horizontal Categories Menu */}
+      <div className="flex flex-wrap justify-center gap-4 mb-8 border-b pb-3">
+        {allCategories.map((cat) => (
+          <div key={cat} className="relative group">
+            <button
+              onClick={() => handleNavigate(cat)}
+              className={`px-5 py-2 rounded-full font-medium transition ${
+                decodeURIComponent(name || "All") === cat
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+              }`}
+            >
+              {cat}
+            </button>
 
-      {/* Subcategories Dropdown */}
-      {cat !== "All" && categoryMap[cat] && (
-        <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-50">
-          <ul className="py-2">
-            {[...categoryMap[cat]].map((sub) => (
-              <li key={sub}>
-                <button
-                  onClick={() => handleNavigate(cat, sub)}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded"
-                >
-                  {sub}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  ))}
-</div>
-
+            {cat !== "All" && categoryMap[cat]?.length > 0 && (
+              <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-50">
+                <ul className="py-2">
+                  {categoryMap[cat].map((sub) => (
+                    <li key={sub}>
+                      <button
+                        onClick={() => handleNavigate(cat, sub)}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded"
+                      >
+                        {sub}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
