@@ -66,7 +66,7 @@ const ProductCard = ({ product }) => {
   }, [carts, _id, productPrice]);
 
   return (
-    <div className="flex flex-col justify-between max-w-sm w-full min-h-[420px] rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition duration-300 relative">
+    <div className="flex flex-col justify-between  w-full min-h-[420px] rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition duration-300 relative">
       <span className="absolute bg-[#f6c600] rounded-full px-4 py-1 text-sm text-red-800 top-1 right-1 z-20">
         Save {discountPercentage}%
       </span>

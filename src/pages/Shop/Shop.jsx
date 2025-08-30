@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
 import useProducts from "../../hooks/useProducts.jsx";
 import useCategories from "../../hooks/useCategories.jsx";
@@ -14,6 +14,7 @@ const Shop = () => {
 
   const navigate = useNavigate();
 
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState("");
@@ -67,6 +68,7 @@ const Shop = () => {
   const handleNavigate = (cat, sub) => {
     setSelectedCategory(cat);
     setSelectedSubCategory(sub || null);
+    setOpenDropdown(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -113,30 +115,51 @@ const Shop = () => {
 
   return (
     <div className="mx-auto py-4 mt-4">
-      {/* Horizontal Categories Menu */}
-      <div className="flex flex-wrap justify-center gap-4 mb-8 border-b pb-3">
+      {/* // Horizontal Categories Menu  */}
+      <div className="flex flex-wrap justify-center items-center gap-4 mb-8  bg-black/10 rounded-full shadow-sm">
         {allCategories.map((cat) => (
-          <div key={cat} className="relative group">
-            <button
-              onClick={() => handleNavigate(cat)}
-              className={`px-5 py-2 rounded-full font-medium transition ${
-                selectedCategory === cat
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-              }`}
+          <div
+            key={cat}
+            className="relative py-1 flex justify-center items-center"
+            onMouseEnter={() => setOpenDropdown(cat)}
+            onMouseLeave={() => setOpenDropdown(null)}
+          >
+            <Link
+              to={cat === "All" ? "/products" : `/${encodeURIComponent(cat)}`}
             >
-              {cat}
-            </button>
+              <button
+                onClick={() => handleNavigate(cat)}
+                className={`px-5 py-2 rounded-full font-medium transition ${
+                  selectedCategory === cat
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "text-gray-700 hover:bg-blue-100 hover:ring-1 hover:text-blue-600"
+                }`}
+              >
+                {cat}
+              </button>
+            </Link>
 
             {cat !== "All" &&
               categoryMap[cat] &&
               categoryMap[cat].length > 0 && (
-                <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-50">
+                <div
+                  className={`absolute left-0 top-full  w-56 bg-white rounded-lg shadow-lg border border-gray-200 transition-all duration-300 z-50
+            ${
+              openDropdown === cat
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-95 pointer-events-none"
+            }
+          `}
+                >
                   <ul className="py-2">
                     {categoryMap[cat].map((sub) => (
                       <li key={sub}>
-                        <button
-                          onClick={() => handleNavigate(cat, sub)}
+                      <Link to={`/${encodeURIComponent(cat)}/${encodeURIComponent(sub)}`}>
+                         <button
+                          onClick={() => {
+                            handleNavigate(cat, sub);
+                            setOpenDropdown(null); // click dropdown close
+                          }}
                           className={`block w-full text-left px-4 py-2 text-sm rounded font-semibold transition ${
                             selectedSubCategory === sub
                               ? "bg-blue-100 text-blue-600"
@@ -145,6 +168,7 @@ const Shop = () => {
                         >
                           {sub}
                         </button>
+                      </Link>
                       </li>
                     ))}
                   </ul>
@@ -152,8 +176,8 @@ const Shop = () => {
               )}
           </div>
         ))}
-      </div>
-
+      </div> 
+      
       <BreadCrumbs
         selectedCategory={selectedCategory}
         selectedSubCategory={selectedSubCategory}
@@ -182,7 +206,7 @@ const Shop = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="w-full grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {paginatedProducts.length > 0 ? (
           paginatedProducts.map((product, idx) => (
             <ProductCard key={idx} product={product} />

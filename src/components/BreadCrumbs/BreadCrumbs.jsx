@@ -28,7 +28,7 @@ const BreadCrumbs = ({ selectedCategory, selectedSubCategory }) => {
         {/* Home */}
         <li className="inline-flex items-center">
           <Link
-            to="/"
+            to="/products"
             className="inline-flex items-center text-gray-700 hover:text-blue-600"
           >
             <FaHome className="mr-1" /> Home
