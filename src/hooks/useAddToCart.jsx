@@ -3,17 +3,20 @@ import toast from "react-hot-toast";
 import useAuth from "./useAuth";
 import useAxiosPublic from "./useAxiosPublic";
 import useCart from "./useCart";
+import { useNavigate } from "react-router-dom";
 
 const useAddToCart = () => { 
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
-  const [, refetch] = useCart();
+  const [, refetch] = useCart(); 
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(false);
 
   const addToCart = async (product, quantity = 1) => {
     if (!user) {
-      toast.error("Login first!!!");
+      toast.error("Login first!!!"); 
+      navigate("/login")
       return { success: false };
     }
 

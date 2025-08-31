@@ -45,8 +45,7 @@ const ManageOrders = () => {
   };
 
   return (
-  <Container>
-      <div className="max-w-7xl ">
+      <div className="">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">All Orders</h2>
 
       {loading ? (
@@ -57,7 +56,7 @@ const ManageOrders = () => {
         <>
           <div className="overflow-x-auto">
             <table className="w-full border border-gray-200 rounded-xl shadow text-left">
-              <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
+              <thead className="bg-primary-c text-white/90 text-sm uppercase">
                 <tr>
                   <th className="p-4">#</th>
                   <th className="p-4">Customer</th>
@@ -115,7 +114,6 @@ const ManageOrders = () => {
         </>
       )}
     </div>
-  </Container>
   );
 };
 

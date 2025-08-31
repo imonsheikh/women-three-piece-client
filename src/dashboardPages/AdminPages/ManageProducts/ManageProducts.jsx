@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Title from "../../../components/Title";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import DeleteModal from "../../../components/DeleteModal/DeleteModal.jsx";
 
@@ -52,7 +51,7 @@ const ManageProducts = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-4">
+    <div className="min-h-screen bg-soft p-4">
       <Title>Manage Products</Title>
 
       <div className="text-lg font-medium mt-2 mb-4 text-gray-700">
@@ -67,7 +66,7 @@ const ManageProducts = () => {
         <>
           <div className="overflow-x-auto mt-2">
             <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
-              <thead className="bg-gray-100 text-center">
+              <thead className="bg-primary-c text-white/90 text-center">
                 <tr>
                   <th className="p-2 border">SL</th>
                   <th className="p-2 border">Image</th>
@@ -75,6 +74,7 @@ const ManageProducts = () => {
                   <th className="p-2 border">Brand</th>
                   <th className="p-2 border">Price</th>
                   <th className="p-2 border">Discount</th>
+                  <th className="p-2 border">Stock</th>
                   <th className="p-2 border">Available</th>
                   <th className="p-2 border">Actions</th>
                 </tr>
@@ -94,6 +94,9 @@ const ManageProducts = () => {
                     <td className="p-2 border">{product.brandName}</td>
                     <td className="p-2 border">BDT {product.productPrice}</td>
                     <td className="p-2 border">{product.discountPercentage}%</td>
+                    <td className="p-2 border font-semibold text-gray-700">
+                      {product.stock ?? 0}
+                    </td>
                     <td className="p-2 border">
                       {product.isAvailable ? (
                         <span className="text-green-600 font-semibold">Yes</span>
@@ -103,9 +106,8 @@ const ManageProducts = () => {
                     </td>
                     <td className="p-2 border">
                       <div className="flex gap-3 justify-center">
-                        <button 
-                          onClick={() => alert('Feature Will be coming soon')}
-                          to={`/dashboard/update-product/${product._id}`}
+                        <button
+                          onClick={() => alert("Feature Will be coming soon")}
                           className="text-blue-600 hover:underline font-semibold"
                         >
                           Edit

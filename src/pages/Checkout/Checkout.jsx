@@ -19,7 +19,7 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("cash_on_delivery");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(""); // ✅ error state
+  const [errorMsg, setErrorMsg] = useState(""); // error state
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -50,15 +50,16 @@ const Checkout = () => {
         paymentMethod,
         status: "pending",
         userEmail: user?.email,
-        date: new Date(),
+        // date: new Date(),
       };
 
       const res = await axiosSecure.post("/order", orderData);
 
-      if (res.data.insertedId) {
+      if (res.data.insertedId) { 
+        const fullOrder = { ...orderData, invoiceNo: res.data.invoiceNo, date: new Date() };
         setSuccess(true);
         await refetch();
-        setTimeout(() => navigate("/order-confirmation"), 2000);
+        setTimeout(() => navigate("/order-confirmation", { state: { order: fullOrder } }), 1500);
       } else {
         setErrorMsg(" Order failed. Please try again.");
       }

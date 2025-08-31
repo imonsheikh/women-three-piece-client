@@ -19,6 +19,8 @@
     "dompurify": "^3.2.6",
     "firebase": "^11.4.0",
     "framer-motion": "^12.15.0",
+    "jspdf": "^3.0.2",
+    "jspdf-autotable": "^5.0.2",
     "localforage": "^1.10.0",
     "lodash.debounce": "^4.0.8",
     "match-sorter": "^8.0.0",
