@@ -8,6 +8,7 @@ import CustomerReview from '../CustomerReview/CustomerReview.jsx';
 import GetInTouch from '../GetInTouch/GetInTouch.jsx';
 import LogoMarque from '../LogoMarque/LogoMarque.jsx';
 import Categories from '../../Categories/Categories.jsx';
+import FAQ from '../../../components/FAQ.jsx';
 
 const Home = () => {
     return (
@@ -18,7 +19,8 @@ const Home = () => {
             <LatestProducts></LatestProducts>
             <TopSellingProducts></TopSellingProducts>
             <CustomerReview></CustomerReview> 
-            {/* <GetInTouch></GetInTouch> */}
+            {/* <GetInTouch></GetInTouch> */} 
+            <FAQ/>
             <LogoMarque></LogoMarque>
         </div>
     );

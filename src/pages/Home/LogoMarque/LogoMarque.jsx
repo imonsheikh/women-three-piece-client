@@ -1,11 +1,13 @@
 import React from "react";
 import Marquee from "react-fast-marquee"; 
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaApple, FaGoogle, FaAmazon, FaMicrosoft } from "react-icons/fa";
+import SectionTitle from "../../../components/SectionTitle/SectionTitle.jsx";
 
 
 const LogoMarque = () => {
   return (
-    <div className="my-15">
+    <div className="my-15"> 
+      <SectionTitle heading={"Our brands"}></SectionTitle>
       <Marquee pauseOnHover={true} speed={60}>
       <div className="flex space-x-8 text-white text-6xl ">
           <FaFacebook className="text-blue-600" />
