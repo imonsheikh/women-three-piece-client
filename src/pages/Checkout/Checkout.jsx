@@ -37,7 +37,7 @@ const Checkout = () => {
     setErrorMsg(""); // clear any previous error
 
     if (!formData.name || !formData.phone || !formData.address) {
-      setErrorMsg("⚠️ Please fill out all billing details.");
+      setErrorMsg(" Please fill out all billing details.");
       return;
     }
 
@@ -60,11 +60,11 @@ const Checkout = () => {
         await refetch();
         setTimeout(() => navigate("/order-confirmation"), 2000);
       } else {
-        setErrorMsg("❌ Order failed. Please try again.");
+        setErrorMsg(" Order failed. Please try again.");
       }
     } catch (err) {
       console.error("Order error:", err);
-      setErrorMsg("❌ Something went wrong. Please try again.");
+      setErrorMsg(" Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

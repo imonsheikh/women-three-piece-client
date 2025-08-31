@@ -6,6 +6,7 @@ import useCategories from "../../hooks/useCategories.jsx";
 import useSubCategories from "../../hooks/useSubCategories.jsx";
 import { FiBox } from "react-icons/fi";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs.jsx";
+import { BiSearch } from "react-icons/bi";
 
 const Shop = () => {
   const [products, productsLoading] = useProducts();
@@ -116,7 +117,7 @@ const Shop = () => {
   return (
     <div className="mx-auto py-4 mt-4">
       {/* // Horizontal Categories Menu  */}
-      <div className="flex flex-wrap justify-center items-center gap-4 mb-8  bg-black/10 rounded-full shadow-sm">
+      <div className="flex flex-wrap justify-center items-center gap-4 mb-8  bg-black/10 rounded-full shadow-sm sticky top-19 z-10">
         {allCategories.map((cat) => (
           <div
             key={cat}
@@ -154,21 +155,25 @@ const Shop = () => {
                   <ul className="py-2">
                     {categoryMap[cat].map((sub) => (
                       <li key={sub}>
-                      <Link to={`/${encodeURIComponent(cat)}/${encodeURIComponent(sub)}`}>
-                         <button
-                          onClick={() => {
-                            handleNavigate(cat, sub);
-                            setOpenDropdown(null); // click dropdown close
-                          }}
-                          className={`block w-full text-left px-4 py-2 text-sm rounded font-semibold transition ${
-                            selectedSubCategory === sub
-                              ? "bg-blue-100 text-blue-600"
-                              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                          }`}
+                        <Link
+                          to={`/${encodeURIComponent(cat)}/${encodeURIComponent(
+                            sub
+                          )}`}
                         >
-                          {sub}
-                        </button>
-                      </Link>
+                          <button
+                            onClick={() => {
+                              handleNavigate(cat, sub);
+                              setOpenDropdown(null); // click dropdown close
+                            }}
+                            className={`block w-full text-left px-4 py-2 text-sm rounded font-semibold transition ${
+                              selectedSubCategory === sub
+                                ? "bg-blue-100 text-blue-600"
+                                : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                            }`}
+                          >
+                            {sub}
+                          </button>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -176,8 +181,8 @@ const Shop = () => {
               )}
           </div>
         ))}
-      </div> 
-      
+      </div>
+
       <BreadCrumbs
         selectedCategory={selectedCategory}
         selectedSubCategory={selectedSubCategory}
@@ -185,24 +190,37 @@ const Shop = () => {
 
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <input
-          type="text"
-          placeholder={displayPlaceholder}
-          className="w-full md:w-1/2 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          className="w-full md:w-1/4 border border-gray-300 px-3 py-2 rounded-md text-sm"
-        >
-          <option value="" disabled>
-            Sort by
-          </option>
-          <option value="asc">Price: Low to High</option>
-          <option value="desc">Price: High to Low</option>
-        </select>
+        {/* Search Input */}
+        <div className="relative w-full md:w-1/2 border border-gray-300 rounded-lg shadow-sm">
+          <input
+            type="text"
+            placeholder={displayPlaceholder}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 placeholder-gray-400 text-gray-700"
+          />
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <BiSearch/>
+          </span>
+        </div>
+
+        {/* Sort Dropdown */}
+        <div className="w-full md:w-1/4 relative">
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 appearance-none pr-8"
+          >
+            <option value="" disabled>
+              Sort by
+            </option>
+            <option value="asc">Price: Low to High</option>
+            <option value="desc">Price: High to Low</option>
+          </select>
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            ▼
+          </span>
+        </div>
       </div>
 
       {/* Product Grid */}

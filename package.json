@@ -16,6 +16,7 @@
     "axios": "^1.8.3",
     "bcryptjs": "^3.0.2",
     "date-fns": "^4.1.0",
+    "dompurify": "^3.2.6",
     "firebase": "^11.4.0",
     "framer-motion": "^12.15.0",
     "localforage": "^1.10.0",
