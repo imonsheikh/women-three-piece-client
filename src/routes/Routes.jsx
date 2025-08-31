@@ -28,6 +28,8 @@ import AdminRoute from "./AdminRoute.jsx";
 import ManageSubCategory from "../dashboardPages/AdminPages/SubCategories/SubCategories.jsx";
 import GetInTouch from "../pages/Home/GetInTouch/GetInTouch.jsx";
 import AboutUs from "../pages/AboutUs/AboutUs.jsx";
+import PrivacyPolicy from "../pages/PrivacyPolicy.jsx";
+import ReturnPolicy from "../pages/ReturnPolicy.jsx";
 
 
 export const router = createBrowserRouter([
@@ -99,6 +101,14 @@ export const router = createBrowserRouter([
             {
                 path: '/register',
                 element: <Register></Register>
+            },
+            {
+                path: '/privacy-policy',
+                element: <PrivacyPolicy></PrivacyPolicy>
+            },
+            {
+                path: '/return-policy',
+                element: <ReturnPolicy></ReturnPolicy>
             },
 
         ]

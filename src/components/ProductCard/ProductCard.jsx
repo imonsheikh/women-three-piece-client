@@ -6,7 +6,7 @@ import useAddToCart from "../../hooks/useAddToCart.jsx";
 import useUpdateQuantity from "../../hooks/useUpdateQuantity.jsx";
 
 const ProductCard = ({ product }) => {
-  const { productName, productPrice, discountPercentage, images, _id } = product;
+  const { productName, productPrice, discountPercentage, images, _id, stock } = product;
   const originalPrice = productPrice / (1 - discountPercentage / 100);
 
   const { user } = useAuth();
@@ -23,17 +23,22 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = async () => {
     if (isAdding) return;
+    if (stock === 0) return; // cannot add out of stock
     setIsAdding(true);
-    const result = await addToCart(product, quantity);
+
+    // limit quantity to stock
+    const finalQuantity = quantity > stock ? stock : quantity;
+
+    const result = await addToCart(product, finalQuantity);
     if (result.success || result.alreadyInCart) {
       setInCart(true);
-      await refetch(); // Wait for updated cart
+      await refetch();
     }
     setIsAdding(false);
   };
 
   const increaseQty = async () => {
-    if (!cartItemId) return;
+    if (!cartItemId || quantity >= stock) return; // cannot exceed stock
     setQuantity((prev) => prev + 1);
     setTotalPrice((prev) => prev + productPrice);
     await updateQuantity(cartItemId, "increase");
@@ -66,10 +71,12 @@ const ProductCard = ({ product }) => {
   }, [carts, _id, productPrice]);
 
   return (
-    <div className="flex flex-col justify-between  w-full min-h-[420px] rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition duration-300 relative">
-      <span className="absolute bg-[#f6c600] rounded-full px-4 py-1 text-sm text-red-800 top-1 right-1 z-20">
-        Save {discountPercentage}%
-      </span>
+    <div className="flex flex-col justify-between w-full min-h-[420px] rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition duration-300 relative">
+      {stock > 0 && (
+        <span className="absolute bg-[#f6c600] rounded-full px-4 py-1 text-sm text-red-800 top-1 right-1 z-20">
+          Save {discountPercentage}%
+        </span>
+      )}
 
       <div
         className="relative w-full h-60 overflow-hidden"
@@ -106,7 +113,9 @@ const ProductCard = ({ product }) => {
           </p>
         </div>
 
-        {inCart ? (
+        {stock === 0 ? (
+          <div className="text-center text-red-500 font-semibold mb-4">Out of Stock</div>
+        ) : inCart ? (
           <div className="flex items-center space-x-4 mb-4">
             <button
               onClick={decreaseQty}
@@ -117,7 +126,10 @@ const ProductCard = ({ product }) => {
             <span className="text-sm md:text-lg font-medium">{quantity}</span>
             <button
               onClick={increaseQty}
-              className="w-7 h-7 md:w-8 md:h-8 border rounded-full text-base font-semibold text-gray-700 hover:bg-gray-200"
+              disabled={quantity >= stock}
+              className={`w-7 h-7 md:w-8 md:h-8 border rounded-full text-base font-semibold text-gray-700 hover:bg-gray-200 ${
+                quantity >= stock ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               +
             </button>

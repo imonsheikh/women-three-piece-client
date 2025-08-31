@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaWhatsapp } from "react-icons/fa";
 
 const GetInTouch = () => {
   const form = useRef();
@@ -83,6 +83,18 @@ const GetInTouch = () => {
                   </h3>
                   <p className="text-gray-700 text-sm">
                     support@fashionboutique.com
+                  </p>
+                </div>
+              </li>
+              {/* Email */}
+              <li className="flex items-start gap-3">
+                <FaWhatsapp className="text-green-600 text-xl mt-1" />
+                <div>
+                  <h3 className="mb-1 text-base font-semibold text-gray-900">
+                    WhatsUp Us
+                  </h3>
+                  <p className="text-gray-700 text-sm">
+                    01845925526
                   </p>
                 </div>
               </li>

@@ -131,7 +131,7 @@ const ManageCategory = () => {
       <div className="overflow-x-auto">
         <table className="table w-full border">
           <thead>
-            <tr className="bg-gray-100 text-gray-700">
+            <tr className="bg-primary-c text-white/90">
               <th>#</th>
               <th>Image</th>
               <th>Category Name</th>

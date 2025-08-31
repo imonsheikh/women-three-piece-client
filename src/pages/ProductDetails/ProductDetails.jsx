@@ -221,9 +221,14 @@ const ProductDetails = () => {
             {!inCart ? (
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-primary-c text-white py-3 rounded-xl font-medium hover:bg-primary transition"
+                className={`w-full py-3 rounded-xl font-medium transition ${
+                  stock === 0
+                    ? "bg-gray-400 text-white cursor-not-allowed"
+                    : "bg-primary-c text-white hover:bg-primary"
+                }`}
+                disabled={stock === 0}
               >
-                Add to Cart
+                {stock === 0 ? "Out of Stock" : "Add to Cart"}
               </button>
             ) : (
               <Link
