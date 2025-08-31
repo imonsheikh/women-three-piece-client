@@ -94,7 +94,7 @@ const ManageProducts = () => {
                     <td className="p-2 border">{product.brandName}</td>
                     <td className="p-2 border">BDT {product.productPrice}</td>
                     <td className="p-2 border">{product.discountPercentage}%</td>
-                    <td className="p-2 border font-semibold text-gray-700">
+                    <td className="bg-red-200 p-2 border font-semibold text-gray-700">
                       {product.stock ?? 0}
                     </td>
                     <td className="p-2 border">

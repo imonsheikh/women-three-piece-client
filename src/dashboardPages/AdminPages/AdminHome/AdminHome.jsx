@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import {
-  FaBoxOpen,
-  FaUsers,
-  FaShoppingCart,
-} from "react-icons/fa";
 import Container from "../../../components/Container/Container";
 import Title from "../../../components/Title";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  BarChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Bar,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { 
+  FaBoxOpen, FaUsers, FaShoppingCart, 
+  FaDollarSign, FaExclamationTriangle, 
+  FaFileCsv, FaFilePdf 
+} from "react-icons/fa";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const AdminHome = () => {
   const { user } = useAuth();
@@ -32,13 +22,30 @@ const AdminHome = () => {
     totalOrders: 0,
   });
 
+  const [revenue, setRevenue] = useState({ today: 0, month: 0, lifetime: 0 });
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [lowStock, setLowStock] = useState([]);
+  const [trend, setTrend] = useState([]); // 7 days revenue/orders
+  const [topProducts, setTopProducts] = useState([]);
+  const [activeUsers, setActiveUsers] = useState(0);
+
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchData = async () => {
       try {
-        const [usersRes, productsRes, ordersRes] = await Promise.all([
+        const [
+          usersRes, productsRes, ordersRes, revenueRes,
+          recentOrdersRes, lowStockRes, trendRes,
+          topProductsRes, activeUsersRes
+        ] = await Promise.all([
           axiosSecure.get("/users/count"),
           axiosSecure.get("/products/count"),
           axiosSecure.get("/orders/count"),
+          axiosSecure.get("/stats/revenue"),
+          axiosSecure.get("/orders/recent?limit=5"),
+          axiosSecure.get("/products/low-stock?limit=5"),
+          axiosSecure.get("/stats/trend?days=7"), // revenue & orders for 7 days
+          axiosSecure.get("/stats/top-products?limit=5"),
+          axiosSecure.get("/users/active")
         ]);
 
         setStats({
@@ -46,35 +53,54 @@ const AdminHome = () => {
           totalProducts: productsRes.data.count,
           totalOrders: ordersRes.data.count,
         });
+        setRevenue(revenueRes.data);
+        setRecentOrders(recentOrdersRes.data);
+        setLowStock(lowStockRes.data);
+        setTrend(trendRes.data);
+        setTopProducts(topProductsRes.data);
+        setActiveUsers(activeUsersRes.data.count);
       } catch (err) {
         console.error("Error loading admin stats:", err);
       }
     };
 
-    fetchStats();
+    fetchData();
   }, [axiosSecure]);
 
-  const pieData = [
-    { name: "Users", value: stats.totalUsers },
-    { name: "Products", value: stats.totalProducts },
-    { name: "Orders", value: stats.totalOrders },
-  ];
+  // Export Orders CSV
+  const exportCSV = () => {
+    const headers = ["Invoice No", "Customer", "Total", "Status"];
+    const rows = recentOrders.map(o => [
+      o.invoiceNo, o.customer?.name, `$${o.total.toFixed(2)}`, o.status
+    ]);
 
-  const barData = [
-    {
-      name: "Stats",
-      Users: stats.totalUsers,
-      Products: stats.totalProducts,
-      Orders: stats.totalOrders,
-    },
-  ];
+    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "orders.csv";
+    a.click();
+  };
 
-  const COLORS = ["#6366F1", "#10B981", "#EC4899"];
+  // Export Orders PDF
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Orders Report", 14, 16);
+    doc.autoTable({
+      startY: 20,
+      head: [["Invoice No", "Customer", "Total", "Status"]],
+      body: recentOrders.map(o => [
+        o.invoiceNo, o.customer?.name, `$${o.total.toFixed(2)}`, o.status
+      ])
+    });
+    doc.save("orders.pdf");
+  };
 
   return (
-    <Container>
       <div className="min-h-screen p-5 bg-gray-50">
-        <Title>Admin Dashboard</Title>
+        <div className="flex justify-around items-center">
+             <Title>Admin Dashboard</Title>
 
         {/* Welcome Section */}
         <div className="bg-white p-5 rounded-md shadow mt-4">
@@ -82,88 +108,133 @@ const AdminHome = () => {
             Welcome, {user?.displayName || "Admin"}!
           </h2>
           <p className="text-sm text-gray-500">
-            Manage your platform efficiently. Keep an eye on the stats below.
+            Active Users Right Now: <span className="font-bold">{activeUsers}</span>
           </p>
         </div>
 
+        </div>
         {/* Stat Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           <div className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-lg shadow-lg p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm uppercase font-medium">Total Users</h3>
-                <p className="text-3xl font-bold mt-1">{stats.totalUsers}</p>
-              </div>
-              <FaUsers className="text-4xl opacity-80" />
-            </div>
+            <h3 className="text-sm uppercase">Total Users</h3>
+            <p className="text-3xl font-bold">{stats.totalUsers}</p>
+            <FaUsers className="text-4xl mt-2 opacity-80" />
           </div>
-
           <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-lg shadow-lg p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm uppercase font-medium">Total Products</h3>
-                <p className="text-3xl font-bold mt-1">{stats.totalProducts}</p>
-              </div>
-              <FaBoxOpen className="text-4xl opacity-80" />
-            </div>
+            <h3 className="text-sm uppercase">Total Products</h3>
+            <p className="text-3xl font-bold">{stats.totalProducts}</p>
+            <FaBoxOpen className="text-4xl mt-2 opacity-80" />
           </div>
-
           <div className="bg-gradient-to-br from-rose-500 to-pink-600 text-white rounded-lg shadow-lg p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm uppercase font-medium">Total Orders</h3>
-                <p className="text-3xl font-bold mt-1">{stats.totalOrders}</p>
-              </div>
-              <FaShoppingCart className="text-4xl opacity-80" />
-            </div>
+            <h3 className="text-sm uppercase">Total Orders</h3>
+            <p className="text-3xl font-bold">{stats.totalOrders}</p>
+            <FaShoppingCart className="text-4xl mt-2 opacity-80" />
           </div>
         </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
-          {/* Pie Chart */}
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-lg font-semibold mb-4 text-center">Overview Pie Chart</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={90}
-                  fill="#8884d8"
-                  label
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+        {/* Revenue Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div className="bg-white shadow rounded-lg p-5">
+            <h4 className="text-gray-500">Today</h4>
+            <p className="text-2xl font-bold">${revenue.today.toFixed(2)}</p>
+          </div>
+          <div className="bg-white shadow rounded-lg p-5">
+            <h4 className="text-gray-500">This Month</h4>
+            <p className="text-2xl font-bold">${revenue.month.toFixed(2)}</p>
+          </div>
+          <div className="bg-white shadow rounded-lg p-5">
+            <h4 className="text-gray-500">Lifetime</h4>
+            <p className="text-2xl font-bold">${revenue.lifetime.toFixed(2)}</p>
+          </div>
+        </div>
+
+        {/* Sales Trend Chart */}
+        <div className="bg-white mt-8 p-6 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Sales Trend (Last 7 Days)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={trend}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="revenue" stroke="#10B981" />
+              <Line type="monotone" dataKey="orders" stroke="#6366F1" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Recent Orders + Low Stock + Top Products */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+          {/* Recent Orders */}
+          <div className="bg-white p-6 rounded-lg shadow col-span-2">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">Recent Orders</h3>
+              <div className="flex space-x-2">
+                <button onClick={exportCSV} className="bg-green-500 text-white px-3 py-1 rounded flex items-center">
+                  <FaFileCsv className="mr-1" /> CSV
+                </button>
+                <button onClick={exportPDF} className="bg-red-500 text-white px-3 py-1 rounded flex items-center">
+                  <FaFilePdf className="mr-1" /> PDF
+                </button>
+              </div>
+            </div>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left border-b">
+                  <th>ID</th>
+                  <th>Customer</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentOrders.map((order) => (
+                  <tr key={order._id} className="border-b">
+                    <td>{order.invoiceNo}</td>
+                    <td>{order.customer?.name || "N/A"}</td>
+                    <td>{order.total.toFixed(2)}</td>
+                    <td className="capitalize">{order.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          {/* Bar Chart */}
+          {/* Low Stock */}
           <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-lg font-semibold mb-4 text-center">Bar Chart Comparison</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={barData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis allowDecimals={false} />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="Users" fill="#6366F1" />
-                <Bar dataKey="Products" fill="#10B981" />
-                <Bar dataKey="Orders" fill="#EC4899" />
-              </BarChart>
-            </ResponsiveContainer>
+            <h3 className="text-lg font-semibold mb-4 flex items-center">
+              <FaExclamationTriangle className="text-yellow-500 mr-2" />
+              Low Stock Alerts
+            </h3>
+            <ul className="space-y-2">
+              {lowStock.length === 0 ? (
+                <p className="text-gray-500">No low stock products.</p>
+              ) : (
+                lowStock.map((p) => (
+                  <li key={p._id} className="flex justify-between text-sm">
+                    <span>{p?.productName}</span>
+                    <span className="font-bold">{p.stock} left</span>
+                  </li>
+                ))
+              )}
+            </ul>
           </div>
+        </div>
+
+        {/* Top Selling Products */}
+        <div className="bg-white mt-8 p-6 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Top Selling Products</h3>
+          <ul className="space-y-2">
+            {topProducts.map((p) => (
+              <li key={p._id} className="flex justify-between text-sm">
+                <span>{p.productName}d</span>
+                <span className="font-bold">{p.salesCount} sold</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </Container>
   );
 };
 

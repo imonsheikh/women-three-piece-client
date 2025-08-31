@@ -60,7 +60,7 @@ const ManageOrders = () => {
                 <tr>
                   <th className="p-4">#</th>
                   <th className="p-4">Customer</th>
-                  <th className="p-4">Email</th>
+                  <th className="p-4">Customer Email</th>
                   <th className="p-4">Items</th>
                   <th className="p-4">Total</th>
                   <th className="p-4">Payment</th>
