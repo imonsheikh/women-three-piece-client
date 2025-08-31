@@ -14,6 +14,8 @@ import {
   FaMoneyBillWave,
   FaShippingFast,
 } from "react-icons/fa";
+import FAQ from "../../components/FAQ.jsx";
+import QuestionsTab from "../../components/QuestionTab.jsx";
 
 const ProductDetails = () => {
   const [products] = useProducts();
@@ -124,11 +126,13 @@ const ProductDetails = () => {
         <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Images */}
           <div>
-            <img
-              src={mainImage}
-              alt={productName}
-              className="w-full h-[450px] object-cover rounded-2xl shadow-sm mb-4"
-            />
+            <div className="overflow-hidden rounded-2xl shadow-sm mb-4">
+              <img
+                src={mainImage}
+                alt={productName}
+                className="w-full h-[350px] object-cover rounded-2xl transition-transform duration-300 hover:scale-110 cursor-zoom-in"
+              />
+            </div>
             <div className="grid grid-cols-4 gap-4">
               {images?.slice(0, 4).map((img, index) => (
                 <img
@@ -146,14 +150,33 @@ const ProductDetails = () => {
 
           {/* Product Info */}
           <div>
-            <h2 className="text-4xl font-semibold text-gray-800 mb-3">
+            <h2 className="text-4xl font-bold text-gray-900 mb-3">
               {productName}
             </h2>
-            <p className="text-gray-500 mb-2 text-sm">
-              Brand: <span className="text-gray-700 font-medium">{brandName}</span>
+            <p className="text-gray-600 mb-2 text-sm">
+              <span className="font-semibold text-gray-800">Brand:</span>{" "}
+              <span className="text-gray-700 font-medium">{brandName}</span>
             </p>
-            <p>SKU: {sku || "N/A"}</p>
+            <p className="text-gray-600 mb-2 text-sm">
+              <span className="font-semibold text-gray-800">SKU:</span>{" "}
+              {sku || "N/A"}
+            </p>
+            <p className="text-gray-600 mb-4 text-sm">
+              <span className="font-semibold text-gray-800">Category:</span>{" "}
+              {category}
+            </p>
 
+            <div className="flex items-center space-x-3 mb-5">
+              <p className="text-2xl font-bold text-blue-600">
+                BDT {totalPrice.toFixed(2)}
+              </p>
+              <p className="text-lg line-through text-gray-400">
+                BDT {(originalPrice * quantity).toFixed(2)}
+              </p>
+              <span className="px-2 py-1 text-xs rounded-full text-red-800 bg-[#f6c600] font-semibold">
+                Save {discountPercentage}%
+              </span>
+            </div>
             {/* Ratings */}
             <div className="flex items-center gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
@@ -164,26 +187,16 @@ const ProductDetails = () => {
               ))}
               <span className="text-gray-600 text-sm ml-2">(124 Reviews)</span>
             </div>
-
-            <div className="flex items-center space-x-3 mb-5">
-              <p className="text-xl font-bold text-blue-600">
-                BDT {totalPrice.toFixed(2)}
+            <div className="flex gap-2">
+              <p>Status: </p>
+              <p
+                className={`mb-4 text-sm font-medium ${
+                  stock > 0 ? "text-green-600" : "text-red-500"
+                }`}
+              >
+                {stock > 0 ? "In Stock" : "Out of Stock"}
               </p>
-              <p className="text-lg line-through text-gray-400">
-                BDT {(originalPrice * quantity).toFixed(2)}
-              </p>
-              <span className="px-2 py-1 text-xs rounded-full text-red-800 bg-[#f6c600]">
-                Save {discountPercentage}%
-              </span>
             </div>
-
-            <p
-              className={`mb-4 text-sm font-medium ${
-                stock > 0 ? "text-green-600" : "text-red-500"
-              }`}
-            >
-              {stock > 0 ? "In Stock" : "Out of Stock"}
-            </p>
 
             {/* Quantity Control */}
             {inCart && (
@@ -235,22 +248,30 @@ const ProductDetails = () => {
               </h3>
               <span className="text-2xl">{showInfo ? "−" : "+"}</span>
             </div>
+
             <ul
               className={`mt-4 space-y-3 text-sm text-gray-700 ${
                 showInfo ? "block" : "hidden"
               } md:block`}
             >
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-green-500" /> Best Quality Product Guarantee
+                <FaCheckCircle className="text-green-500" /> Best Quality
+                Product Guarantee
               </li>
               <li className="flex items-center gap-2">
-                <FaMoneyBillWave className="text-blue-500" /> Cash On Delivery Available
+                <FaMoneyBillWave className="text-blue-500" /> Cash On Delivery
+                Available
               </li>
               <li className="flex items-center gap-2">
-                <FaTruck className="text-orange-500" /> Delivery Charge Inside Dhaka <b>80 TK</b>
+                <FaTruck className="text-orange-500" /> Delivery Charge Inside
+                Dhaka <b>80 TK</b>
               </li>
               <li className="flex items-center gap-2">
-                <FaShippingFast className="text-purple-500" /> Delivery Charge Outside Dhaka <b>150 TK</b>
+                <FaShippingFast className="text-purple-500" /> Delivery Charge
+                Outside Dhaka <b>150 TK</b>
+              </li>
+              <li className="flex items-center gap-2">
+                <FaTruck className="text-green-500" /> Delivery Time: 2-4 Days
               </li>
             </ul>
           </div>
@@ -268,7 +289,7 @@ const ProductDetails = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-green-700 font-medium hover:underline"
               >
-                <FaWhatsapp className="text-2xl" /> WhatsApp
+                <FaWhatsapp className="text-2xl" /> WhatsApp 01845925526
               </a>
             </div>
           </div>
@@ -277,23 +298,26 @@ const ProductDetails = () => {
 
       {/* Tabs */}
       <div className="mt-10">
-        <div className="flex justify-start gap-2 border-b pb-2">
-          {["description", "questions", "reviews", "how-to-order"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`capitalize font-medium p-2 transition ${
-                activeTab === tab
-                  ? "text-blue-600 bg-blue-100 border-b-3 border-blue-600"
-                  : "text-gray-500 hover:text-gray-800"
-              }`}
-            >
-              {tab.replace("-", " ")}
-            </button>
-          ))}
+        <div className="flex justify-start gap-2 border-b border-b-2 border-gray-400 pb-2">
+          {["description", "questions", "reviews", "how-to-order"].map(
+            (tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`capitalize font-medium p-2 transition ${
+                  activeTab === tab
+                    ? "text-blue-600 bg-blue-100 border-b-3 border-blue-600"
+                    : "text-gray-500 hover:text-gray-800"
+                }`}
+              >
+                {tab.replace("-", " ")}
+              </button>
+            )
+          )}
         </div>
 
         <div className="mt-6">
+          {/* Description */}
           {activeTab === "description" && (
             <div
               className="text-gray-700 text-sm leading-relaxed"
@@ -303,33 +327,40 @@ const ProductDetails = () => {
             />
           )}
 
+          {/* 2 Questions */}
           {activeTab === "questions" && (
-            <div className="space-y-3 text-gray-700 text-sm">
-              <p>
-                ❓ <b>Does this product have warranty?</b> Yes, 6 months warranty included.
-              </p>
-              <p>
-                ❓ <b>How long will delivery take?</b> Usually 2-5 working days.
-              </p>
+            <div className="space-y-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Existing FAQ */}
+              <div className="md:col-span-2">
+                <FAQ />
+              </div>
+
+              {/* Ask a Question Form */}
+              <div className="md:col-span-1">
+                <QuestionsTab />
+              </div>
             </div>
           )}
 
+          {/* Reviews */}
           {activeTab === "reviews" && (
             <div className="space-y-6">
               {/* Existing Reviews */}
-              <div className="space-y-2">
-            
-              </div>
+              <div className="space-y-2"></div>
 
               {/* Write Review */}
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="text-gray-800 font-semibold mb-2">Write a Review</h4>
+                <h4 className="text-gray-800 font-semibold mb-2">
+                  Write a Review
+                </h4>
                 <div className="flex items-center gap-2 mb-2">
-                  {[1,2,3,4,5].map((star) => (
+                  {[1, 2, 3, 4, 5].map((star) => (
                     <FaStar
                       key={star}
                       className={`cursor-pointer text-2xl ${
-                        star <= (hoverStar || reviewStar) ? "text-yellow-400" : "text-gray-300"
+                        star <= (hoverStar || reviewStar)
+                          ? "text-yellow-400"
+                          : "text-gray-300"
                       }`}
                       onMouseEnter={() => setHoverStar(star)}
                       onMouseLeave={() => setHoverStar(0)}
@@ -346,7 +377,7 @@ const ProductDetails = () => {
                 ></textarea>
                 <button
                   onClick={handleReviewSubmit}
-                  className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  className="mt-2 px-4 py-2 bg-primary-c text-white rounded-lg hover:bg-primary transition"
                 >
                   Submit Review
                 </button>
@@ -354,11 +385,16 @@ const ProductDetails = () => {
             </div>
           )}
 
+          {/* How to Order */}
           {activeTab === "how-to-order" && (
             <ol className="list-decimal list-inside space-y-2 text-gray-700 text-sm">
               <li>Select your desired product and quantity.</li>
-              <li>Click <b>Add to Cart</b>.</li>
-              <li>Go to your cart and click <b>Checkout</b>.</li>
+              <li>
+                Click <b>Add to Cart</b>.
+              </li>
+              <li>
+                Go to your cart and click <b>Checkout</b>.
+              </li>
               <li>Provide shipping details & confirm payment.</li>
             </ol>
           )}
@@ -372,7 +408,9 @@ const ProductDetails = () => {
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {products
-            .filter((p) => p.category === product.category && p._id !== product._id)
+            .filter(
+              (p) => p.category === product.category && p._id !== product._id
+            )
             .slice(0, 4)
             .map((related) => (
               <ProductCard key={related._id} product={related} />

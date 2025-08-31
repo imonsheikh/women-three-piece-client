@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useCart from "../../hooks/useCart";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2/src/sweetalert2.js";
 import useAuth from "../../hooks/useAuth.jsx";
@@ -12,6 +12,7 @@ const Cart = () => {
   const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const [localCart, setLocalCart] = useState([]);
+  const navigate = useNavigate()
 
   // Corrected useEffect to avoid flickering
   useEffect(() => {
@@ -87,7 +88,8 @@ const Cart = () => {
           });
           setLocalCart([]);
           Swal.fire("Cleared!", "Your cart has been cleared.", "success");
-          refetch();
+          refetch(); 
+          navigate('/products')
         } catch (error) {
           console.error("Error clearing cart:", error);
           Swal.fire("Error!", "Failed to clear the cart.", "error");

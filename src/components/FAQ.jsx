@@ -24,7 +24,7 @@ const FAQ = () => {
     {
       question: "পেমেন্ট অপশন কি কি?",
       answer:
-        "আমরা নগদ/ক্যাশ অন ডেলিভারি, বিকাশ, নগদ, ব্যাংক ট্রান্সফার সহ বিভিন্ন পেমেন্ট অপশন দেই।",
+        "আমরা নগদ/ক্যাশ অন ডেলিভারি পেমেন্ট অপশন দেই।",
       category: "Payment",
       icon: <FaMoneyBillWave className="text-yellow-500" />,
     },
@@ -54,20 +54,20 @@ const FAQ = () => {
       : faqs.filter((faq) => faq.category === activeCategory);
 
   return (
-    <div className="max-w-4xl mx-auto my-12 px-4 font-sans">
-      <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
+    <div className="max-w-4xl mx-auto my-1 px-4 font-sans mt-10">
+      <h2 className="text-2xl font-extrabold text-gray-900 text-center mb-4">
         প্রায়শই জিজ্ঞাসিত প্রশ্ন
       </h2>
 
       {/* Category Filter */}
-      <div className="flex justify-center gap-4 mb-6 flex-wrap">
+      <div className="flex justify-center gap-2 mb-6 flex-wrap">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-2 rounded-full font-medium transition text-sm md:text-base ${
+            className={`px-3 py-0.5 rounded-full font-medium transition text-sm md:text-base ${
               activeCategory === cat
-                ? "bg-blue-600 text-white shadow-md"
+                ? "bg-primary-c text-white shadow-md"
                 : "bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}
           >
@@ -86,7 +86,7 @@ const FAQ = () => {
               onClick={() => toggleFAQ(index)}
               className="w-full flex justify-between items-center p-5 text-left focus:outline-none"
             >
-              <div className="flex items-center gap-3 text-gray-900 font-semibold text-lg md:text-xl">
+              <div className="flex items-center gap-3 text-gray-900 font-semibold text-lg md:text-lg">
                 {faq.icon}
                 {faq.question}
               </div>
