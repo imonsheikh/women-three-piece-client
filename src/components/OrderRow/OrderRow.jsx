@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure.jsx";
+import { generateInvoicePDF } from "../../utils/generateInvoicePDF.jsx";
 
 const OrderRow = ({ order, idx, refetch }) => {
   const axiosSecure = useAxiosSecure();
@@ -10,7 +11,7 @@ const OrderRow = ({ order, idx, refetch }) => {
     setUpdating(true);
     try {
       await axiosSecure.patch(`/orders/${order._id}`, { status: newStatus });
-      refetch(); // you can see new status after reload
+      refetch(); // update after reload
     } catch (error) {
       console.error("Failed to update status", error);
       alert("Error updating status");
@@ -53,6 +54,16 @@ const OrderRow = ({ order, idx, refetch }) => {
       </td>
       <td className="p-4 text-sm text-gray-500">
         {new Date(order.date).toLocaleString()}
+      </td>
+
+      {/* new Action column  */}
+      <td className="p-4">
+        <button
+          onClick={() => generateInvoicePDF(order)}
+          className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm transition"
+        >
+          Download
+        </button>
       </td>
     </tr>
   );

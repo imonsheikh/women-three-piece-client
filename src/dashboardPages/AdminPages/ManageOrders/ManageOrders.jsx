@@ -66,6 +66,7 @@ const ManageOrders = () => {
                   <th className="p-4">Payment</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Date</th>
+                  <th className="p-4">Invoice No</th>
                 </tr>
               </thead>
               <tbody className="text-gray-700">
