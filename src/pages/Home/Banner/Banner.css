@@ -1,5 +1,5 @@
 .banner-img{
-    margin-top: 20px; 
+    margin-top: 18px; 
 
 }
 .banner-img .control-arrow:hover {
@@ -10,7 +10,7 @@
   }
 .banner-img .thumb{
     height: 50px;
-    border-radius: 50px; 
+    /* border-radius: 100px;  */
 }
 .banner-img .thumb.selected, .banner-img .thumb:hover{
     border: 3px solid #9333EA;

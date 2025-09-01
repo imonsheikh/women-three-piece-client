@@ -6,7 +6,7 @@ import { MdCategory, MdManageAccounts } from "react-icons/md";
 import { AiFillDollarCircle } from "react-icons/ai";
 import Loading from "../components/Loading/Loading.jsx";
 import { BiSolidCategory } from "react-icons/bi";
-import { GiShop } from "react-icons/gi";
+import { GiKnightBanner, GiShop } from "react-icons/gi";
 import { FaShoppingBag } from "react-icons/fa";
 
 
@@ -43,6 +43,19 @@ const Dashboard = () => {
           <div className="flex items-center gap-2">
             <IoAddCircleSharp size={25} />
             <p>Add Product</p>
+          </div>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "text-primary-c font-bold text-base" : "text-base"
+          }
+          to="/dashboard/banner-add"
+        >
+          <div className="flex items-center gap-2">
+            <GiKnightBanner size={25} />
+            <p>Banner Add</p>
           </div>
         </NavLink>
       </li>

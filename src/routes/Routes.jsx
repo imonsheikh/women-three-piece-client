@@ -30,6 +30,7 @@ import GetInTouch from "../pages/Home/GetInTouch/GetInTouch.jsx";
 import AboutUs from "../pages/AboutUs/AboutUs.jsx";
 import PrivacyPolicy from "../pages/PrivacyPolicy.jsx";
 import ReturnPolicy from "../pages/ReturnPolicy.jsx";
+import BannerAdmin from "../dashboardPages/AdminPages/BannerAdd/BannerAdd.jsx";
 
 
 export const router = createBrowserRouter([
@@ -125,6 +126,10 @@ export const router = createBrowserRouter([
             {
                 path: 'add-product',
                 element: <AdminRoute><PrivateRoute><AddProduct/></PrivateRoute></AdminRoute>
+            },
+            {
+                path: 'banner-add',
+                element: <AdminRoute><PrivateRoute><BannerAdmin/></PrivateRoute></AdminRoute>
             },
             {
                 path: 'manage-category',
