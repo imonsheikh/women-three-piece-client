@@ -1,23 +1,27 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiShoppingCart } from "react-icons/fi";
 import useAuth from "../../hooks/useAuth.jsx";
 import HotLine from "../../components/HotLine/HotLine.jsx";
 import Loading from "../../components/Loading/Loading.jsx";
 import logo from "../../assets/logo/logo.png";
 import useCart from "../../hooks/useCart.jsx";
-import CartDropdown from "../../components/CartDropdown.jsx";
 import useAdmin from "../../hooks/useAdmin.jsx";
+import { RxCross2 } from "react-icons/rx";
+
 
 const Navbar = () => {
   const { user, logOut, loading } = useAuth();
   const [isAdmin] = useAdmin();
   const [carts] = useCart();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   if (loading) return <Loading />;
 
-  const defaultPhotoURL =
-    "https://img.icons8.com/?size=100&id=85147&format=png&color=000000";
+  const defaultPhotoURL = "https://img.icons8.com/?size=100&id=85147&format=png&color=000000";
 
   const handleLogout = () => {
     Swal.fire({
@@ -41,11 +45,16 @@ const Navbar = () => {
     });
   };
 
+  const handleCartClick = () => {
+    navigate("/cart");
+  };
+
   const navLinks = (
     <>
       <li>
         <NavLink
           to="/"
+          onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
               ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
@@ -58,6 +67,7 @@ const Navbar = () => {
       <li>
         <NavLink
           to="/products"
+          onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
               ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
@@ -67,21 +77,10 @@ const Navbar = () => {
           Products
         </NavLink>
       </li>
-      {/* <li>
-        <NavLink
-          to="/categories"
-          className={({ isActive }) =>
-            isActive
-              ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
-              : "hover:text-indigo-500 transition"
-          }
-        >
-          Categories
-        </NavLink>
-      </li> */}
       <li>
         <NavLink
           to="/about-us"
+          onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
               ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
@@ -94,6 +93,7 @@ const Navbar = () => {
       <li>
         <NavLink
           to="/contact-us"
+          onClick={() => setMenuOpen(false)}
           className={({ isActive }) =>
             isActive
               ? "text-indigo-600 font-semibold border-b-2 border-indigo-600"
@@ -108,40 +108,37 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-30 bg-white shadow-md">
-      <div className="container flex items-center justify-between h-16 lg:max-w-9/12 mx-auto ">
-
-        {/* Left: Logo (desktop) or Mobile menu */}
-        <div className="flex items-center lg:space-x-6 w-1/3 lg:w-auto">
-          {/* Mobile Menu */}
+      <div className="container flex items-center justify-between h-16 lg:max-w-9/12 mx-auto px-4">
+        {/* Left: Mobile Menu + Logo */}
+        <div className="flex items-center space-x-3">
+          {/* Mobile Menu (only on mobile) */}
           <div className="lg:hidden">
-            <div className="dropdown dropdown-start">
-              <button tabIndex={0} className="btn btn-ghost btn-circle">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 6h16M4 12h8m-8 6h16"
-                  />
-                </svg>
-              </button>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content bg-white rounded-lg shadow-lg mt-3 w-48 p-2 border border-gray-200"
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="btn btn-ghost btn-circle"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
               >
-                {navLinks}
-              </ul>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
           </div>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 text-indigo-700 font-bold text-lg md:text-xl">
+          <Link
+            to="/"
+            className="flex items-center space-x-2 text-indigo-700 font-bold text-lg md:text-xl"
+          >
             <img src={logo} alt="Logo" className="w-10 h-10 object-contain" />
             <div className="leading-tight text-base lg:text-lg sm:block">
               <span className="block">Mehrab</span>
@@ -150,15 +147,27 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Center: Nav Menu (desktop only) */}
-        <nav className="hidden lg:flex justify-center">
-          <ul className="flex space-x-5 text-gray-700">{navLinks}</ul>
+        {/* Center: Desktop Nav */}
+        <nav className="hidden lg:flex justify-center flex-1">
+          <ul className="flex space-x-6 text-gray-700 font-medium">{navLinks}</ul>
         </nav>
 
-        {/* Right: Cart + User */}
-        <div className="flex items-center justify-end space-x-4 w-1/3">
+        {/* Right: Hotline + Cart + User */}
+        <div className="flex items-center space-x-4">
           <HotLine />
-          <CartDropdown carts={carts} />
+
+          {/* Cart Direct */}
+          <button
+            onClick={handleCartClick}
+            className="relative btn btn-ghost btn-circle hover:bg-indigo-100"
+          >
+            <FiShoppingCart className="w-6 h-6" />
+            {carts?.length > 0 && (
+              <span className="absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1">
+                {carts.length}
+              </span>
+            )}
+          </button>
 
           {user ? (
             <div className="dropdown dropdown-end">
@@ -203,6 +212,31 @@ const Navbar = () => {
           )}
         </div>
       </div>
+
+      {/* Animated Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            initial={{ x: -10, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -10, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 80 }}
+            className="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-40 p-6 lg:hidden"
+          >
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-2xl"
+            >
+            
+              <RxCross2/>
+
+            </button>
+            <ul className="space-y-4 text-lg font-medium text-gray-700">
+              {navLinks}
+            </ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

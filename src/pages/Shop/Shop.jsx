@@ -115,164 +115,158 @@ const Shop = () => {
   }
 
   return (
-    <div className="mx-auto py-4 mt-4">
-      {/* // Horizontal Categories Menu  */}
-      <div className="flex flex-wrap justify-center items-center gap-4 mb-8  bg-black/10 rounded-full shadow-sm sticky top-19 z-10">
-        {allCategories.map((cat) => (
-          <div
-            key={cat}
-            className="relative py-1 flex justify-center items-center"
-            onMouseEnter={() => setOpenDropdown(cat)}
-            onMouseLeave={() => setOpenDropdown(null)}
-          >
-            <Link
-              to={cat === "All" ? "/products" : `/${encodeURIComponent(cat)}`}
-            >
-              <button
-                onClick={() => handleNavigate(cat)}
-                className={`px-5 py-2 rounded-full font-medium transition ${
-                  selectedCategory === cat
-                    ? "bg-blue-600 text-white shadow-md"
-                    : "text-gray-700 hover:bg-blue-100 hover:ring-1 hover:text-blue-600"
-                }`}
-              >
-                {cat}
-              </button>
-            </Link>
-
-            {cat !== "All" &&
-              categoryMap[cat] &&
-              categoryMap[cat].length > 0 && (
-                <div
-                  className={`absolute left-0 top-full  w-56 bg-white rounded-lg shadow-lg border border-gray-200 transition-all duration-300 z-50
-            ${
-              openDropdown === cat
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-95 pointer-events-none"
-            }
-          `}
-                >
-                  <ul className="py-2">
-                    {categoryMap[cat].map((sub) => (
-                      <li key={sub}>
-                        <Link
-                          to={`/${encodeURIComponent(cat)}/${encodeURIComponent(
-                            sub
-                          )}`}
-                        >
-                          <button
-                            onClick={() => {
-                              handleNavigate(cat, sub);
-                              setOpenDropdown(null); // click dropdown close
-                            }}
-                            className={`block w-full text-left px-4 py-2 text-sm rounded font-semibold transition ${
-                              selectedSubCategory === sub
-                                ? "bg-blue-100 text-blue-600"
-                                : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                            }`}
-                          >
-                            {sub}
-                          </button>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-          </div>
-        ))}
-      </div>
-
-      <BreadCrumbs
-        selectedCategory={selectedCategory}
-        selectedSubCategory={selectedSubCategory}
-      />
-
-      {/* Top Bar */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        {/* Search Input */}
-        <div className="relative w-full md:w-1/2 border border-gray-300 rounded-lg shadow-sm">
-          <input
-            type="text"
-            placeholder={displayPlaceholder}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 placeholder-gray-400 text-gray-700"
-          />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-            <BiSearch/>
-          </span>
-        </div>
-
-        {/* Sort Dropdown */}
-        <div className="w-full md:w-1/4 relative">
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="w-full border border-gray-300 px-4 py-2 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 appearance-none pr-8"
-          >
-            <option value="" disabled>
-              Sort by
-            </option>
-            <option value="asc">Price: Low to High</option>
-            <option value="desc">Price: High to Low</option>
-          </select>
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-            ▼
-          </span>
-        </div>
-      </div>
-
-      {/* Product Grid */}
-      <div className="w-full grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedProducts.length > 0 ? (
-          paginatedProducts.map((product, idx) => (
-            <ProductCard key={idx} product={product} />
-          ))
-        ) : (
-          <div className="col-span-full text-center py-16 text-gray-500 flex flex-col items-center space-y-4">
-            <FiBox className="text-5xl text-gray-400" />
-            <h3 className="text-xl font-semibold text-gray-600">
-              No products found
-            </h3>
-            <p className="text-sm text-gray-400">
-              We couldn’t find any products matching your search.
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center mt-8 space-x-2">
+    <div className="mx-auto py-4 mt-4 px-2 sm:px-4 lg:px-6">
+  {/* Horizontal Categories Menu */}
+  <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-8 bg-black/10 rounded-full shadow-sm sticky top-16 z-10 px-2 py-2 sm:px-4 sm:py-2">
+    {allCategories.map((cat) => (
+      <div
+        key={cat}
+        className="relative py-1 flex justify-center items-center"
+        onMouseEnter={() => setOpenDropdown(cat)}
+        onMouseLeave={() => setOpenDropdown(null)}
+      >
+        <Link
+          to={cat === "All" ? "/products" : `/${encodeURIComponent(cat)}`}
+        >
           <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-3 py-1 border rounded disabled:opacity-50"
+            onClick={() => handleNavigate(cat)}
+            className={`px-3 sm:px-5 py-1 sm:py-2 rounded-full font-medium transition text-sm sm:text-base ${
+              selectedCategory === cat
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-gray-700 hover:bg-blue-100 hover:ring-1 hover:text-blue-600"
+            }`}
           >
-            Prev
+            {cat}
           </button>
-          {Array.from({ length: totalPages }, (_, idx) => (
-            <button
-              key={idx + 1}
-              onClick={() => handlePageChange(idx + 1)}
-              className={`px-3 py-1 border rounded ${
-                currentPage === idx + 1 ? "bg-blue-600 text-white" : "bg-white"
+        </Link>
+
+        {cat !== "All" &&
+          categoryMap[cat] &&
+          categoryMap[cat].length > 0 && (
+            <div
+              className={`absolute left-0 top-full w-40 sm:w-56 bg-white rounded-lg shadow-lg border border-gray-200 transition-all duration-300 z-50 ${
+                openDropdown === cat
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-95 pointer-events-none"
               }`}
             >
-              {idx + 1}
-            </button>
-          ))}
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-3 py-1 border rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
-      )}
+              <ul className="py-2 text-sm sm:text-base">
+                {categoryMap[cat].map((sub) => (
+                  <li key={sub}>
+                    <Link
+                      to={`/${encodeURIComponent(cat)}/${encodeURIComponent(
+                        sub
+                      )}`}
+                    >
+                      <button
+                        onClick={() => {
+                          handleNavigate(cat, sub);
+                          setOpenDropdown(null);
+                        }}
+                        className={`block w-full text-left px-3 sm:px-4 py-1 sm:py-2 rounded font-semibold transition ${
+                          selectedSubCategory === sub
+                            ? "bg-blue-100 text-blue-600"
+                            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                        }`}
+                      >
+                        {sub}
+                      </button>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+      </div>
+    ))}
+  </div>
+
+  {/* Search + Sort */}
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-6">
+    <div className="relative w-full sm:w-1/2 border border-gray-300 rounded-lg shadow-sm">
+      <input
+        type="text"
+        placeholder={displayPlaceholder}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full border border-gray-300 px-3 sm:px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 placeholder-gray-400 text-gray-700 text-sm sm:text-base"
+      />
+      <span className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400">
+        <BiSearch />
+      </span>
     </div>
+
+    <div className="w-full sm:w-1/4 relative">
+      <select
+        value={sortOrder}
+        onChange={(e) => setSortOrder(e.target.value)}
+        className="w-full border border-gray-300 px-3 sm:px-4 py-2 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 appearance-none pr-8 text-sm sm:text-base"
+      >
+        <option value="" disabled>
+          Sort by
+        </option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+      <span className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm sm:text-base">
+        ▼
+      </span>
+    </div>
+  </div>
+
+  {/* Product Grid */}
+  <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-6">
+    {paginatedProducts.length > 0 ? (
+      paginatedProducts.map((product, idx) => (
+        <ProductCard key={idx} product={product} />
+      ))
+    ) : (
+      <div className="col-span-full text-center py-16 text-gray-500 flex flex-col items-center space-y-4">
+        <FiBox className="text-5xl text-gray-400" />
+        <h3 className="text-xl font-semibold text-gray-600">
+          No products found
+        </h3>
+        <p className="text-sm text-gray-400">
+          We couldn’t find any products matching your search.
+        </p>
+      </div>
+    )}
+  </div>
+
+  {/* Pagination */}
+  {totalPages > 1 && (
+    <div className="flex justify-center items-center mt-6 sm:mt-8 space-x-1 sm:space-x-2 flex-wrap">
+      <button
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="px-2 sm:px-3 py-1 border rounded disabled:opacity-50 text-sm sm:text-base"
+      >
+        Prev
+      </button>
+      {Array.from({ length: totalPages }, (_, idx) => (
+        <button
+          key={idx + 1}
+          onClick={() => handlePageChange(idx + 1)}
+          className={`px-2 sm:px-3 py-1 border rounded text-sm sm:text-base ${
+            currentPage === idx + 1
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-700"
+          }`}
+        >
+          {idx + 1}
+        </button>
+      ))}
+      <button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="px-2 sm:px-3 py-1 border rounded disabled:opacity-50 text-sm sm:text-base"
+      >
+        Next
+      </button>
+    </div>
+  )}
+</div>
+
   );
 };
 
