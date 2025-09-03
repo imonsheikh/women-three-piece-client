@@ -33,7 +33,7 @@ const Banner = () => {
               to="/products"
               className="absolute inset-0 flex items-center justify-center"
             >
-              <button className="bg-primary-c hover:bg-primary text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition duration-300">
+              <button className="bg-primary-c hover:bg-primary text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition duration-300 text-xs">
                 Shop Now
               </button>
             </Link>

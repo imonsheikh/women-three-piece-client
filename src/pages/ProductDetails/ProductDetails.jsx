@@ -120,7 +120,7 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="py-12 w-full max-w-7xl mx-auto px-4">
+    <div className="md:py-12 py-6 w-full max-w-7xl mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Image + Info */}
         <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -130,10 +130,10 @@ const ProductDetails = () => {
               <img
                 src={mainImage}
                 alt={productName}
-                className="w-full h-[350px] object-cover rounded-2xl transition-transform duration-300 hover:scale-110 cursor-zoom-in"
+                className="w-full md:h-[350px] h-[300px] object-cover rounded-2xl transition-transform duration-300 hover:scale-110 cursor-zoom-in"
               />
             </div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 md:gap-4 gap-2">
               {images?.slice(0, 4).map((img, index) => (
                 <img
                   key={index}
@@ -150,7 +150,7 @@ const ProductDetails = () => {
 
           {/* Product Info */}
           <div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-3">
+            <h2 className="md:text-3xl text-2xl font-bold text-gray-900 md:mb-3">
               {productName}
             </h2>
             <p className="text-gray-600 mb-2 text-sm">
@@ -167,10 +167,10 @@ const ProductDetails = () => {
             </p>
 
             <div className="flex items-center space-x-3 mb-5">
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="md:text-2xl text-xl font-bold text-blue-600">
                 BDT {totalPrice.toFixed(2)}
               </p>
-              <p className="text-lg line-through text-gray-400">
+              <p className="md:text-lg line-through text-gray-400">
                 BDT {(originalPrice * quantity).toFixed(2)}
               </p>
               <span className="px-2 py-1 text-xs rounded-full text-red-800 bg-[#f6c600] font-semibold">

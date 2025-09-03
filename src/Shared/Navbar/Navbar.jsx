@@ -10,7 +10,7 @@ import logo from "../../assets/logo/logo.png";
 import useCart from "../../hooks/useCart.jsx";
 import useAdmin from "../../hooks/useAdmin.jsx";
 import { RxCross2 } from "react-icons/rx";
-
+import { BiSearch } from "react-icons/bi";
 
 const Navbar = () => {
   const { user, logOut, loading } = useAuth();
@@ -21,7 +21,8 @@ const Navbar = () => {
 
   if (loading) return <Loading />;
 
-  const defaultPhotoURL = "https://img.icons8.com/?size=100&id=85147&format=png&color=000000";
+  const defaultPhotoURL =
+    "https://img.icons8.com/?size=100&id=85147&format=png&color=000000";
 
   const handleLogout = () => {
     Swal.fire({
@@ -107,8 +108,8 @@ const Navbar = () => {
   );
 
   return (
-    <header className="sticky top-0 z-30 bg-white shadow-md">
-      <div className="container flex items-center justify-between h-16 lg:max-w-9/12 mx-auto px-4">
+    <header className="sticky top-0 z-30 bg-white shadow-md ">
+      <div className="container flex items-center justify-between h-16 xl:max-w-9/12 w-full mx-auto px-4">
         {/* Left: Mobile Menu + Logo */}
         <div className="flex items-center space-x-3">
           {/* Mobile Menu (only on mobile) */}
@@ -140,17 +141,33 @@ const Navbar = () => {
             className="flex items-center space-x-2 text-indigo-700 font-bold text-lg md:text-xl"
           >
             <img src={logo} alt="Logo" className="w-10 h-10 object-contain" />
-            <div className="leading-tight text-base lg:text-lg sm:block">
+            <div className="leading-tight w-40 text-sm lg:text-lg sm:block">
               <span className="block">Mehrab</span>
-              <span className="text-sm font-light text-gray-600">Fashion House</span>
+              <span className="text-xs font-light text-gray-600">
+                Fashion House
+              </span>
             </div>
           </Link>
         </div>
 
         {/* Center: Desktop Nav */}
         <nav className="hidden lg:flex justify-center flex-1">
-          <ul className="flex space-x-6 text-gray-700 font-medium">{navLinks}</ul>
+          <ul className="flex space-x-6 text-gray-700 font-medium">
+            {navLinks}
+          </ul>
         </nav>
+        <div className="w-full md:w-20 text-end font-bold pr-4">
+          {/* Search Icon */}
+          <button
+            onClick={() => {
+              navigate("/products", { state: { focusSearch: true } });
+            }}
+            className="btn btn-ghost btn-circle hover:bg-indigo-100"
+            title="Search"
+          >
+            <BiSearch className="w-7 h-7 font-bold text-gray-800" />
+          </button>
+        </div>
 
         {/* Right: Hotline + Cart + User */}
         <div className="flex items-center space-x-4">
@@ -227,9 +244,7 @@ const Navbar = () => {
               onClick={() => setMenuOpen(false)}
               className="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-2xl"
             >
-            
-              <RxCross2/>
-
+              <RxCross2 />
             </button>
             <ul className="space-y-4 text-lg font-medium text-gray-700">
               {navLinks}

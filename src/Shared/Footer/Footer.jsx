@@ -96,7 +96,7 @@ const Footer = () => {
             </li>
             <li className="flex items-center space-x-2">
               <FaEnvelope className="text-primary-c" />
-              <span>support@mehrabfashion.com</span>
+              <span>@mehrabfashion.com</span>
             </li>
             <li className="flex items-center space-x-2">
               <FaMapMarkerAlt className="text-primary-c" />

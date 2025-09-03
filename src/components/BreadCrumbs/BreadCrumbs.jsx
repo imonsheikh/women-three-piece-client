@@ -24,14 +24,14 @@ const BreadCrumbs = ({ selectedCategory, selectedSubCategory }) => {
 
   return (
     <nav className="flex text-sm mb-4" aria-label="Breadcrumb">
-      <ol className="inline-flex items-center space-x-1 md:space-x-3">
+      <ol className="inline-flex items-center ">
         {/* Home */}
         <li className="inline-flex items-center">
           <Link
             to="/products"
             className="inline-flex items-center text-gray-700 hover:text-blue-600"
           >
-            <FaHome className="mr-1" /> Home
+            <FaHome className="" /> 
           </Link>
         </li>
 

@@ -20,12 +20,12 @@ const LatestProducts = () => {
   const shouldShowViewAll = latestProducts.length > maxItemsToShow;
 
   return (
-    <div className="mt-10">
+    <div className="md:mt-10 mt-5">
       {/* Section Title */}
       <SectionTitle heading="Latest Products" />
 
       {/* Product Grid */}
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 md:gap-4 gap-2">
         {productsToShow.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
