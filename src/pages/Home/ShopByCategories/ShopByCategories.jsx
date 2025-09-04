@@ -28,7 +28,7 @@ const ShopByCategories = () => {
               />
               <div className="absolute inset-0 bg-opacity-30 group-hover:bg-opacity-50 transition duration-300" />
 
-              <h3 className="absolute bottom-0 left-0 right-0 text-white text-sm md:text-xl font-semibold text-center py-3 bg-primary-c bg-opacity-70">
+              <h3 className="absolute bottom-0 left-0 right-0 text-white text-sm md:text-lg font-semibold text-center py-3 bg-primary-c bg-opacity-70">
                 {category?.name}
               </h3>
             </Link>

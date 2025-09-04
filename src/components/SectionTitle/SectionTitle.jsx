@@ -14,7 +14,7 @@ const SectionTitle = ({ heading }) => {
     <div className="text-center my-4">
       <h2
         ref={headingRef}
-        className="text-xl md:text-3xl font-bold text-gray-800 dark:text-gray-700 inline-block"
+        className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-700 inline-block"
       >
         {heading}
       </h2>

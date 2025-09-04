@@ -73,7 +73,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="flex flex-col justify-between w-full min-h-[420px] md:rounded-2xl rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition duration-300 relative">
       {stock > 0 && (
-        <span className="absolute bg-[#f6c600] rounded-full px-4 py-1 text-sm text-red-800 top-1 right-1 z-20">
+        <span className="absolute bg-[#f6c600] rounded-full px-4 py-1 text-sm text-red-800 top-1 right-1 z-20 border">
           Save {discountPercentage}%
         </span>
       )}
@@ -104,7 +104,7 @@ const ProductCard = ({ product }) => {
       </div>
 
       <div className="p-3 md:p-4">
-        <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-1">{productName}</h3>
+        <h3 className="text-sm md:text-lg font-semibold text-gray-800 mb-1">{productName}</h3>
 
         <div className="mb-3 flex items-center space-x-2">
           <p className="text-sm md:text-lg font-bold text-blue-600">BDT {totalPrice.toFixed(2)}</p>

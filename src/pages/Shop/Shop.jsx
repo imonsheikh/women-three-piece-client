@@ -256,7 +256,7 @@ const Shop = () => {
             className="w-full border border-gray-300 px-3 sm:px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 placeholder-gray-400 text-gray-700 text-sm sm:text-base"
           />
           <span className="absolute right-10 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400">
-            <BiSearch />
+            <BiSearch size={20} />
           </span>
         </div>
 

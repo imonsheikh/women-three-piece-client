@@ -35,7 +35,7 @@ const MyOrders = () => {
   return (
     <Container>
       <div className="max-w-6xl mx-auto px-4 py-10">
-        <h2 className="text-3xl font-bold mb-8 text-gray-800">📦 My Orders</h2>
+        <h2 className="text-3xl font-bold mb-8 text-gray-800"> My Orders</h2>
 
         {loading ? (
           <div className="text-gray-500 text-center text-lg">Loading your orders...</div>
@@ -54,7 +54,7 @@ const MyOrders = () => {
                   {/* Order Header */}
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
                     <h4 className="text-xl font-bold text-gray-800 mb-2 sm:mb-0">
-                      🧾 Order #{idx + 1}
+                       Order #{idx + 1}
                     </h4>
                     <span className={`text-sm font-bold px-3 py-1 rounded-full capitalize ${
                       order.status === "delivered"

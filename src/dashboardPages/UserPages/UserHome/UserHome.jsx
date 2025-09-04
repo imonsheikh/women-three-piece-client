@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth.jsx";
 import {
@@ -7,18 +7,40 @@ import {
   FiPackage,
   FiArrowRight,
 } from "react-icons/fi";
+import useAxiosSecure from "../../../hooks/useAxiosSecure.jsx";
+import useCart from "../../../hooks/useCart.jsx";
 
 const UserHome = () => {
-  const { user } = useAuth();
+  const { user } = useAuth();  
+    const axiosSecure = useAxiosSecure();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const [carts] = useCart()
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axiosSecure.get(`/orders?email=${user.email}`);
+        setOrders(response.data || []);
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.email) fetchOrders();
+  }, [user?.email, axiosSecure]);
+
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="md:p-6 bg-gray-50 min-h-screen">
       {/* ================= Welcome Section ================= */}
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Welcome back, {user?.displayName || "User"} 👋
+        <h1 className="md:text-3xl text-lg font-bold text-gray-800">
+          Welcome back, {user?.displayName || "User"} 
         </h1>
-        <p className="text-gray-600 mt-1">
+        <p className="text-gray-600 mt-1 text-sm md:text-base">
           Manage your profile, track orders, and discover new products.
         </p>
       </header>
@@ -51,7 +73,7 @@ const UserHome = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="flex flex-col items-center p-4 bg-gray-50 rounded-xl border hover:shadow-sm transition">
             <FiPackage className="w-6 h-6 text-blue-500 mb-2" />
-            <p className="font-semibold text-gray-800">0</p>
+            <p className="font-semibold text-gray-800">{orders?.length}</p>
             <span className="text-sm text-gray-500">Orders</span>
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-50 rounded-xl border hover:shadow-sm transition">
@@ -61,7 +83,7 @@ const UserHome = () => {
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-50 rounded-xl border hover:shadow-sm transition">
             <FiShoppingCart className="w-6 h-6 text-green-500 mb-2" />
-            <p className="font-semibold text-gray-800">0</p>
+            <p className="font-semibold text-gray-800">{carts.length}</p>
             <span className="text-sm text-gray-500">Cart</span>
           </div>
         </div>
@@ -109,32 +131,70 @@ const UserHome = () => {
       </section>
 
       {/* ================= Recent Orders ================= */}
-      <section className="max-w-5xl mx-auto bg-white border rounded-2xl shadow-sm p-6">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Recent Orders
-        </h2>
+{/* ================= Recent Orders ================= */}
+<section className="max-w-5xl mx-auto bg-white border rounded-2xl shadow-sm p-6">
+  <h2 className="text-xl font-semibold text-gray-700 mb-4">
+    Recent Orders
+  </h2>
 
-        {/* Placeholder Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-gray-100 text-sm text-gray-600">
-                <th className="p-3">Order ID</th>
-                <th className="p-3">Date</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="p-3 text-gray-500" colSpan="4">
-                  No orders found. Start shopping to see them here!
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+  <div className="overflow-x-auto">
+    <table className="w-full text-left border-collapse">
+      <thead>
+        <tr className="bg-gray-100 text-sm text-gray-600">
+          <th className="p-3">Invoice No</th>
+          <th className="p-3">Date</th>
+          <th className="p-3">Status</th>
+          <th className="p-3">Payment</th>
+          <th className="p-3">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.length > 0 ? (
+          orders.map((order) => (
+            <tr key={order._id} className="border-b text-sm hover:bg-gray-50">
+              <td className="p-3 text-gray-700 font-medium">
+                {order?.invoiceNo || "N/A"}
+              </td>
+              <td className="p-3 text-gray-600">
+                {new Date(order.date).toLocaleDateString("en-GB")}
+              </td>
+              <td className="p-3">
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-medium
+                    ${
+                      order.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : order.status === "shipped"
+                        ? "bg-blue-100 text-blue-700"
+                        : order.status === "delivered"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                >
+                  {order.status}
+                </span>
+              </td>
+              <td className="p-3 text-gray-600 capitalize">
+                {order.paymentMethod.replaceAll("_", " ")}
+              </td>
+              <td className="p-3 text-gray-800 font-semibold">
+                {order.total.toFixed(2)}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td className="p-3 text-gray-500" colSpan="5">
+              No orders found. Start shopping to see them here!
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
     </div>
   );
 };

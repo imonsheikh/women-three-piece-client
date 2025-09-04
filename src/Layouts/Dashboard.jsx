@@ -193,7 +193,9 @@ const Dashboard = () => {
                 aria-label="close sidebar"
                 className="drawer-overlay"
               ></label>
-              <ul className="menu p-4 w-[280px] min-h-full bg-base-200 text-base-content ">
+              <ul 
+                onClick={() => document.getElementById("my-drawer").checked = false} 
+              className="menu p-4 w-[280px] min-h-full bg-base-200 text-base-content ">
                 <img className=" w-[200px] mb-4" alt="Logo" />
                 {isAdmin ? adminNav : userNav}
                 {/* <li className=" py-5 border-t-4"></li> */}
