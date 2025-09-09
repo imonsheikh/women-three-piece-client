@@ -1,47 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SocialLogin from "../../components/SocialLogin/SocialLogin.jsx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.jsx";
 import Swal from "sweetalert2/src/sweetalert2.js";
 import useAxiosPublic from "../../hooks/useAxiosPublic.jsx";
+import RoleSelectorTwo from "../../components/RoleSelectorTwo.jsx";
 
 const Login2 = () => {
-  const axiosPublic = useAxiosPublic()
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])  
+  const axiosPublic = useAxiosPublic();
+  const { signIn, setLoading } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const {signIn, setLoading} = useAuth()
-  const navigate = useNavigate() 
-  const location = useLocation()
-  // console.log(location);
-  
-  const from = location.state?.from?.pathname || "/" 
-  // console.log(from);
-  // console.log('Want to go location', location.state?.from?.pathname); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Handle Role Change (User/Admin)
+  const handleRoleChange = (role) => {
+    if (role === "admin") {
+      setEmail("admin007@mail.com");
+      setPassword("12345678Admin");
+    } else if (role === "user") {
+      setEmail("user007@mail.com");
+      setPassword("12345678User");
+    } else {
+      setEmail("");
+      setPassword("");
+    }
+  };
 
   const handleLogin = async (e) => {
-    console.log('d');
-
     e.preventDefault();
-  
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-  
+
     setLoading(true);
-  
+
     try {
       const result = await signIn(email, password);
       const loggedUser = result.user;
-      console.log(loggedUser, 'd');
-      
-  
-         //Take JWT token by axiosPublic 
-         const res = await axiosPublic.post('/jwt', { email: loggedUser.email });
-         // Token Saving to localStorage 
-         localStorage.setItem('access-token', res.data.token);
-  
+
+      //Take JWT token by axiosPublic
+      const res = await axiosPublic.post("/jwt", { email: loggedUser.email });
+      // Token Saving to localStorage
+      localStorage.setItem("access-token", res.data.token);
+
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -49,10 +56,9 @@ const Login2 = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-  
+
       setLoading(false);
       navigate(from, { replace: true });
-  
     } catch (error) {
       console.error(error);
       Swal.fire({
@@ -63,6 +69,7 @@ const Login2 = () => {
       setLoading(false);
     }
   };
+
   return (
     <div
       className="bg-no-repeat bg-cover bg-center relative"
@@ -76,27 +83,29 @@ const Login2 = () => {
         {/* Left Side */}
         <div className="flex-col flex self-center p-10 sm:max-w-5xl xl:max-w-2xl z-10">
           <div className="self-start hidden lg:flex flex-col text-white">
-            <img src="" alt="Logo" className="mb-3" />
-            <h1 className="mb-3 font-bold sm:text-5xl text-2xl">Hi! Welcome Back Aji</h1>
-            <p className="pr-3">
-              Lorem ipsum is placeholder text commonly used in the graphic, print,
-              and publishing industries for previewing layouts and visual mockups.
-            </p>
+            <h1 className="mb-3 font-bold sm:text-5xl text-2xl">
+              Hi! Welcome Back Aji
+            </h1>
+            <p className="pr-3">Welcome to Mehrab Fashion House</p>
           </div>
         </div>
 
         {/* Right Side */}
         <div className="flex justify-center md:self-center z-10">
           <div className="p-12 bg-white mx-auto rounded-2xl w-100">
+            {/* Role Selector */}
+            <RoleSelectorTwo onChange={handleRoleChange} />
+
             <div className="mb-4">
               <h3 className="font-semibold text-2xl text-gray-800">Log In</h3>
               <p className="text-gray-500">Please sign in to your account.</p>
-            </div> 
-            <SocialLogin></SocialLogin> 
+            </div>
+
+            <SocialLogin />
             <div className="divider">OR</div>
-            <form 
-            onSubmit={handleLogin}
-            className="space-y-5">
+
+            {/* Login Form */}
+            <form onSubmit={handleLogin} className="space-y-5">
               {/* Email Input */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 tracking-wide">
@@ -107,6 +116,9 @@ const Login2 = () => {
                   type="email"
                   name="email"
                   placeholder="yourgmail@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
 
@@ -120,33 +132,10 @@ const Login2 = () => {
                   type="password"
                   name="password"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
-              </div>
-
-              {/* Remember Me and Forgot Password */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  {/* <input
-                    id="remember_me"
-                    name="remember_me"
-                    type="checkbox"
-                    className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded"
-                  />
-                  <label
-                    htmlFor="remember_me"
-                    className="ml-2 block text-sm text-gray-800"
-                  >
-                    Remember me
-                  </label> */}
-                </div>
-                <div className="text-sm">
-                  <Link
-                    to=''
-                    className="text-green-400 hover:text-green-500 hover:underline"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
               </div>
 
               {/* Sign In Button */}
@@ -159,14 +148,21 @@ const Login2 = () => {
                 </button>
               </div>
             </form>
+
             <div className="text-[14px] text-center mt-2">
-                <p>New Here? <Link to='/register' className="underline font-bold text-md text-primary-c ml-">Register</Link></p>
-              </div>
-            {/* Footer */}
-            <div className="pt-5 text-center text-gray-400 text-xs"> 
-             
-      
+              <p>
+                New Here?{" "}
+                <Link
+                  to="/register"
+                  className="underline font-bold text-md text-primary-c ml-"
+                >
+                  Register
+                </Link>
+              </p>
             </div>
+
+            {/* Footer */}
+            <div className="pt-5 text-center text-gray-400 text-xs"></div>
           </div>
         </div>
       </div>
