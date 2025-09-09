@@ -16,7 +16,7 @@
 
 ## Live Links
 
-- **Front-end:** [https://woman-three-piece.web.app/](https://woman-three-piece.web.app/)  
+- **Front-end Live:** [https://woman-three-piece.web.app/](https://woman-three-piece.web.app/)  
 - **Server Repo:** [https://github.com/imonsheikh/women-three-piece-server](https://github.com/imonsheikh/women-three-piece-server)  
 
 ---
