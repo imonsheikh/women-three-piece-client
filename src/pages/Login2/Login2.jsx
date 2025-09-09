@@ -115,6 +115,7 @@ const Login2 = () => {
                   className="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
                   type="email"
                   name="email"
+                  autoComplete="off"
                   placeholder="yourgmail@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -131,6 +132,7 @@ const Login2 = () => {
                   className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
                   type="password"
                   name="password"
+                  autoComplete="off"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
