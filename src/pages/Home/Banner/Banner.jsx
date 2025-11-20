@@ -23,7 +23,7 @@ const Banner = () => {
         dynamicHeight
       >
         {banners.map((slide, index) => (
-          <div key={slide._id || index} className="h-[400px] w-full relative">
+          <div key={slide._id || index} className="md:h-[400px] h-[150px] w-full relative">
             <img
               className="h-full w-full object-cover "
               src={slide.image}

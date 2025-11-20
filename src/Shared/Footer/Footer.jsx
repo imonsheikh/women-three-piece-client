@@ -17,7 +17,7 @@ const Footer = () => {
         {/* 1. Logo & About */}
         <div>
           <h2 className="text-white text-2xl font-bold">
-            Mehrab Fashion House
+            Noor Fashion 
           </h2>
           <p className="mt-3 text-sm text-gray-400">
             Your ultimate destination for elegant women's fashion.
@@ -87,16 +87,28 @@ const Footer = () => {
         {/* 4. Contact Info */}
         <div>
           <h6 className="text-white font-semibold mb-3 text-base">
-            Contact Us
+            Contact Us(By Call Or WhatsUp)
           </h6>
           <ul className="space-y-3 text-sm">
             <li className="flex items-center space-x-2">
               <FaPhone className="text-primary-c" />
-              <span>+880 1234-567890</span>
+              <span>+8801891657994</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaPhone className="text-primary-c" />
+              <span>+8801331089330</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaPhone className="text-primary-c" />
+              <span>+8801746314061</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaPhone className="text-primary-c" />
+              <span>+8801744842404</span>
             </li>
             <li className="flex items-center space-x-2">
               <FaEnvelope className="text-primary-c" />
-              <span>@mehrabfashion.com</span>
+              <span>noorfashion.store2@gmail.com</span>
             </li>
             <li className="flex items-center space-x-2">
               <FaMapMarkerAlt className="text-primary-c" />
@@ -111,7 +123,7 @@ const Footer = () => {
         <h6 className="text-white font-semibold mb-4 text-base">Follow Us</h6>
         <div className="flex justify-center space-x-5 mb-6">
           <a
-            href="https://www.facebook.com/yourpage"
+            href="https://web.facebook.com/noor.fashion25"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-c text-xl hover:text-white"
@@ -119,7 +131,7 @@ const Footer = () => {
             <FaFacebook />
           </a>
           <a
-            href="https://www.instagram.com/yourpage"
+            // href="https://www.instagram.com/yourpage"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-c text-xl hover:text-white"
@@ -127,7 +139,7 @@ const Footer = () => {
             <FaInstagram />
           </a>
           <a
-            href="https://www.twitter.com/yourpage"
+            // href="https://www.twitter.com/yourpage"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-c text-xl hover:text-white"
@@ -135,7 +147,7 @@ const Footer = () => {
             <FaTwitter />
           </a>
           <a
-            href="https://www.youtube.com/yourpage"
+            // href="https://www.youtube.com/yourpage"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-c text-xl hover:text-white"
@@ -145,7 +157,7 @@ const Footer = () => {
         </div>
         <hr className="border-gray-700 max-w-7xl mx-auto" />
         <p className="text-sm text-gray-500 mt-4">
-          &copy; {new Date().getFullYear()} Mehrab Fashion House. All rights
+          &copy; {new Date().getFullYear()} Noor Fashion. All rights
           reserved.
         </p>
       </div>

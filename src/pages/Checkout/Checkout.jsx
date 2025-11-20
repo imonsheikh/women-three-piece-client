@@ -135,7 +135,7 @@ const Checkout = () => {
 
         {success && (
           <p className="text-green-600 mt-4 text-center font-semibold">
-            ✅ Order placed successfully!
+             Order placed successfully!
           </p>
         )}
       </div>

@@ -178,8 +178,8 @@ const Dashboard = () => {
                         <Link to="/" className="flex items-center space-x-2 text-indigo-700 font-bold text-lg md:text-xl">
                           <img alt="Logo" className="w-10 h-10 object-contain" />
                           <div className="leading-tight text-base lg:text-lg sm:block">
-                            <span className="block">Mehrab</span>
-                            <span className="text-sm font-light text-gray-600">Fashion House</span>
+                            <span className="block">Noor</span>
+                            <span className="text-sm font-light text-gray-600">Fashion </span>
                           </div>
                         </Link>
               

@@ -7,12 +7,12 @@ export const generateInvoicePDF = (order) => {
   // --- Header ---
   doc.setFontSize(20);
   doc.setFont("helvetica", "bold");
-  doc.text("Mehrab Fashion House", 14, 20);
+  doc.text("Noor Fashion ", 14, 20);
 
   doc.setFontSize(11);
   doc.setFont("helvetica", "normal");
   doc.text("Bantibazar, Araihazar, Narayanganj, Bangladesh", 14, 26);
-  doc.text("Email: support@mehrabfashinhouse.com | Phone: 01845925526", 14, 32);
+  doc.text("Email: noorfashion.store2@gmail.com | Phone: +8801891657994", 14, 32);
 
   // Invoice number & date
   doc.text(`Invoice No: ${order.invoiceNo}`, 150, 20);
@@ -52,13 +52,13 @@ export const generateInvoicePDF = (order) => {
   // --- Grand Total ---
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
-  doc.text(`Grand Total: BDT ${order.total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 10);
+  doc.text(`Grand Total: BDT ${order.total.toFixed(2)}`, 196, doc.lastAutoTable.finalY + 10, {align: "right"});
 
   // --- Footer ---
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.text("Thank you for shopping with Mehrab Fashion House! Visit again.", 14, doc.lastAutoTable.finalY + 20);
-  doc.text("Website: www.mehrab-fashion-house.com | Support: 01845925526", 14, doc.lastAutoTable.finalY + 26);
+  doc.text("Thank you for shopping with Noor Fashion ! Visit again.", 14, doc.lastAutoTable.finalY + 20);
+  doc.text("Website: www.noor-fashion.com | Support: +8801891657994", 14, doc.lastAutoTable.finalY + 26);
 
   doc.save(`invoice_${order.invoiceNo}.pdf`);
 };

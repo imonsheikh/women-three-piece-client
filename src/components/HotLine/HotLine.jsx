@@ -11,7 +11,7 @@ const HotLine = () => {
       </div>
       <div>
         <h1 className="font-bold">Hotline</h1>
-        <p>01845925526</p>
+        <p>01891657994</p>
       </div>
     </div>
   );

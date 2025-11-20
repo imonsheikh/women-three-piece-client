@@ -109,11 +109,11 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-30 bg-white shadow-md ">
-      <div className="container flex items-center justify-between h-16 xl:max-w-9/12 w-full mx-auto px-4">
+      <div className="container flex items-center justify-between h-16 xl:max-w-9/12 w-full mx-auto">
         {/* Left: Mobile Menu + Logo */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center md:space-x-3">
           {/* Mobile Menu (only on mobile) */}
-          <div className="lg:hidden">
+          <div className="lg:hidden ">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="btn btn-ghost btn-circle"
@@ -142,9 +142,9 @@ const Navbar = () => {
           >
             <img src={logo} alt="Logo" className="w-10 h-10 object-contain" />
             <div className="leading-tight w-40 text-sm lg:text-lg sm:block">
-              <span className="block">Mehrab</span>
+              <span className="block">Noor</span>
               <span className="text-xs font-light text-gray-600">
-                Fashion House
+                Fashion 
               </span>
             </div>
           </Link>
@@ -156,7 +156,7 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </nav>
-        <div className="w-full md:w-20 text-end font-bold pr-4">
+        <div className="w-full md:w-20 text-end font-bold md:pr-4 ">
           {/* Search Icon */}
           <button
             onClick={() => {
@@ -165,12 +165,12 @@ const Navbar = () => {
             className="btn btn-ghost btn-circle hover:bg-indigo-100"
             title="Search"
           >
-            <BiSearch className="w-7 h-7 font-bold text-gray-800" />
+            <BiSearch className="md:w-7 md:h-7 w-5 h-5 font-bold text-gray-800" />
           </button>
         </div>
 
         {/* Right: Hotline + Cart + User */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center md:space-x-4 space-x-2">
           <HotLine />
 
           {/* Cart Direct */}
@@ -178,7 +178,7 @@ const Navbar = () => {
             onClick={handleCartClick}
             className="relative btn btn-ghost btn-circle hover:bg-indigo-100"
           >
-            <FiShoppingCart className="w-6 h-6" />
+            <FiShoppingCart className="md:w-6 md:h-6 w-5 h-5" />
             {carts?.length > 0 && (
               <span className="absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1">
                 {carts.length}
@@ -190,7 +190,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <button
                 tabIndex={0}
-                className="btn btn-ghost btn-circle avatar ring-2 ring-indigo-500 ring-offset-2 hover:ring-indigo-600 transition"
+                className="btn btn-ghost btn-circle avatar md:ring-2 ring-1 ring-indigo-500 ring-offset-2 hover:ring-indigo-600 transition"
               >
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <img
@@ -222,7 +222,7 @@ const Navbar = () => {
             </div>
           ) : (
             <Link to="/login">
-              <button className="btn btn-primary px-6 py-2 font-semibold hover:bg-indigo-700 transition text-white">
+              <button className="btn btn-primary md:btn-md btn-sm text-sm md:px-6 md:py-2 px-2 py-0 md:font-semibold font-normal hover:bg-indigo-700 transition text-white">
                 Login
               </button>
             </Link>

@@ -32,17 +32,17 @@ const ReturnPolicy = () => {
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Return Policy</h1>
 
             <p className="text-gray-700 mb-4">
-              At <strong>Mehrab Fashion House</strong>, your satisfaction matters to us. 
+              At <strong>Noor Fashion </strong>, your satisfaction matters to us. 
               If you receive a product that is defective, damaged, torn, or differs from the product image, you are eligible for a replacement.
             </p>
 
             <p className="text-gray-700 mb-4">
-              Please contact us via WhatsApp at <strong>01845925526</strong> within 72 hours of receiving the item, providing details and pictures if necessary.
+              Please contact us via WhatsApp at <strong>+8801891657994</strong> within 72 hours of receiving the item, providing details and pictures if necessary.
             </p>
 
             <p className="text-gray-700 mb-4">
               Returns due to a change of mind are the responsibility of the customer, including shipping costs. 
-              For defective or damaged products caused by us, <strong>Mehrab Fashion House</strong> will cover the return shipping charges.
+              For defective or damaged products caused by us, <strong>Noor Fashion</strong> will cover the return shipping charges.
             </p>
 
             <p className="text-gray-700 mb-4">
@@ -54,18 +54,18 @@ const ReturnPolicy = () => {
             <h1 className="text-3xl font-bold text-gray-800 mb-6">রিটার্ন পলিসি</h1>
 
             <p className="text-gray-700 mb-4">
-              <strong>Mehrab Fashion House</strong> এ আমরা চাই আপনি আপনার পণ্য নিয়ে সন্তুষ্ট থাকুন। 
+              <strong>Noor Fashion</strong> এ আমরা চাই আপনি আপনার পণ্য নিয়ে সন্তুষ্ট থাকুন। 
               যদি পণ্যটি ক্ষতিগ্রস্ত, ছেঁড়া, বা ছবির সাথে মিল না থাকে, তাহলে আপনি নতুন পণ্য প্রাপ্তির জন্য আবেদন করতে পারবেন।
             </p>
 
             <p className="text-gray-700 mb-4">
-              পণ্য গ্রহণের ৭২ ঘণ্টার মধ্যে আমাদের WhatsApp এ <strong>01845925526</strong> নম্বরে জানাতে হবে। 
+              পণ্য গ্রহণের ৭২ ঘণ্টার মধ্যে আমাদের WhatsApp এ <strong>+8801891657994</strong> নম্বরে জানাতে হবে। 
               সমস্যার বিস্তারিত এবং প্রয়োজনে ছবি সংযুক্ত করুন।
             </p>
 
             <p className="text-gray-700 mb-4">
               শুধুমাত্র নিজের ইচ্ছায় রিটার্ন বা এক্সচেঞ্জ করতে হলে শিপিং খরচ গ্রাহককে বহন করতে হবে। 
-              তবে, যদি পণ্য আমাদের দোষে ক্ষতিগ্রস্ত বা ত্রুটিপূর্ণ হয়, তাহলে <strong>Mehrab Fashion House</strong> শিপিং খরচ বহন করবে।
+              তবে, যদি পণ্য আমাদের দোষে ক্ষতিগ্রস্ত বা ত্রুটিপূর্ণ হয়, তাহলে <strong>Noor Fashion </strong> শিপিং খরচ বহন করবে।
             </p>
 
             <p className="text-gray-700 mb-4">

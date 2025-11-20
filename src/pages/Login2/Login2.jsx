@@ -86,7 +86,7 @@ const Login2 = () => {
             <h1 className="mb-3 font-bold sm:text-5xl text-2xl">
               Hi! Welcome Back Aji
             </h1>
-            <p className="pr-3">Welcome to Mehrab Fashion House</p>
+            <p className="pr-3">Welcome to Noor Fashion</p>
           </div>
         </div>
 

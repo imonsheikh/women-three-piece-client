@@ -70,7 +70,7 @@ const GetInTouch = () => {
                   <h3 className="mb-1 text-base font-semibold text-gray-900">
                     Call Us
                   </h3>
-                  <p className="text-gray-700 text-sm">01845925526</p>
+                  <p className="text-gray-700 text-sm">+8801891657994, +8801331089330, +8801746314061, +8801744842404</p>
                 </div>
               </li>
 
@@ -82,7 +82,7 @@ const GetInTouch = () => {
                     Email Us
                   </h3>
                   <p className="text-gray-700 text-sm">
-                    support@fashionboutique.com
+                    noorfashion.store2@gmail.com
                   </p>
                 </div>
               </li>
@@ -94,7 +94,7 @@ const GetInTouch = () => {
                     WhatsUp Us
                   </h3>
                   <p className="text-gray-700 text-sm">
-                    01845925526
+                    +8801891657994, +8801331089330, +8801746314061, +8801744842404
                   </p>
                 </div>
               </li>

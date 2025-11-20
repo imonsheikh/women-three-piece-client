@@ -10,7 +10,7 @@ const AboutUs = () => {
             About Us
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            At <span className="font-semibold text-pink-600">Fashion Boutique</span>, 
+            At <span className="font-semibold text-pink-600">Noor Fashion</span>, 
             we celebrate the elegance and style of modern women. Our curated 
             collection of clothing blends timeless classics with contemporary trends, 
             offering pieces that empower, inspire, and enhance your individuality.
