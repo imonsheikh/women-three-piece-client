@@ -37,7 +37,7 @@ export const generateInvoicePDF = (order) => {
     item.productName,
     item.quantity,
     item.productPrice.toFixed(2),
-    (item.totalPrice || item.productPrice * item.quantity).toFixed(2),
+    (item.productPrice * item.quantity).toFixed(2), // ignore item.totalPrice
   ]);
 
   autoTable(doc, {
@@ -49,16 +49,36 @@ export const generateInvoicePDF = (order) => {
     styles: { fontSize: 10, cellPadding: 3 },
   });
 
+  // --- Delivery / Shipping Charge ---
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text(
+    `Delivery Charge: BDT ${order.shippingCost.toFixed(2)}`,
+    196,
+    doc.lastAutoTable.finalY + 10,
+    { align: "right" }
+  );
+
   // --- Grand Total ---
+  const grandTotal = order.items.reduce(
+    (sum, item) => sum + item.productPrice * item.quantity,
+    0
+  ) + order.shippingCost - (order.discount || 0);
+
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
-  doc.text(`Grand Total: BDT ${order.total.toFixed(2)}`, 196, doc.lastAutoTable.finalY + 10, {align: "right"});
+  doc.text(
+    `Grand Total: BDT ${grandTotal.toFixed(2)}`,
+    196,
+    doc.lastAutoTable.finalY + 18,
+    { align: "right" }
+  );
 
   // --- Footer ---
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.text("Thank you for shopping with Noor Fashion ! Visit again.", 14, doc.lastAutoTable.finalY + 20);
-  doc.text("Website: www.noor-fashion.com | Support: +8801891657994", 14, doc.lastAutoTable.finalY + 26);
+  doc.text("Thank you for shopping with Noor Fashion! Visit again.", 14, doc.lastAutoTable.finalY + 30);
+  doc.text("Website: www.noor-fashion.com | Support: +8801891657994", 14, doc.lastAutoTable.finalY + 36);
 
   doc.save(`invoice_${order.invoiceNo}.pdf`);
 };

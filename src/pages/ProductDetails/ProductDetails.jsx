@@ -302,14 +302,14 @@ const ProductDetails = () => {
       </div>
 
       {/* Tabs */}
-      <div className="mt-10">
+      <div className="md:mt-10 mt-4">
         <div className="flex justify-start gap-2 border-b border-b-2 border-gray-400 pb-2">
           {["description", "questions", "reviews", "how-to-order"].map(
             (tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`capitalize font-medium p-2 transition ${
+                className={`capitalize md:text-md text-sm md:font-medium md:p-2 px-1 transition ${
                   activeTab === tab
                     ? "text-blue-600 bg-blue-100 border-b-3 border-blue-600"
                     : "text-gray-500 hover:text-gray-800"
@@ -321,7 +321,7 @@ const ProductDetails = () => {
           )}
         </div>
 
-        <div className="mt-6">
+        <div className="md:mt-6 mt-4">
           {/* Description */}
           {activeTab === "description" && (
             <div

@@ -129,7 +129,7 @@ const Cart = () => {
                       className="w-16 h-16 rounded-md object-cover"
                     />
                     <div>
-                      <h4 className="text-lg font-semibold">{item.name}</h4>
+                      <h4 className="text-lg font-semibold">{item.productName}</h4>
                       <p className="text-sm text-gray-500">
                         Unit Price: BDT {item.productPrice}
                       </p>
