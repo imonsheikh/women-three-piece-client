@@ -10,7 +10,7 @@ import Container from "../../../components/Container/Container.jsx";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+// const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
 const AddProduct = () => {
   const { user } = useAuth();
@@ -65,21 +65,30 @@ const AddProduct = () => {
       setLoading(true);
 
       const imageFiles = [previews.image1, previews.image2, previews.image3, previews.image4];
-      const uploadedImageURLs = [];
+      const uploadedImageData = [];
 
       for (const image of imageFiles) {
         if (image) {
           const formData = new FormData();
           formData.append("image", image);
 
-          const res = await fetch(
-            `https://api.imgbb.com/1/upload?key=${imageHostingKey}`,
-            { method: "POST", body: formData }
-          );
+          // const res = await fetch(
+          //   `https://api.imgbb.com/1/upload?key=${imageHostingKey}`,
+          //   { method: "POST", body: formData }
+          // );
 
-          const imgData = await res.json();
-          if (imgData.success) uploadedImageURLs.push(imgData.data.url);
-          else throw new Error("Image upload failed");
+          // const imgData = await res.json();
+          // if (imgData.success) uploadedImageURLs.push(imgData.data.url);
+          // else throw new Error("Image upload failed"); 
+
+          const uploadRes = await axiosSecure.post("/upload-image", formData, {
+            headers: {"Content-Type": "multipart/form-data"}
+          }) 
+
+          uploadedImageData.push({
+            url: uploadRes.data.url, 
+            public_id: uploadRes.data.public_id
+          })
         }
       }
 
@@ -102,7 +111,7 @@ const AddProduct = () => {
         type: data.type,
         offer: data.offer === "true",
         isAvailable: data.isAvailable === "true",
-        images: uploadedImageURLs,
+        images: uploadedImageData,
         user: user?.email,
       };
 

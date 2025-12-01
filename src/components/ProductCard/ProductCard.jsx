@@ -85,7 +85,7 @@ const ProductCard = ({ product }) => {
       >
         <Link to={`/product-details/${_id}`} className="block w-full h-full">
           <img
-            src={images[0]}
+            src={images[0]?.url}
             alt={productName}
             className={`w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-500 ${
               hovered ? "opacity-0" : "opacity-100"
@@ -93,7 +93,7 @@ const ProductCard = ({ product }) => {
           />
           {images[1] && (
             <img
-              src={images[1]}
+              src={images[1]?.url}
               alt={`${productName} hover`}
               className={`w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-500 ${
                 hovered ? "opacity-100" : "opacity-0"

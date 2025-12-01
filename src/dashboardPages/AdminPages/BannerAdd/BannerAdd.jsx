@@ -15,8 +15,8 @@ const BannerAdmin = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false); 
 
-  const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-  const imageHostingUrl = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
+  // const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+  // const imageHostingUrl = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
   const openModal = (banner = null) => {
     setIsModalOpen(true);
@@ -50,21 +50,32 @@ const handleSubmit = async (e) => {
   try {
     setLoading(true);
 
-    let imageUrl = currentBanner?.image || "";
+    let imageUrl = currentBanner?.image || ""; 
+    let publicId = currentBanner?.public_id || "";
+
+    //if new image is selected, upload it
     if (imageFile) {
       const formData = new FormData();
       formData.append("image", imageFile);
 
-      const response = await fetch(imageHostingUrl, {
-        method: "POST",
-        body: formData,
-      });
-      // console.log(response);
+      // const response = await fetch(imageHostingUrl, {
+      //   method: "POST",
+      //   body: formData,
+      // });
+      // // console.log(response);
       
-      const imgData = await response.json();
+      // const imgData = await response.json();
 
-      if (imgData.success) {
-        imageUrl = imgData.data.display_url;
+      // if (imgData.success) {
+      //   imageUrl = imgData.data.display_url; 
+
+      const uploadRes = await axiosSecure.post('/upload-banner', formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      }) 
+
+      if(uploadRes.data.success){
+        imageUrl = uploadRes.data.url;
+        publicId = uploadRes.data.public_id;  
       } else {
         toast.error("Banner image upload failed");
         setLoading(false);
@@ -72,7 +83,7 @@ const handleSubmit = async (e) => {
       }
     }
 
-    const bannerData = { title, image: imageUrl };
+    const bannerData = { title, image: imageUrl, public_id: publicId };
 
     if (isEditMode) {
       await axiosSecure.put(`/banners/${currentBanner._id}`, bannerData);

@@ -17,8 +17,8 @@ const ManageCategory = () => {
   const [currentCategory, setCurrentCategory] = useState(null);
   const [previewImage, setPreviewImage] = useState(null); 
 
-  const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-  const imageHostingUrl = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
+  // const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+  // const imageHostingUrl = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 //   useEffect(() => {
 //     // fetchCategories();
@@ -63,24 +63,38 @@ const ManageCategory = () => {
 
     try { 
       setLoading(true)
-      let imageUrl = currentCategory?.image || '';
+      let imageUrl = currentCategory?.image || ''; 
+      let publicId = currentCategory?.public_id || "";
+
+
       if (imageFile) {
         const formData = new FormData();
-        formData.append('image', imageFile);
-        const response = await fetch(imageHostingUrl, {
-          method: "POST",
-          body: formData
-        }); // Secure image upload
-        const imgData = await response.json()
-        if(imgData){
-          imageUrl = imgData.data.display_url; 
+        formData.append('image', imageFile); 
+
+
+        // const response = await fetch(imageHostingUrl, {
+        //   method: "POST",
+        //   body: formData
+        // }); // Secure image upload
+        // const imgData = await response.json()
+        // if(imgData){
+        //   imageUrl = imgData.data.display_url;  
+         
+        const uploadRes = await axiosSecure.post("/upload-category", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (uploadRes.data.success) {
+        imageUrl = uploadRes.data.url;
+        publicId = uploadRes.data.public_id;
+
         }else{
         toast.error('category image upload failed')
         return
       } 
       }
 
-      const categoryData = { name: categoryName, image: imageUrl };
+      const categoryData = { name: categoryName, image: imageUrl, public_id: publicId };
 
       if (isEditMode) {
         await axiosSecure.put(`/categories/${currentCategory._id}`, categoryData);

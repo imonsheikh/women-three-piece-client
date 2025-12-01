@@ -128,7 +128,7 @@ const Checkout = () => {
               >
                 <img
                   // src={item.productImage}
-                  src={item.images[0]}
+                  src={item.images[0]?.url}
                   alt={item.name}
                   className="w-16 h-16 object-cover rounded-lg border"
                 />

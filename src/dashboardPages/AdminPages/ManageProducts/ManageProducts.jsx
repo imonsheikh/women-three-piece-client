@@ -85,7 +85,8 @@ const ManageProducts = () => {
                     <td className="p-2 border">{startIndex + index + 1}</td>
                     <td className="p-2 border">
                       <img
-                        src={product.images?.[0]}
+                        // src={product.images?.[0]}
+                        src={product.images?.[0]?.url}
                         alt={product.productName}
                         className="w-12 h-12 object-cover rounded mx-auto"
                       />

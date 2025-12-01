@@ -45,7 +45,7 @@ const ProductDetails = () => {
     const found = products.find((p) => p._id === id);
     if (found) {
       setProduct(found);
-      setMainImage(found.images[0]);
+      setMainImage(found.images[0]?.url);
       setTotalPrice(found.productPrice);
     }
   }, [id, products]);
@@ -137,9 +137,9 @@ const ProductDetails = () => {
               {images?.slice(0, 4).map((img, index) => (
                 <img
                   key={index}
-                  src={img}
+                  src={img?.url}
                   alt={`thumb-${index}`}
-                  onClick={() => setMainImage(img)}
+                  onClick={() => setMainImage(img?.url)}
                   className={`h-24 w-full object-cover rounded-xl cursor-pointer border-2 ${
                     mainImage === img ? "border-blue-500" : "border-transparent"
                   }`}

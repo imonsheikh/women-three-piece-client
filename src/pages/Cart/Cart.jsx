@@ -124,7 +124,7 @@ const Cart = () => {
                       {index + 1}.
                     </div>
                     <img
-                      src={item.images[0]}
+                      src={item.images[0]?.url}
                       alt={item.name}
                       className="w-16 h-16 rounded-md object-cover"
                     />
