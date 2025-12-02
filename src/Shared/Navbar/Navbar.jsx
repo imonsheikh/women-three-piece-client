@@ -109,15 +109,15 @@ const Navbar = () => {
   );
 
   return (
-    <header className="sticky top-0 z-30 bg-white shadow-md ">
+    <header className="sticky top-0 z-30 bg-white shadow-md px-1">
       <div className="container flex items-center justify-between h-16 xl:max-w-9/12 w-full mx-auto">
         {/* Left: Mobile Menu + Logo */}
         <div className="flex items-center md:space-x-3">
           {/* Mobile Menu (only on mobile) */}
-          <div className="lg:hidden ">
+          <div className="lg:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="btn btn-ghost btn-circle"
+              className="btn btn-ghost btn-circle hover:bg-indigo-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

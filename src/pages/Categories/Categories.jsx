@@ -8,7 +8,7 @@ const AllCategories = () => {
 
   return (
     <section className="md:py-6 bg-white">
-      <div className="max-w-7xl mx-auto md:px-4">
+      <div className="max-w-7xl mx-auto md:px-4 ">
        <SectionTitle heading={'All Categories'}/>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 gap-2">
           {categories.map((category) => (
@@ -18,7 +18,7 @@ const AllCategories = () => {
               className="group md:rounded-2xl rounded-xl overflow-hidden relative shadow hover:shadow-lg transition duration-300"
             >
               <img
-                src={category?.image}
+                src={category?.image} 
                 alt={category?.name}
                 className="w-full h-48 object-cover group-hover:scale-105 transition duration-300"
               />

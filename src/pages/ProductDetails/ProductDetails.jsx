@@ -126,21 +126,21 @@ const ProductDetails = () => {
         <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Images */}
           <div>
-            <div className="overflow-hidden rounded-2xl shadow-sm mb-4">
+            <div className="overflow-hidden rounded-md shadow-sm mb-4">
               <img
                 src={mainImage}
                 alt={productName}
-                className="w-full md:h-[350px] h-[300px] object-cover rounded-2xl transition-transform duration-300 hover:scale-110 cursor-zoom-in"
+                className="w-full md:h-[350px] h-[300px] object-cover rounded-md transition-transform duration-300 hover:scale-110 cursor-zoom-in"
               />
             </div>
-            <div className="grid grid-cols-4 md:gap-4 gap-2">
+            <div className="grid grid-cols-4 gap-1">
               {images?.slice(0, 4).map((img, index) => (
                 <img
                   key={index}
                   src={img?.url}
                   alt={`thumb-${index}`}
                   onClick={() => setMainImage(img?.url)}
-                  className={`h-24 w-full object-cover rounded-xl cursor-pointer border-2 ${
+                  className={`h-24 w-full object-cover rounded-md cursor-pointer border-2 ${
                     mainImage === img ? "border-blue-500" : "border-transparent"
                   }`}
                 />

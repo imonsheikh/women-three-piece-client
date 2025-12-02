@@ -25,7 +25,7 @@ const TopSellingProducts = () => {
       <SectionTitle heading="Top Selling Products" />
 
       {/* Product Grid */}
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 px-1">
         {productsToShow.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}

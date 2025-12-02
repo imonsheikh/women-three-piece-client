@@ -19,16 +19,16 @@ const ShopByCategories = () => {
             <Link
               to={`/${encodeURIComponent(category.name)}`}
               key={category._id}
-              className="group rounded-2xl overflow-hidden relative shadow hover:shadow-xl transition duration-300"
+              className="group md:rounded-2xl rounded-md overflow-hidden relative shadow hover:shadow-xl transition duration-300"
             >
               <img
                 src={category?.image}
                 alt={category?.name}
-                className="w-full h-48 object-cover transform group-hover:scale-105 transition duration-300"
+                className="w-full md:h-48 h-40 object-cover transform group-hover:scale-105 transition duration-300"
               />
               <div className="absolute inset-0 bg-opacity-30 group-hover:bg-opacity-50 transition duration-300" />
 
-              <h3 className="absolute bottom-0 left-0 right-0 text-white text-sm md:text-lg font-semibold text-center py-3 bg-primary-c bg-opacity-70">
+              <h3 className="absolute bottom-0 left-0 right-0 text-white text-sm md:text-lg font-semibold text-center md:py-3 py-1.5 bg-primary-c bg-opacity-70">
                 {category?.name}
               </h3>
             </Link>

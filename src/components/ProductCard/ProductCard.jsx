@@ -14,6 +14,7 @@ const ProductCard = ({ product }) => {
   const { addToCart } = useAddToCart();
   const updateQuantity = useUpdateQuantity();
 
+  const [isUpdating, setIsUpdating] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [inCart, setInCart] = useState(false);
   const [cartItemId, setCartItemId] = useState(null);
@@ -38,19 +39,27 @@ const ProductCard = ({ product }) => {
   };
 
   const increaseQty = async () => {
-    if (!cartItemId || quantity >= stock) return; // cannot exceed stock
+    if (!cartItemId || quantity >= stock || isUpdating) return; // cannot exceed stock 
+    setIsUpdating(true)
+
     setQuantity((prev) => prev + 1);
     setTotalPrice((prev) => prev + productPrice);
     await updateQuantity(cartItemId, "increase");
     await refetch();
+
+    setIsUpdating(false)
   };
 
   const decreaseQty = async () => {
-    if (quantity <= 1 || !cartItemId) return;
+    if (quantity <= 1 || !cartItemId || isUpdating) return; 
+    setIsUpdating(true)
+
     setQuantity((prev) => prev - 1);
     setTotalPrice((prev) => prev - productPrice);
     await updateQuantity(cartItemId, "decrease");
-    await refetch();
+    await refetch(); 
+
+    setIsUpdating(false)
   };
 
   useEffect(() => {
@@ -117,22 +126,32 @@ const ProductCard = ({ product }) => {
           <div className="text-center text-red-500 font-semibold mb-4">Out of Stock</div>
         ) : inCart ? (
           <div className="flex items-center space-x-4 mb-4">
-            <button
-              onClick={decreaseQty}
-              className="w-7 h-7 md:w-8 md:h-8 border rounded-full text-base font-semibold text-gray-700 hover:bg-gray-200"
-            >
-              −
-            </button>
+        <button
+  onClick={decreaseQty}
+  disabled={isUpdating || quantity <= 1}
+  className={`w-7 h-7 md:w-8 md:h-8 border rounded-full text-base font-semibold text-gray-700 flex justify-center items-center
+    ${isUpdating || quantity <= 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"}`}
+>
+  {isUpdating ? (
+    <span className="animate-spin border-2 border-gray-400 border-t-transparent rounded-full w-4 h-4"></span>
+  ) : (
+    "−"
+  )}
+</button>
+
             <span className="text-sm md:text-lg font-medium">{quantity}</span>
-            <button
-              onClick={increaseQty}
-              disabled={quantity >= stock}
-              className={`w-7 h-7 md:w-8 md:h-8 border rounded-full text-base font-semibold text-gray-700 hover:bg-gray-200 ${
-                quantity >= stock ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              +
-            </button>
+           <button
+  onClick={increaseQty}
+  disabled={isUpdating || quantity >= stock}
+  className={`w-7 h-7 md:w-8 md:h-8 border rounded-full text-base font-semibold text-gray-700 flex justify-center items-center
+    ${isUpdating || quantity >= stock ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"}`}
+>
+  {isUpdating ? (
+    <span className="animate-spin border-2 border-gray-400 border-t-transparent rounded-full w-4 h-4"></span>
+  ) : (
+    "+"
+  )}
+</button>
           </div>
         ) : (
           <button
