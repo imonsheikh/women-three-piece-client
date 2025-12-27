@@ -294,7 +294,8 @@ const ProductDetails = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-green-700 font-medium hover:underline"
               >
-                <FaWhatsapp className="text-2xl" /> WhatsApp 01845925526
+                <FaWhatsapp className="text-2xl" /> WhatsApp 01891657994
+
               </a>
             </div>
           </div>
