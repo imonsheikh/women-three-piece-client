@@ -39,33 +39,43 @@ const AuthProviders = ({children}) => {
 
 
 
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setUser(currentUser);
 
-   useEffect(() => {
-     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser) 
-        if(currentUser){
-          const userInfo = {email: currentUser.email}
-          axiosPublic.post('/jwt', userInfo)
-          .then(res => {
-            // console.log(res.data.token,'I am here');
-            if(res.data.token){
-              localStorage.setItem('access-token', res.data.token)
-              setLoading(false)
-            }
-          })
-          .catch(error => {
-            // console.log('Token error', error);
-          })
-        }else{
-          localStorage.removeItem('access-token')
-          setLoading(false)
+    if (currentUser) {
+      try {
+        const userInfo = { email: currentUser.email };
+        const res = await axiosPublic.post("/jwt", userInfo);
+
+        if (res.data.token) {
+          localStorage.setItem("access-token", res.data.token);
+
+            // 2. Patch last login with Authorization header
+            await axiosPublic.patch(
+              "/users/last-login",
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${res.data.token}`
+                }
+              }
+            );
         }
-      })  
-
-      return () => {
-        unsubscribe()
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-   }, [axiosPublic])
+    } else {
+      localStorage.removeItem("access-token");
+      setLoading(false);
+    }
+  });
+
+  return () => unsubscribe();
+}, [axiosPublic]);
+
 
    const userInfo = {
     googleProvider,
