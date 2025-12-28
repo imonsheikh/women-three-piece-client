@@ -29,7 +29,7 @@ const OrderRow = ({ order, idx, refetch }) => {
         <ul className="list-disc list-inside space-y-1">
           {order.items.map((item, i) => (
             <li key={i}>
-              {item.name} x {item.quantity}
+              {item.productName} x {item.quantity}
             </li>
           ))}
         </ul>
