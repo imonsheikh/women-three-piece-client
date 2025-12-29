@@ -10,6 +10,7 @@ import {
   FaExclamationTriangle,
   FaFileCsv,
   FaFilePdf,
+  FaChartLine,
 } from "react-icons/fa";
 import {
   LineChart,
@@ -20,6 +21,8 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  BarChart,
+  Bar,
 } from "recharts";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -28,7 +31,11 @@ const AdminHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const [stats, setStats] = useState({ totalUsers: 0, totalProducts: 0, totalOrders: 0 });
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalProducts: 0,
+    totalOrders: 0,
+  });
   const [revenue, setRevenue] = useState({ today: 0, month: 0, lifetime: 0 });
   const [recentOrders, setRecentOrders] = useState([]);
   const [lowStock, setLowStock] = useState([]);
@@ -66,7 +73,6 @@ const AdminHome = () => {
           totalProducts: productsRes.data.count,
           totalOrders: ordersRes.data.count,
         });
-
         setRevenue(revenueRes.data);
         setRecentOrders(recentOrdersRes.data);
         setLowStock(lowStockRes.data);
@@ -77,14 +83,18 @@ const AdminHome = () => {
         console.error("Error loading admin stats:", err);
       }
     };
-
     fetchData();
   }, [axiosSecure]);
 
   // CSV export
   const exportCSV = () => {
     const headers = ["Invoice No", "Customer", "Total", "Status"];
-    const rows = recentOrders.map((o) => [o.invoiceNo, o.customer?.name, `$${o.total.toFixed(2)}`, o.status]);
+    const rows = recentOrders.map((o) => [
+      o.invoiceNo,
+      o.customer?.name,
+      `৳${o.total.toFixed(2)}`,
+      o.status,
+    ]);
     const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
@@ -101,7 +111,12 @@ const AdminHome = () => {
     doc.autoTable({
       startY: 20,
       head: [["Invoice No", "Customer", "Total", "Status"]],
-      body: recentOrders.map((o) => [o.invoiceNo, o.customer?.name, `$${o.total.toFixed(2)}`, o.status]),
+      body: recentOrders.map((o) => [
+        o.invoiceNo,
+        o.customer?.name,
+        `৳${o.total.toFixed(2)}`,
+        o.status,
+      ]),
     });
     doc.save("orders.pdf");
   };
@@ -113,7 +128,9 @@ const AdminHome = () => {
       {/* Welcome & Active Users */}
       <div className="bg-white p-5 rounded-md shadow mt-4 flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-semibold mb-1">Welcome, {user?.displayName || "Admin"}!</h2>
+          <h2 className="text-xl font-semibold mb-1">
+            Welcome, {user?.displayName || "Admin"}!
+          </h2>
           <p className="text-sm text-gray-500">Manage your platform efficiently.</p>
         </div>
         <div className="text-right text-gray-700">
@@ -152,7 +169,12 @@ const AdminHome = () => {
           <div key={idx} className="bg-white shadow rounded-lg p-5 text-center">
             <h4 className="text-gray-500">{label}</h4>
             <p className="text-2xl font-bold">
-              ${idx === 0 ? revenue.today.toFixed(2) : idx === 1 ? revenue.month.toFixed(2) : revenue.lifetime.toFixed(2)}
+              ৳
+              {idx === 0
+                ? revenue.today.toFixed(2)
+                : idx === 1
+                ? revenue.month.toFixed(2)
+                : revenue.lifetime.toFixed(2)}
             </p>
           </div>
         ))}
@@ -160,16 +182,19 @@ const AdminHome = () => {
 
       {/* Sales Trend */}
       <div className="bg-white mt-8 p-6 rounded-lg shadow">
-        <h3 className="text-lg font-semibold mb-4">Sales Trend (Last 7 Days)</h3>
+        <h3 className="text-lg font-semibold mb-4 flex items-center">
+          <FaChartLine className="mr-2" />
+          Sales Trend (Last 7 Days)
+        </h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={trend}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
-            <Tooltip />
+            <Tooltip formatter={(value) => `৳${value}`} />
             <Legend />
-            <Line type="monotone" dataKey="revenue" stroke="#10B981" />
-            <Line type="monotone" dataKey="orders" stroke="#6366F1" />
+            <Line type="monotone" dataKey="revenue" stroke="#10B981" name="Revenue" />
+            <Line type="monotone" dataKey="orders" stroke="#6366F1" name="Orders" />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -181,10 +206,16 @@ const AdminHome = () => {
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Recent Orders</h3>
             <div className="flex space-x-2">
-              <button onClick={exportCSV} className="bg-green-500 text-white px-3 py-1 rounded flex items-center">
+              <button
+                onClick={exportCSV}
+                className="bg-green-500 text-white px-3 py-1 rounded flex items-center"
+              >
                 <FaFileCsv className="mr-1" /> CSV
               </button>
-              <button onClick={exportPDF} className="bg-red-500 text-white px-3 py-1 rounded flex items-center">
+              <button
+                onClick={exportPDF}
+                className="bg-red-500 text-white px-3 py-1 rounded flex items-center"
+              >
                 <FaFilePdf className="mr-1" /> PDF
               </button>
             </div>
@@ -204,7 +235,7 @@ const AdminHome = () => {
                   <tr key={order._id} className="border-b">
                     <td>{order.invoiceNo}</td>
                     <td>{order.customer?.name || "N/A"}</td>
-                    <td>${order.total.toFixed(2)}</td>
+                    <td>৳{order.total.toFixed(2)}</td>
                     <td className="capitalize">{order.status}</td>
                   </tr>
                 ))}
@@ -226,7 +257,7 @@ const AdminHome = () => {
               lowStock.map((p) => (
                 <li key={p._id} className="flex justify-between text-sm">
                   <span>{p?.productName}</span>
-                  <span className="font-bold">{p.stock} left</span>
+                  <span className="font-bold text-red-600">{p.stock} left</span>
                 </li>
               ))
             )}
